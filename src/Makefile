@@ -1,5 +1,5 @@
 CC	= gcc
-CFLAGS	= -O3
+CFLAGS	= -O3 -DDebug=1
 
 RM   = rm -f
 SHAR = shar

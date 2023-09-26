@@ -24,7 +24,10 @@ Void main (int argc, char **argv)
       G = ReadGraph(stdin,&N,&EdgeListSize);
    clock_t start_time, end_time;
    double elapsed_time_ms;
-
+   #ifdef Debug
+   fprintf(stdout, "AUG AUG_PATH_SIZE AUG_TREE_SIZE\n");
+   fprintf(stdout, "DEAD NUM_DEAD_VERTICES\n");
+   #endif
    // Record the starting time
    start_time = clock();
    M = MaximumCardinalityMatching(G);

@@ -300,10 +300,29 @@ List *MaximumCardinalityMatching
    ForAllGraphVertices(V, G, C)
       if (!IsMatched(V))
          Self(V) = ListPut(V, Roots);
-   
-   while ((V = ListGet(Roots)))
-      if (Search(V, &P, &T))
+   #ifdef Debug
+   int numDead=0;
+   #endif
+   while ((V = ListGet(Roots))){
+      if (Search(V, &P, &T)){
+         
+         #ifdef Debug
+         fprintf(stdout, "AUG %d %d\n",ListSize(P),ListSize(T));
+         #endif
          Augment(P, T);
+
+
+      } 
+      #ifdef Debug
+      else {
+         numDead+=ListSize(T);
+         fprintf(stdout, "DEAD %d\n",numDead);
+         DestroyList(T);
+         P = Nil;
+         T = Nil;
+      }
+      #endif
+   }
    M = Matching(G);
       
    DestroyList(Roots);
@@ -521,9 +540,14 @@ static short Search
 
    if (!Found)
    {
+      #if Debug
+      *P = U;
+      *Q = T;
+      #else
       DestroyList(T);
       *P = Nil;
       *Q = Nil;
+      #endif
    }
    else
    {
@@ -1036,7 +1060,6 @@ static Void DumpAlternatingForest
       DestroyList(Children(V));
    }
 }
-
 
 /*
  * Traverse -- Preorder traversal of a subtree of the alternating tree
