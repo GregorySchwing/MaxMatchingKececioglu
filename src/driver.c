@@ -3,7 +3,7 @@
 #include "matching.h"
 #include <time.h>
 #include <unistd.h>
-
+#include <string.h>
 typedef ListCell Cell;
 
 Void main (int argc, char **argv)
@@ -39,6 +39,7 @@ Void main (int argc, char **argv)
    fprintf(stdout, "The %d edges of a maximum-cardinality matching are\n",
            ListSize(M));
 
+   char inputFilename[500];
    char outputFilename[500];
    strcpy(outputFilename, "Results.csv");
    FILE *output_file;
@@ -51,10 +52,11 @@ Void main (int argc, char **argv)
    {
       // file doesn't exist
       output_file = fopen(outputFilename, "w");
-      fprintf(output_file, "%s,%s,%s,%s,%s,%s\n", "Filename", "V","E","M", "milliseconds" "seconds");
    }
+   fprintf(output_file, "%s,%s,%s,%s,%s,%s\n", "Filename", "V","E","M", "milliseconds","seconds");
    if (argc>1){
-      fprintf(output_file, "%s,%d,%d,%d,%f,%f\n", argv[1], N,EdgeListSize,ListSize(M),elapsed_time_ms,elapsed_time_ms/1000.0);
+      strcpy(inputFilename, argv[1]);
+      fprintf(output_file, "%s,%d,%d,%d,%f,%f\n", inputFilename, N,EdgeListSize,ListSize(M),elapsed_time_ms,elapsed_time_ms/1000.0);
    } else {
       fprintf(output_file, "%s,%d,%d,%d,%f,%f\n", "UNKNOWN", N,EdgeListSize,ListSize(M),elapsed_time_ms,elapsed_time_ms/1000.0);
    }
