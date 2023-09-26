@@ -1022,7 +1022,7 @@ static Void DumpAlternatingForest
             ListPut(Tree(V),
                     Children(Base(Blossom(Other(Tree(V), V)))));
          }
-            
+   }       
    fprintf(stderr, "Alternating forest\n");
    ForAllGraphVertices(V, UnderlyingGraph, P)
       if (V == Base(Blossom(V)) && IsEven(V) && !IsMatched(V))
