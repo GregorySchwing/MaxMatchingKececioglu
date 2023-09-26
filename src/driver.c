@@ -25,8 +25,31 @@ Void main (int argc, char **argv)
    clock_t start_time, end_time;
    double elapsed_time_ms;
    #ifdef Debug
-   fprintf(stdout, "AUG AUG_PATH_SIZE AUG_TREE_SIZE\n");
-   fprintf(stdout, "DEAD NUM_DEAD_VERTICES\n");
+   const char* extensionX = ".augP";
+   char outputFilenameX[500];
+   strcpy(outputFilenameX, argv[1]);
+   strcat(outputFilenameX, extensionX);
+   const char* extensionY = ".augT";
+   char outputFilenameY[500];
+   strcpy(outputFilenameY, argv[1]);
+   strcat(outputFilenameY, extensionY);
+   const char* extensionZ = ".dead";
+   char outputFilenameZ[500];
+   strcpy(outputFilenameZ, argv[1]);
+   strcat(outputFilenameZ, extensionZ);
+   FILE *output_fileX;
+   FILE *output_fileY;
+   FILE *output_fileZ;
+   output_fileX = fopen(outputFilenameX, "w");
+   output_fileY = fopen(outputFilenameY, "w");
+   output_fileZ = fopen(outputFilenameZ, "w");
+   #endif
+
+   #ifdef Debug
+   M = MaximumCardinalityMatchingTrack(G,output_fileX,output_fileY,output_fileZ);
+   fclose(output_fileX);
+   fclose(output_fileY);
+   fclose(output_fileZ);
    #endif
    // Record the starting time
    start_time = clock();

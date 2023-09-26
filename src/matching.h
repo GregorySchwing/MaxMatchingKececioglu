@@ -15,6 +15,9 @@
 #include "graph.h"
 
 
+#if Debug
+extern List *MaximumCardinalityMatchingTrack Proto((Graph *G, FILE * outputFileX,FILE * outputFileY,FILE * outputFileZ));
+#endif
 extern List *MaximumCardinalityMatching Proto(( Graph *G ));
 extern List *MaximalMatching            Proto(( Graph *G ));
 

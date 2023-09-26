@@ -300,6 +300,39 @@ List *MaximumCardinalityMatching
    ForAllGraphVertices(V, G, C)
       if (!IsMatched(V))
          Self(V) = ListPut(V, Roots);
+
+   while ((V = ListGet(Roots)))
+      if (Search(V, &P, &T))
+         Augment(P, T);
+   M = Matching(G);
+      
+   DestroyList(Roots);
+   Terminate(G);
+   
+   return M;
+}
+
+
+List *MaximumCardinalityMatchingTrack
+
+#ifdef Ansi
+   (Graph *G, FILE * outputFileX,FILE * outputFileY,FILE * outputFileZ)
+#else
+   (G) Graph *G;
+#endif
+
+{
+   List   *Roots;
+   Vertex *V;
+   List   *M;
+   List   *P, *T;
+   Cell   *C;  
+   
+   Initialize(G, CreateList());
+   Roots = CreateList();
+   ForAllGraphVertices(V, G, C)
+      if (!IsMatched(V))
+         Self(V) = ListPut(V, Roots);
    #ifdef Debug
    int numDead=0;
    #endif
@@ -307,7 +340,8 @@ List *MaximumCardinalityMatching
       if (Search(V, &P, &T)){
          
          #ifdef Debug
-         fprintf(stdout, "AUG %d %d\n",ListSize(P),ListSize(T));
+         fprintf(outputFileX, "%d\n",ListSize(P));
+         fprintf(outputFileY, "%d\n",ListSize(T));
          #endif
          Augment(P, T);
 
@@ -316,11 +350,11 @@ List *MaximumCardinalityMatching
       #ifdef Debug
       else {
          numDead+=ListSize(T);
-         fprintf(stdout, "DEAD %d\n",numDead);
          DestroyList(T);
          P = Nil;
          T = Nil;
       }
+      fprintf(outputFileZ, "%d\n",numDead);
       #endif
    }
    M = Matching(G);
@@ -330,7 +364,6 @@ List *MaximumCardinalityMatching
    
    return M;
 }
-
 
 /*
  * Initialize -- Given an approximate matching, initialize the vertex, edge,
