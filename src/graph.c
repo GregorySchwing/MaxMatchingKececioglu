@@ -773,7 +773,9 @@ Graph *ReadGraph
    {
       if (fscanf(stream, " edge %d %d", &a, &b) != 2)
          Error("(ReadGraph) Edge not recognized.");
-      CreateEdge(G, V[a - 1], V[b - 1], Nil);
+      //CreateEdge(G, V[a - 1], V[b - 1], Nil);
+      CreateEdge(G, V[a], V[b], Nil);
+
    }
 
    /*
