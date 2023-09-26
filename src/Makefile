@@ -33,13 +33,13 @@ depend :
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 
-driver.o: /usr/include/stdio.h /usr/include/sys/feature_tests.h graph.h
+driver.o: /usr/include/stdio.h feature_tests.h graph.h
 driver.o: portable.h /usr/include/stdlib.h list.h matching.h
-matching.o: /usr/include/stdio.h /usr/include/sys/feature_tests.h matching.h
+matching.o: /usr/include/stdio.h feature_tests.h matching.h
 matching.o: list.h portable.h /usr/include/stdlib.h graph.h set.h
-graph.o: /usr/include/stdio.h /usr/include/sys/feature_tests.h graph.h
+graph.o: /usr/include/stdio.h feature_tests.h graph.h
 graph.o: portable.h /usr/include/stdlib.h list.h
-list.o: /usr/include/stdio.h /usr/include/sys/feature_tests.h list.h
+list.o: /usr/include/stdio.h feature_tests.h list.h
 list.o: portable.h /usr/include/stdlib.h
-set.o: /usr/include/stdio.h /usr/include/sys/feature_tests.h set.h portable.h
+set.o: /usr/include/stdio.h feature_tests.h set.h portable.h
 set.o: /usr/include/stdlib.h
