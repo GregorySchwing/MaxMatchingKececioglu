@@ -6,18 +6,22 @@
 
 typedef ListCell Cell;
 
-Void main ()
+Void main (int argc, char **argv)
 {
-   int   N;
+   int   N,EdgeListSize;
    List *M;
    Cell *P;
    
    Graph  *G;
    Vertex *V;
    Edge   *E;
-  
-   
-   G = ReadGraph(stdin);
+   FILE *f;
+   if (argc>1){
+      printf("%s\n",argv[1]);  
+      f = fopen(argv[1], "r"); // "r" for read 
+      G = ReadGraph(f,&N,&EdgeListSize);
+   } else 
+      G = ReadGraph(stdin,&N,&EdgeListSize);
    clock_t start_time, end_time;
    double elapsed_time_ms;
 
@@ -49,7 +53,11 @@ Void main ()
       output_file = fopen(outputFilename, "w");
       fprintf(output_file, "%s,%s,%s,%s,%s,%s\n", "Filename", "V","E","M", "milliseconds" "seconds");
    }
-   fprintf(output_file, "%s,%d,%d,%d,%f,%f\n", "test", N,N,ListSize(M),elapsed_time_ms,elapsed_time_ms/1000.0);
+   if (argc>1){
+      fprintf(output_file, "%s,%d,%d,%d,%f,%f\n", argv[1], N,EdgeListSize,ListSize(M),elapsed_time_ms,elapsed_time_ms/1000.0);
+   } else {
+      fprintf(output_file, "%s,%d,%d,%d,%f,%f\n", "UNKNOWN", N,EdgeListSize,ListSize(M),elapsed_time_ms,elapsed_time_ms/1000.0);
+   }
    fclose(output_file);
 
    /*

@@ -113,7 +113,7 @@ extern Void WriteGraph
    Proto(( Graph *G, FILE *stream ));
 
 extern Graph *ReadGraph
-   Proto(( FILE *stream ));
+   Proto(( FILE *stream , int * N, int * M));
 
 extern Void WriteEdgeWeightedGraph
    Proto(( Graph *G, float (*Weight)(Edge *), FILE *stream ));

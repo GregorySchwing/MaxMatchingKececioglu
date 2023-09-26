@@ -728,13 +728,13 @@ Void WriteGraph
 Graph *ReadGraph
 
 #ifdef Ansi
-   (FILE *stream)
+   (FILE *stream, int * N, int * M)
 #else
    (stream) FILE *stream;
 #endif
 
 {
-   auto int M, N;
+   //auto int M, N;
    register Graph *G;
    register Vertex **V;
    auto int a, b;
@@ -743,15 +743,15 @@ Graph *ReadGraph
    /*
     * Read the size of the graph
     */
-   if (fscanf(stream, " vertices %d", &N) != 1)
+   if (fscanf(stream, " vertices %d", N) != 1)
       Error("(ReadGraph) Number of vertices not recognized.");
-   if (fscanf(stream, " edges %d", &M) != 1)
+   if (fscanf(stream, " edges %d", M) != 1)
       Error("(ReadGraph) Number of edges not recognized.");
    
    /*
     * Allocate an array to hold onto vertices
     */
-   V = (Vertex **) Allocate(N * sizeof(Vertex *));
+   V = (Vertex **) Allocate(*N * sizeof(Vertex *));
    if (V == NULL)
       Error("(ReadGraph) Memory allocation failed.");
    
@@ -763,13 +763,13 @@ Graph *ReadGraph
    /*
     * Insert the vertices
     */
-   for (i = 0; i < N; i++)
+   for (i = 0; i < *N; i++)
       V[i] = CreateVertex(G, Nil);
    
    /*
     * Read the list of edges and insert them
     */
-   for (i = 0; i < M; i++)
+   for (i = 0; i < *M; i++)
    {
       if (fscanf(stream, " edge %d %d", &a, &b) != 2)
          Error("(ReadGraph) Edge not recognized.");
