@@ -1,0 +1,3569 @@
+#! /bin/sh
+# This is a shell archive.  Remove anything before this line, then unpack
+# it by saving it into a file and typing "sh file".  To overwrite existing
+# files, type "sh file -c".  You can also feed this as standard input via
+# unshar, or by typing "sh <file", e.g..  If this archive is complete, you
+# will see the following message at the end:
+#		"End of shell archive."
+# Contents:  Example Makefile ReadMe Version driver.c graph.c list.c
+#   matching.c set.c graph.h list.h matching.h portable.h set.h
+# Wrapped by kece@babbage on Wed Nov 26 23:20:46 1997
+PATH=/bin:/usr/bin:/usr/ucb ; export PATH
+if test -f Example -a "${1}" != "-c" ; then 
+  echo shar: Will not over-write existing file \"Example\"
+else
+echo shar: Extracting \"Example\" \(546 characters\)
+sed "s/^X//" >Example <<'END_OF_Example'
+Xvertices 36
+Xedges 48
+X
+Xedge 1 2
+Xedge 2 3
+Xedge 3 1
+X
+Xedge 2 4
+Xedge 4 5
+X
+Xedge 5 6
+Xedge 6 7
+Xedge 7 5
+X
+Xedge 7 9
+X
+Xedge 8 9
+Xedge 9 10
+Xedge 10 8
+X
+Xedge 8 11
+Xedge 11 3
+X
+Xedge 6 12
+Xedge 12 13
+X
+Xedge 13 14
+Xedge 14 15
+Xedge 15 13
+X
+Xedge 14 16
+Xedge 16 17
+X
+Xedge 17 18
+Xedge 18 19
+Xedge 19 17
+X
+Xedge 19 21
+X
+Xedge 20 21
+Xedge 21 22
+Xedge 22 20
+X
+Xedge 20 23
+Xedge 23 15
+X
+Xedge 18 27
+X
+Xedge 25 27
+Xedge 27 28
+X
+Xedge 28 29
+Xedge 29 30
+Xedge 30 28
+X
+Xedge 30 33
+X
+Xedge 31 32
+Xedge 32 33
+Xedge 33 31
+X
+Xedge 31 34
+Xedge 34 26
+X
+Xedge 24 25
+Xedge 25 26
+Xedge 26 24
+X
+Xedge 24 35
+Xedge 35 11
+X
+Xedge 35 36
+END_OF_Example
+if test 546 -ne `wc -c <Example`; then
+    echo shar: \"Example\" unpacked with wrong size!
+fi
+# end of overwriting check
+fi
+if test -f Makefile -a "${1}" != "-c" ; then 
+  echo shar: Will not over-write existing file \"Makefile\"
+else
+echo shar: Extracting \"Makefile\" \(1393 characters\)
+sed "s/^X//" >Makefile <<'END_OF_Makefile'
+XCC	= gcc
+XCFLAGS	= -O3
+X
+XRM   = rm -f
+XSHAR = shar
+XLINT = lint -x
+X
+X# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+X
+XSOURCES = driver.c matching.c graph.c list.c set.c
+XOBJECTS = driver.o matching.o graph.o list.o set.o
+X
+X# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+X
+Xmatching : ${OBJECTS}
+X	${CC} ${CFLAGS} -o matching ${OBJECTS}
+X
+X# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+X
+Xclean :
+X	${RM} *.o Makefile.bak core
+X
+Xshar :
+X	${SHAR} Makefile Notes Version Example *.c *.h > matching.sh
+X
+Xlint :
+X	${LINT} ${SOURCES}
+X
+Xdepend :
+X	makedepend ${SOURCES}
+X
+X# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+X
+X# DO NOT DELETE THIS LINE -- make depend depends on it.
+X
+Xdriver.o: /usr/include/stdio.h /usr/include/sys/feature_tests.h graph.h
+Xdriver.o: portable.h /usr/include/stdlib.h list.h matching.h
+Xmatching.o: /usr/include/stdio.h /usr/include/sys/feature_tests.h matching.h
+Xmatching.o: list.h portable.h /usr/include/stdlib.h graph.h set.h
+Xgraph.o: /usr/include/stdio.h /usr/include/sys/feature_tests.h graph.h
+Xgraph.o: portable.h /usr/include/stdlib.h list.h
+Xlist.o: /usr/include/stdio.h /usr/include/sys/feature_tests.h list.h
+Xlist.o: portable.h /usr/include/stdlib.h
+Xset.o: /usr/include/stdio.h /usr/include/sys/feature_tests.h set.h portable.h
+Xset.o: /usr/include/stdlib.h
+END_OF_Makefile
+if test 1393 -ne `wc -c <Makefile`; then
+    echo shar: \"Makefile\" unpacked with wrong size!
+fi
+# end of overwriting check
+fi
+if test -f ReadMe -a "${1}" != "-c" ; then 
+  echo shar: Will not over-write existing file \"ReadMe\"
+else
+echo shar: Extracting \"ReadMe\" \(200 characters\)
+sed "s/^X//" >ReadMe <<'END_OF_ReadMe'
+XExecuting "make" will produce the executable file "matching".
+XRunning "matching < Example" should output a maximum cardinality matching 
+Xof 18 edges.
+X
+XJohn Kececioglu
+Xkece@cs.uga.edu
+X26 November 1997
+END_OF_ReadMe
+if test 200 -ne `wc -c <ReadMe`; then
+    echo shar: \"ReadMe\" unpacked with wrong size!
+fi
+# end of overwriting check
+fi
+if test -f Version -a "${1}" != "-c" ; then 
+  echo shar: Will not over-write existing file \"Version\"
+else
+echo shar: Extracting \"Version\" \(141 characters\)
+sed "s/^X//" >Version <<'END_OF_Version'
+XEdmonds algorithm
+XWithout greedy initial matching
+XWith stopping test for depth first search
+XWithout delayed shrinking
+XWithout lazy expansion
+END_OF_Version
+if test 141 -ne `wc -c <Version`; then
+    echo shar: \"Version\" unpacked with wrong size!
+fi
+# end of overwriting check
+fi
+if test -f driver.c -a "${1}" != "-c" ; then 
+  echo shar: Will not over-write existing file \"driver.c\"
+else
+echo shar: Extracting \"driver.c\" \(617 characters\)
+sed "s/^X//" >driver.c <<'END_OF_driver.c'
+X#include <stdio.h>
+X#include "graph.h"
+X#include "matching.h"
+X
+Xtypedef ListCell Cell;
+X
+XVoid main ()
+X{
+X   int   N;
+X   List *M;
+X   Cell *P;
+X   
+X   Graph  *G;
+X   Vertex *V;
+X   Edge   *E;
+X  
+X   
+X   G = ReadGraph(stdin);
+X   
+X   M = MaximumCardinalityMatching(G);
+X   fprintf(stdout, "The %d edges of a maximum-cardinality matching are\n",
+X           ListSize(M));
+X   N = 1;
+X   ForAllGraphVertices(V, G, P)
+X      VertexRelabel(V, (VertexData) N++);
+X   ForAllEdges(E, M, P)
+X      fprintf(stdout, "(%d, %d)\n",
+X         (int) VertexLabel(EdgeFrom(E)), (int) VertexLabel(EdgeTo(E)));
+X   DestroyList(M);
+X   
+X   DestroyGraph(G);
+X}
+END_OF_driver.c
+if test 617 -ne `wc -c <driver.c`; then
+    echo shar: \"driver.c\" unpacked with wrong size!
+fi
+# end of overwriting check
+fi
+if test -f graph.c -a "${1}" != "-c" ; then 
+  echo shar: Will not over-write existing file \"graph.c\"
+else
+echo shar: Extracting \"graph.c\" \(16221 characters\)
+sed "s/^X//" >graph.c <<'END_OF_graph.c'
+X/*
+X * graph.c -- Directed graphs
+X */
+X
+X/*
+X * Copyright 1989, 1992 by John Kececioglu
+X */
+X
+X
+X/*
+X * Synopsis
+X *
+X * This implementation of directed graphs uses the "forward star" and
+X * "backward star" representation.  Undirected graphs may be encoded
+X * by choosing an arbitrary direction for edges.
+X *
+X * Graphs, vertices, and edges may be attributed with an arbitrary label.
+X * Subgraphs may be formed ejecting, and later injecting, vertices and edges.
+X * Graphs may be written to a text file, and later read back in.
+X *
+X */
+X
+X/*
+X * Author
+X *
+X * John Kececioglu
+X * kece@cs.uga.edu
+X *
+X * Department of Computer Science
+X * The University of Georgia
+X * Athens, GA 30602
+X *
+X */
+X
+X/*
+X * History
+X *
+X * 25 July 1993 JDK
+X * Made the naming of functions and structures consistent with other libraries.
+X * Added functions to read and write graphs.
+X *
+X */
+X
+X
+X#include <stdio.h>
+X#include "graph.h"
+X
+X
+X#define VertexBlockSize 16 /* Number of vertices allocated per request */
+X#define EdgeBlockSize   32 /* Number of edges allocated per request */
+X
+X
+Xtypedef ListCell Cell;
+X
+X
+Xstatic Graph  *GraphPool  = Nil; /* Pool of free graphs */
+Xstatic Vertex *VertexPool = Nil; /* Pool of free vertices */
+Xstatic Edge   *EdgePool   = Nil; /* Pool of free edges */
+X
+X
+Xstatic Void Error Proto(( char *Message ));
+Xstatic float EdgeWeight Proto(( Edge *E ));
+X
+X
+X#define FreeGraph(G)  (((G)->Vertices = (List *) GraphPool), GraphPool = (G))
+X#define FreeVertex(V) (((V)->Self = (Cell *) VertexPool), VertexPool = (V))
+X#define FreeEdge(E)   (((E)->Self = (Cell *) EdgePool), EdgePool = (E))
+X
+X#define NewGraph(G)  (((G) = GraphPool), GraphPool = (Graph *) (G)->Vertices)
+X#define NewVertex(V) (((V) = VertexPool), VertexPool = (Vertex *) (V)->Self)
+X#define NewEdge(E)   (((E) = EdgePool), EdgePool = (Edge *) (E)->Self)
+X   /*
+X    * `NewGraph', `NewVertex', and `NewEdge' assume their argument is a
+X    *  variable
+X    */
+X
+X
+X/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+X *
+X * Graphs
+X *
+X */
+X
+X
+X/*
+X * CreateGraph -- Create an empty graph
+X *
+X */
+XGraph *CreateGraph
+X
+X#ifdef Ansi
+X   (GraphData D)
+X#else
+X   (D) GraphData D;
+X#endif
+X
+X{
+X   register Graph *G;
+X   
+X   if (GraphPool != Nil)
+X      NewGraph(G);
+X   else if ((G = (Graph *) Allocate(sizeof(Graph))) == NULL)
+X      Error("(CreateGraph) Memory allocation failed.");
+X   
+X   G->Vertices = CreateList();
+X   G->Edges = CreateList();
+X   G->Label = D;
+X   
+X   return G;
+X}
+X
+X
+X/*
+X * DestroyGraph -- Destroy a graph
+X *
+X */
+XVoid DestroyGraph
+X
+X#ifdef Ansi
+X  (register Graph *G)
+X#else
+X   (G) register Graph *G;
+X#endif
+X
+X{
+X   register Vertex *V;
+X   register Edge   *E;
+X   register Cell   *P;
+X   
+X   P = ListHead(G->Vertices);
+X   while ((V = (Vertex *) ListNext(P)))
+X   {
+X      DestroyList(V->In);
+X      DestroyList(V->Out);
+X      FreeVertex(V);
+X   }
+X   DestroyList(G->Vertices);
+X
+X   P = ListHead(G->Edges);
+X   while ((E = (Edge *) ListNext(P)))
+X      FreeEdge(E);
+X   DestroyList(G->Edges);
+X
+X   FreeGraph(G);
+X}
+X
+X
+X/*
+X * GraphLabel -- Return the label of a graph
+X *
+X */
+XGraphData GraphLabel
+X
+X#ifdef Ansi
+X   (Graph *G)
+X#else
+X   (G) Graph *G;
+X#endif
+X
+X{
+X   return G->Label;
+X}
+X
+X
+X/*
+X * GraphRelabel -- Relabel a graph
+X *
+X * The old label of the graph is returned.
+X *
+X */
+XGraphData GraphRelabel
+X
+X#ifdef Ansi
+X   (register Graph *G, GraphData D)
+X#else
+X   (G, D) register Graph *G; GraphData D;
+X#endif
+X
+X{
+X   register GraphData X;
+X   
+X   X = G->Label;
+X   G->Label = D;
+X   return X;
+X}
+X
+X
+X/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+X *
+X * Vertices
+X *
+X */
+X
+X
+X/*
+X * CreateVertex -- Create a graph vertex
+X *
+X */
+XVertex *CreateVertex
+X
+X#ifdef Ansi
+X   (Graph *G, VertexData D)
+X#else
+X   (G, D) Graph *G; VertexData D;
+X#endif
+X
+X{
+X   register Vertex *V, *Block;
+X
+X   if (VertexPool == Nil)
+X   {
+X      /*
+X       * Allocate a block of vertices
+X       */
+X      Block = (Vertex *) Allocate(VertexBlockSize * sizeof(Vertex));
+X      if (Block == NULL)
+X         Error("(CreateVertex) Memory allocation failed.");
+X      
+X      /*
+X       * Place the vertices in the block into the pool
+X       */
+X      for (V = Block; V - Block < VertexBlockSize; V++)
+X         FreeVertex(V);
+X   }
+X   
+X   NewVertex(V);
+X   V->In = CreateList();
+X   V->Out = CreateList();
+X   V->Self = ListPut((Pointer) V, G->Vertices);
+X   V->Label = D;
+X   
+X   return V;
+X}
+X
+X
+X/*
+X * DestroyVertex -- Destroy a vertex of a graph
+X *
+X */
+XVoid DestroyVertex
+X
+X#ifdef Ansi
+X   (Vertex *V)
+X#else
+X   (V) Vertex *V;
+X#endif
+X
+X{
+X   register Edge *E;
+X   register Cell *P;
+X   
+X   P = ListHead(V->In);
+X   while ((E = (Edge *) ListNext(P)))
+X   {
+X      ListDelete(E->Out);
+X      ListDelete(E->Self);
+X      FreeEdge(E);
+X   }
+X   DestroyList(V->In);
+X   
+X   P = ListHead(V->Out);
+X   while ((E = (Edge *) ListNext(P)))
+X   {
+X      ListDelete(E->In);
+X      ListDelete(E->Self);
+X      FreeEdge(E);
+X   }
+X   DestroyList(V->Out);
+X   
+X   ListDelete(V->Self);
+X   FreeVertex(V);
+X}
+X
+X
+X/*
+X * GraphVertices -- Return the list of vertices of a graph
+X *
+X */
+XList *GraphVertices
+X
+X#ifdef Ansi
+X   (Graph *G)
+X#else
+X   (G) Graph *G;
+X#endif
+X
+X{
+X   return G->Vertices;
+X}
+X
+X
+X/*
+X * VertexLabel -- Return the label of a vertex
+X *
+X */
+XVertexData VertexLabel
+X
+X#ifdef Ansi
+X   (Vertex *V)
+X#else
+X   (V) Vertex *V;
+X#endif
+X
+X{
+X   return V->Label;
+X}
+X
+X
+X/*
+X * VertexRelabel -- Relabel a vertex
+X *
+X * The old label of the vertex is returned.
+X *
+X */
+XVertexData VertexRelabel
+X
+X#ifdef Ansi
+X   (register Vertex *V, VertexData D)
+X#else
+X   (V, D) register Vertex *V; VertexData D;
+X#endif
+X
+X{
+X   register VertexData X;
+X
+X   X = V->Label;
+X   V->Label = D;
+X   return X;
+X}
+X
+X
+X/*
+X * VertexIn -- Return the list of in-edges of a vertex
+X *
+X */
+XList *VertexIn
+X
+X#ifdef Ansi
+X   (Vertex *V)
+X#else
+X   (V) Vertex *V;
+X#endif
+X
+X{
+X   return V->In;
+X}
+X
+X
+X/*
+X * VertexOut -- Return the list of out-edges of a vertex
+X *
+X */
+XList *VertexOut
+X
+X#ifdef Ansi
+X   (Vertex *V)
+X#else
+X   (V) Vertex *V;
+X#endif
+X
+X{
+X   return V->Out;
+X}
+X
+X
+X/*
+X * VertexEject -- Eject a vertex from a graph
+X *
+X */
+XVoid VertexEject
+X
+X#ifdef Ansi
+X   (register Vertex *V)
+X#else
+X   (V) register Vertex *V;
+X#endif
+X
+X{
+X   register Edge *E;
+X   register Cell *P;
+X   
+X   P = ListHead(V->In);
+X   while ((E = (Edge *) ListNext(P)))
+X   {
+X      ListEject(E->Out);
+X      ListEject(E->Self);
+X   }
+X   
+X   P = ListHead(V->Out);
+X   while ((E = (Edge *) ListNext(P)))
+X   {
+X      ListEject(E->In);
+X      ListEject(E->Self);
+X   }
+X   
+X   ListEject(V->Self);
+X}
+X
+X
+X/*
+X * VertexInject -- Inject an ejected vertex back into a graph
+X *
+X * Vertices that are adjacent in the graph lists must be injected in reverse
+X * order of ejection.
+X *
+X */
+XVoid VertexInject
+X
+X#ifdef Ansi
+X   (register Vertex *V)
+X#else
+X   (V) register Vertex *V;
+X#endif
+X
+X{
+X   register Edge *E;
+X   register Cell *P;
+X   
+X   ListInject(V->Self);
+X
+X   P = ListHead(V->Out);
+X   while ((E = (Edge *) ListPrev(P)))
+X   {
+X      ListInject(E->Self);
+X      ListInject(E->In);
+X   }
+X
+X   P = ListHead(V->In);
+X   while ((E = (Edge *) ListPrev(P)))
+X   {
+X      ListInject(E->Self);
+X      ListInject(E->Out);
+X   }
+X}
+X
+X
+X/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+X *
+X * Edges
+X *
+X */
+X
+X
+X/*
+X * CreateEdge -- Create a directed edge
+X *
+X */
+XEdge *CreateEdge
+X
+X#ifdef Ansi
+X   (Graph *G, Vertex *V, Vertex *W, EdgeData D)
+X#else
+X   (G, V, W, D) Graph *G; Vertex *V, *W; EdgeData D;
+X#endif
+X
+X{
+X   register Edge *E, *Block;
+X
+X   if (EdgePool == Nil)
+X   {
+X      /*
+X       * Allocate a block of edges
+X       */
+X      Block = (Edge *) Allocate(EdgeBlockSize * sizeof(Edge));
+X      if (Block == NULL)
+X         Error("(CreateEdge) Memory allocation failed.");
+X
+X      /*
+X       * Place the edges in the block into the pool
+X       */
+X      for (E = Block; E - Block < EdgeBlockSize; E++)
+X         FreeEdge(E);
+X   }
+X   
+X   NewEdge(E);
+X   E->From = V;
+X   E->To = W;
+X   E->In = ListPut((Pointer) E, W->In);
+X   E->Out = ListPut((Pointer) E, V->Out);
+X   E->Self = ListPut((Pointer) E, G->Edges);
+X   E->Label = D;
+X   
+X   return E;
+X}
+X
+X
+X/*
+X * DestroyEdge -- Destroy an edge of a graph
+X *
+X */
+XVoid DestroyEdge
+X
+X#ifdef Ansi
+X   (register Edge *E)
+X#else
+X   (E) register Edge *E;
+X#endif
+X
+X{
+X   ListDelete(E->In);
+X   ListDelete(E->Out);
+X   ListDelete(E->Self);
+X   FreeEdge(E);
+X}
+X
+X
+X/*
+X * GraphEdges -- Return the list of edges of a graph
+X *
+X */
+XList *GraphEdges
+X
+X#ifdef Ansi
+X   (Graph *G)
+X#else
+X   (G) Graph *G;
+X#endif
+X
+X{
+X   return G->Edges;
+X}
+X
+X
+X/*
+X * EdgeLabel -- Return the label of an edge
+X *
+X */
+XEdgeData EdgeLabel
+X
+X#ifdef Ansi
+X   (Edge *E)
+X#else
+X   (E) Edge *E;
+X#endif
+X
+X{
+X   return E->Label;
+X}
+X
+X
+X/*
+X * EdgeRelabel -- Relabel an edge
+X *
+X * The old label of the edge is returned.
+X *
+X */
+XEdgeData EdgeRelabel
+X
+X#ifdef Ansi
+X   (register Edge *E, EdgeData D)
+X#else
+X   (E, D) register Edge *E; EdgeData D;
+X#endif
+X
+X{
+X   register EdgeData X;
+X
+X   X = E->Label;
+X   E->Label = D;
+X   return X;
+X}
+X
+X
+X/*
+X * EdgeFrom -- Return the source vertex of a directed edge
+X *
+X */
+XVertex *EdgeFrom
+X
+X#ifdef Ansi
+X   (Edge *E)
+X#else
+X   (E) Edge *E;
+X#endif
+X
+X{
+X   return E->From;
+X}
+X
+X
+X/*
+X * EdgeTo -- Return the target vertex of a directed edge
+X *
+X */
+XVertex *EdgeTo
+X
+X#ifdef Ansi
+X   (Edge *E)
+X#else
+X   (E) Edge *E;
+X#endif
+X
+X{
+X   return E->To;
+X}
+X
+X
+X/*
+X * EdgeEject -- Eject an edge from a graph
+X *
+X */
+XVoid EdgeEject
+X
+X#ifdef Ansi
+X   (register Edge *E)
+X#else
+X   (E) register Edge *E;
+X#endif
+X
+X{
+X   ListEject(E->In);
+X   ListEject(E->Out);
+X   ListEject(E->Self);
+X}
+X
+X
+X/*
+X * EdgeInject -- Inject an ejected edge back into a graph
+X *
+X * Edges that are adjacent in the graph lists must be injected in reverse order
+X * of ejection.
+X *
+X */
+XVoid EdgeInject
+X
+X#ifdef Ansi
+X   (register Edge *E)
+X#else
+X   (E) register Edge *E;
+X#endif
+X
+X{
+X   ListInject(E->Self);
+X   ListInject(E->Out);
+X   ListInject(E->In);
+X}
+X
+X
+X/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+X *
+X * Input and output
+X *
+X */
+X
+X
+X/*
+X * WriteGraph -- Write out a graph to a text file
+X *
+X */
+XVoid WriteGraph
+X
+X#ifdef Ansi
+X   (Graph *G, FILE *stream)
+X#else
+X   (G, stream) Graph *G; FILE *stream;
+X#endif
+X
+X{
+X   auto     int M, N;
+X   register int i;
+X   register Vertex *V;
+X   register Edge *E;
+X   register Cell *P;
+X   register VertexData *L;
+X   
+X   /*
+X    * Count the number of vertices and edges
+X    */
+X   N = ListSize(G->Vertices);
+X   M = ListSize(G->Edges);
+X
+X   /*
+X    * Allocate an array to hold the original vertex labels
+X    */
+X   L = (VertexData *) Allocate(N * sizeof(VertexData));
+X   if (L == NULL)
+X      Error("(WriteGraph) Memory allocation failed.");
+X   
+X   /*
+X    * Relabel the vertices with pointers into the array
+X    */
+X   i = 0;
+X   P = G->Vertices;
+X   while ((V = (Vertex *) ListNext(P)))
+X   {
+X      L[i] = V->Label;
+X      V->Label = (VertexData) &L[i];
+X      i += 1;
+X   }
+X   
+X   /*
+X    * Write out the size of the graph
+X    */
+X   fprintf(stream, "vertices %d\n", N);
+X   fprintf(stream, "edges %d\n", M);
+X   fprintf(stream, "\n");
+X   
+X   /*
+X    * Write out the list of edges
+X    */
+X   P = ListHead(G->Edges);
+X   while ((E = (Edge *) ListNext(P)))
+X      fprintf(stream, "edge %d %d\n",
+X         ((VertexData *) E->From->Label) - L + 1,
+X         ((VertexData *) E->To->Label) - L + 1);
+X   
+X   /*
+X    * Restore the vertex labels
+X    */
+X   i = 0;
+X   P = ListHead(G->Vertices);
+X   while ((V = (Vertex *) ListNext(P)))
+X      V->Label = L[i++];
+X   
+X   /*
+X    * Free memory
+X    */
+X   Free(L);
+X}
+X
+X
+X/*
+X * ReadGraph -- Read in a graph from a text file
+X *
+X * Assumes the graph was written using `WriteGraph'.
+X *
+X */
+XGraph *ReadGraph
+X
+X#ifdef Ansi
+X   (FILE *stream)
+X#else
+X   (stream) FILE *stream;
+X#endif
+X
+X{
+X   auto int M, N;
+X   register Graph *G;
+X   register Vertex **V;
+X   auto int a, b;
+X   register int i;
+X   
+X   /*
+X    * Read the size of the graph
+X    */
+X   if (fscanf(stream, " vertices %d", &N) != 1)
+X      Error("(ReadGraph) Number of vertices not recognized.");
+X   if (fscanf(stream, " edges %d", &M) != 1)
+X      Error("(ReadGraph) Number of edges not recognized.");
+X   
+X   /*
+X    * Allocate an array to hold onto vertices
+X    */
+X   V = (Vertex **) Allocate(N * sizeof(Vertex *));
+X   if (V == NULL)
+X      Error("(ReadGraph) Memory allocation failed.");
+X   
+X   /*
+X    * Create an empty graph
+X    */
+X   G = CreateGraph(Nil);
+X   
+X   /*
+X    * Insert the vertices
+X    */
+X   for (i = 0; i < N; i++)
+X      V[i] = CreateVertex(G, Nil);
+X   
+X   /*
+X    * Read the list of edges and insert them
+X    */
+X   for (i = 0; i < M; i++)
+X   {
+X      if (fscanf(stream, " edge %d %d", &a, &b) != 2)
+X         Error("(ReadGraph) Edge not recognized.");
+X      CreateEdge(G, V[a - 1], V[b - 1], Nil);
+X   }
+X
+X   /*
+X    * Free memory
+X    */
+X   Free(V);
+X   
+X   /*
+X    * Return the graph
+X    */
+X   return G;
+X}
+X
+X
+X/*
+X * WriteEdgeWeightedGraph -- Write out an edge-weighted graph to a text file
+X *
+X */
+XVoid WriteEdgeWeightedGraph
+X
+X#ifdef Ansi
+X   (Graph *G, float (*Weight)(Edge *), FILE *stream)
+X#else
+X   (G, Weight, stream) Graph *G; float (*Weight)(); FILE *stream;
+X#endif
+X
+X{
+X   auto     int M, N;
+X   register int i;
+X   register Vertex *V;
+X   register Edge *E;
+X   register Cell *P;
+X   register VertexData *L;
+X   
+X   /*
+X    * Count the number of vertices and edges
+X    */
+X   N = ListSize(G->Vertices);
+X   M = ListSize(G->Edges);
+X
+X   /*
+X    * Allocate an array to hold the original vertex labels
+X    */
+X   L = (VertexData *) Allocate(N * sizeof(VertexData));
+X   if (L == NULL)
+X      Error("(WriteEdgeWeightedGraph) Memory allocation failed.");
+X   
+X   /*
+X    * Relabel the vertices with pointers into the array
+X    */
+X   i = 0;
+X   P = ListHead(G->Vertices);
+X   while ((V = (Vertex *) ListNext(P)))
+X   {
+X      L[i] = V->Label;
+X      V->Label = (VertexData) &L[i];
+X      i += 1;
+X   }
+X   
+X   /*
+X    * Write out the size of the graph
+X    */
+X   fprintf(stream, "vertices %d\n", N);
+X   fprintf(stream, "edges %d weighted\n", M);
+X   fprintf(stream, "\n");
+X   
+X   /*
+X    * Write out the list of edges
+X    */
+X   P = ListHead(GraphEdges(G));
+X   while ((E = (Edge *) ListNext(P)))
+X      fprintf(stream, "edge %d %d %g\n",
+X         ((VertexData *) E->From->Label) - L + 1,
+X         ((VertexData *) E->To->Label) - L + 1,
+X         Weight(E));
+X   
+X   /*
+X    * Restore the vertex labels
+X    */
+X   i = 0;
+X   P = ListHead(G->Vertices);
+X   while ((V = (Vertex *) ListNext(P)))
+X      V->Label = L[i++];
+X   
+X   /*
+X    * Free memory
+X    */
+X   Free(L);
+X}
+X
+X
+X/*
+X * ReadEdgeWeightedGraph -- Read in an edge-weighted graph from a text file
+X *
+X * The graph is labelled with a pointer to an array of edge weights.
+X * The edge weight function is returned through `Weight'.
+X * This function assumes the graph was written using `WriteEdgeWeightedGraph'.
+X *
+X */
+XGraph *ReadEdgeWeightedGraph
+X
+X#ifdef Ansi
+X   (FILE *stream, float (**Weight)(Edge *))
+X#else
+X   (stream, Weight) FILE *stream; float (**Weight)();
+X#endif
+X
+X{
+X   auto int M, N;
+X   register Graph *G;
+X   register Vertex **V;
+X   register float *W;
+X   auto int a, b;
+X   register int i;
+X   
+X   /*
+X    * Read the size of the graph
+X    */
+X   if (fscanf(stream, " vertices %d", &N) != 1)
+X      Error("(ReadEdgeWeightedGraph) Number of vertices not recognized.");
+X   if (fscanf(stream, " edges %d weighted", &M) != 1)
+X      Error("(ReadEdgeWeightedGraph) Number of edges not recognized.");
+X   
+X   /*
+X    * Allocate arrays to hold onto vertices and edge weights
+X    */
+X   V = (Vertex **) Allocate(N * sizeof(Vertex *));
+X   W = (float *) Allocate(M * sizeof(float));
+X   if (V == NULL || W == NULL)
+X      Error("(ReadEdgeWeightedGraph) Memory allocation failed.");
+X   
+X   /*
+X    * Create an empty graph
+X    */
+X   G = CreateGraph((GraphData) W);
+X   
+X   /*
+X    * Insert the vertices
+X    */
+X   for (i = 0; i < N; i++)
+X      V[i] = CreateVertex(G, Nil);
+X   
+X   /*
+X    * Read the list of edges and insert them
+X    */
+X   for (i = 0; i < M; i++)
+X   {
+X      if (fscanf(stream, " edge %d %d %f", &a, &b, &W[i]) != 3)
+X         Error("(ReadEdgeWeightedGraph) Edge not recognized.");
+X      CreateEdge(G, V[a - 1], V[b - 1], (EdgeData) &W[i]);
+X   }
+X
+X   /*
+X    * Free memory
+X    */
+X   Free(V);
+X   
+X   /*
+X    * Return the graph and its edge weight function
+X    */
+X   *Weight = EdgeWeight;
+X   return G;
+X}
+X
+X
+X/*
+X * EdgeWeight -- Return the weight of an edge created by
+X *               `ReadEdgeWeightedGraph'
+X *
+X */
+Xstatic float EdgeWeight
+X
+X#ifdef Ansi
+X   (Edge *E)
+X#else
+X   (E) Edge *E;
+X#endif
+X
+X{
+X   return *((float *) EdgeLabel(E));
+X}
+X
+X
+X/*
+X * Error -- Write an error message and halt
+X *
+X */
+Xstatic Void Error
+X
+X#ifdef Ansi
+X   (char *Message)
+X#else
+X   (Message) char *Message;
+X#endif
+X
+X{
+X   fprintf(stderr, "%s\n", Message);
+X   Halt();
+X}
+END_OF_graph.c
+if test 16221 -ne `wc -c <graph.c`; then
+    echo shar: \"graph.c\" unpacked with wrong size!
+fi
+# end of overwriting check
+fi
+if test -f list.c -a "${1}" != "-c" ; then 
+  echo shar: Will not over-write existing file \"list.c\"
+else
+echo shar: Extracting \"list.c\" \(7424 characters\)
+sed "s/^X//" >list.c <<'END_OF_list.c'
+X/*
+X * list.c -- Linear lists
+X */
+X
+X/*
+X * Copyright 1989, 1992 by John Kececioglu
+X */
+X
+X
+X/*
+X * Synopsis
+X *
+X * The lists are circular, doubly-linked, and anchored.  This allows O(1) time
+X * insertion, deletion, concatenation, and destruction.
+X *
+X */
+X
+X/*
+X * Author
+X *
+X * John Kececioglu
+X * kece@cs.uga.edu
+X *
+X * Department of Computer Science
+X * The University of Georgia
+X * Athens, GA 30602
+X *
+X */
+X
+X/*
+X * History
+X *
+X * 26 July 1991 JDK
+X * Simplified the method of iterating over a list.  Replaced three iteration
+X * functions with two macros.
+X *
+X * 22 June 1995 JDK
+X * Fixed a bug in that `ListInsertAfter' did not return a pointer to the
+X * inserted list cell.
+X *
+X */
+X
+X
+X#include <stdio.h>
+X#include "list.h"
+X
+X
+Xtypedef ListData Item;
+Xtypedef ListCell Cell;
+X
+X
+X/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+X *
+X * Creation and destruction
+X *
+X */
+X
+X
+X#define CellBlockSize 32 /* Number of cells allocated per memory request */
+X
+X
+Xstatic Cell *CellPool = Nil; /* Pool of free cells */
+X
+X
+X/*
+X * Cell pool maintenance
+X */
+X#define FreeCell(C) (((C)->Next = CellPool), CellPool = (C))
+X#define NewCell(C)  (((C) = CellPool), CellPool = CellPool->Next)
+X
+X
+X/*
+X * CreateList -- Create an empty list
+X *
+X */
+XList *CreateList
+X   
+X#ifdef Ansi
+X   (Void)
+X#else
+X   ()
+X#endif
+X
+X{
+X   register List *L;
+X   register Cell *C, *Block;
+X   
+X   if (CellPool == Nil)
+X   {
+X      /*
+X       * Allocate a block of cells
+X       */
+X      Block = (Cell *) Allocate(sizeof(Cell) * CellBlockSize);
+X      if (Block == NULL)
+X      {
+X         fprintf(stderr, "(CreateList) Memory allocation failed.\n");
+X         Halt();
+X      }
+X      
+X      /*
+X       * Place the cells in the block into the pool
+X       */
+X      for (C = Block; C - Block < CellBlockSize; C++)
+X         FreeCell(C);
+X   }
+X   
+X   NewCell(L);
+X   L->Next = L;
+X   L->Prev = L;
+X   L->Item = Nil;
+X      /*
+X       * A list anchor has the `Nil' item so that `ListNext' and `ListPrev'
+X       * return `Nil' to signal completion of a list traversal.
+X       */
+X   
+X   return L;
+X}
+X
+X
+X/*
+X * DestroyList -- Destroy a list
+X *
+X */
+XVoid DestroyList
+X   
+X#ifdef Ansi
+X   (register List *L)
+X#else
+X   (L) register List *L;
+X#endif
+X
+X{
+X   L->Prev->Next = CellPool;
+X   CellPool = L;
+X}
+X
+X
+X/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+X *
+X * Arbitrary access
+X *
+X */
+X
+X
+X/*
+X * ListInsertBefore -- Insert item into list before given cell
+X *
+X */
+XCell *ListInsertBefore
+X   
+X#ifdef Ansi
+X   (Item I, Cell *C)
+X#else
+X   (I, C) Item I; Cell *C;
+X#endif
+X
+X{
+X   register Cell *P, *Block;
+X   
+X   if (CellPool == Nil)
+X   {
+X      /*
+X       * Allocate a block of cells
+X       */
+X      Block = (Cell *) Allocate(sizeof(Cell) * CellBlockSize);
+X      if (Block == NULL)
+X      {
+X         fprintf(stderr, "(ListInsert) Memory allocation failed.\n");
+X         Halt();
+X      }
+X      
+X      /*
+X       * Place the cells in the block into the pool
+X       */
+X      for (P = Block; P - Block < CellBlockSize; P++)
+X         FreeCell(P);
+X   }
+X
+X   NewCell(P);
+X   P->Item = I;
+X   P->Prev = C->Prev;
+X   P->Next = C;
+X   P->Prev->Next = P;
+X   P->Next->Prev = P;
+X   
+X   return P;
+X}
+X
+X
+X/*
+X * ListInsertAfter -- Insert item into list after given cell
+X *
+X */
+XCell *ListInsertAfter
+X
+X#ifdef Ansi
+X   (Item I, Cell *C)
+X#else
+X   (I, C) Item I; Cell *C;
+X#endif
+X
+X{
+X   return ListInsertBefore(I, C->Next);
+X}
+X
+X
+X/*
+X * ListDelete -- Delete cell from list
+X *
+X * Returns the item of the deleted cell.
+X *
+X */
+XItem ListDelete
+X   
+X#ifdef Ansi
+X   (register Cell *C)
+X#else
+X   (C) register Cell *C;
+X#endif
+X
+X{
+X   C->Prev->Next = C->Next;
+X   C->Next->Prev = C->Prev;
+X   FreeCell(C);
+X   
+X   return C->Item;
+X}
+X
+X
+X/*
+X * ListEject -- Eject cell from list
+X *
+X */
+XVoid ListEject
+X   
+X#ifdef Ansi
+X   (register Cell *C)
+X#else
+X   (C) register Cell *C;
+X#endif
+X
+X{
+X   C->Prev->Next = C->Next;
+X   C->Next->Prev = C->Prev;
+X}
+X
+X
+X/*
+X * ListInject -- Inject ejected cell back into list
+X *
+X * Adjacent ejected cells must be injected in reverse order.
+X *
+X */
+XVoid ListInject
+X   
+X#ifdef Ansi
+X   (register Cell *C)
+X#else
+X   (C) register Cell *C;
+X#endif
+X
+X{
+X   C->Prev->Next = C;
+X   C->Next->Prev = C;
+X}
+X
+X
+X/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+X *
+X * Stacks, queues, and deques
+X *
+X */
+X
+X
+X/*
+X * ListPush -- Push item onto front of list
+X *
+X */
+XCell *ListPush
+X   
+X#ifdef Ansi
+X   (Item I, List *L)
+X#else
+X   (I, L) Item I; List *L;
+X#endif
+X
+X{
+X   return ListInsertBefore(I, L->Next);
+X}
+X
+X
+X/*
+X * ListPop -- Pop item off front of list
+X *
+X */
+XItem ListPop
+X   
+X#ifdef Ansi
+X   (List *L)
+X#else
+X   (L) List *L;
+X#endif
+X
+X{
+X   return !ListIsEmpty(L) ? ListDelete(L->Next) : Nil;
+X}
+X
+X
+X/*
+X * ListPut -- Put item onto rear of list
+X *
+X */
+XCell *ListPut
+X   
+X#ifdef Ansi
+X   (Item I, List *L)
+X#else
+X   (I, L) Item I; List *L;
+X#endif
+X
+X{
+X   return ListInsertAfter(I, L->Prev);
+X}
+X
+X
+X/*
+X * ListPull -- Pull item off rear of list
+X *
+X */
+XItem ListPull
+X   
+X#ifdef Ansi
+X   (register List *L)
+X#else
+X   (L) register List *L;
+X#endif
+X
+X{
+X   return !ListIsEmpty(L) ? ListDelete(L->Prev) : Nil;
+X}
+X
+X
+X/*
+X * ListFront -- Item on front of list
+X *
+X */
+XItem ListFront
+X   
+X#ifdef Ansi
+X   (List *L)
+X#else
+X   (L) List *L;
+X#endif
+X
+X{
+X   return !ListIsEmpty(L) ? L->Next->Item : Nil;
+X}
+X
+X
+X/*
+X * ListRear -- Item at rear of list
+X *
+X */
+XItem ListRear
+X   
+X#ifdef Ansi
+X   (List *L)
+X#else
+X   (L) List *L;
+X#endif
+X
+X{
+X   return !ListIsEmpty(L) ? L->Prev->Item : Nil;
+X}
+X
+X
+X/*
+X * ListIsEmpty -- Is the list empty?
+X *
+X */
+Xint ListIsEmpty
+X   
+X#ifdef Ansi
+X   (List *L)
+X#else
+X   (L) List *L;
+X#endif
+X
+X{
+X   return L->Next == L;
+X}
+X
+X
+X/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+X *
+X * Iteration
+X *
+X */
+X
+X
+X/*
+X * The file `list.h' provides macros to iterate over lists.  A generic loop
+X * using these macros looks like,
+X *
+X *    List *L; ListCell *P; ListData D;
+X *
+X *    P = ListHead(L);
+X *    while (D = ListNext(P))
+X *       ;
+X *
+X * `ListNext' returns the value `Nil' on termination.  Consequently, no list
+X * can contain the value `Nil'.
+X *
+X */
+X
+X
+X/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+X *
+X * Copying, concatenation, reversal, and size
+X *
+X */
+X
+X
+X/*
+X * ListCopy -- Create a copy of a list
+X *
+X */
+XList *ListCopy
+X   
+X#ifdef Ansi
+X   (List *L)
+X#else
+X   (L) List *L;
+X#endif
+X
+X{
+X   register List *C;
+X   register Cell *P;
+X   register Item X;
+X
+X   C = CreateList();
+X   
+X   P = ListHead(L);
+X   while ((X = ListNext(P)))
+X      ListPut(X, C);
+X   
+X   return C;
+X}
+X
+X
+X/*
+X * ListCat -- Concatenate the second list onto the first, destructively
+X *
+X */
+XList *ListCat
+X   
+X#ifdef Ansi
+X   (register List *A, register List *B)
+X#else
+X   (A, B) register List *A, *B;
+X#endif
+X
+X{
+X   if (!ListIsEmpty(B))
+X   {
+X      A->Prev->Next = B->Next;
+X      B->Next->Prev = A->Prev;
+X      
+X      A->Prev = B->Prev;
+X      B->Prev->Next = A;
+X      
+X      B->Next = B->Prev = B;
+X   }
+X   
+X   return A;
+X}
+X
+X
+X/*
+X * ListReverse -- Reverse a list destructively
+X *
+X * This is a linear time operation.
+X *
+X */
+XList *ListReverse
+X   
+X#ifdef Ansi
+X   (register List *A)
+X#else
+X   (A) register List *A;
+X#endif
+X
+X{
+X   register List *B;
+X   register Item X;
+X
+X   
+X   B = CreateList();
+X   while ((X = ListPop(A)))
+X      ListPush(X, B);
+X   
+X   ListCat(A, B);
+X   DestroyList(B);
+X   
+X   return A;
+X}
+X
+X
+X/*
+X * ListSize -- Size of list
+X *
+X * This is a linear time operation.
+X *
+X */
+Xint ListSize
+X   
+X#ifdef Ansi
+X   (register List *L)
+X#else
+X   (L) register List *L;
+X#endif
+X
+X{
+X   register Cell *P;
+X   register int n;
+X
+X   n = 0;
+X   for (P = ListHead(L); ListNext(P); )
+X      n += 1;
+X   return n;
+X}
+X
+END_OF_list.c
+if test 7424 -ne `wc -c <list.c`; then
+    echo shar: \"list.c\" unpacked with wrong size!
+fi
+# end of overwriting check
+fi
+if test -f matching.c -a "${1}" != "-c" ; then 
+  echo shar: Will not over-write existing file \"matching.c\"
+else
+echo shar: Extracting \"matching.c\" \(22665 characters\)
+sed "s/^X//" >matching.c <<'END_OF_matching.c'
+X/*
+X * matching.c -- Maximum cardinality matching of a general graph
+X */
+X
+X/*
+X * Copyright 1996 by John Kececioglu
+X */
+X
+X
+X/*
+X * Synopsis
+X *
+X * This is an implementation of Edmond's algorithm for computing a maximum
+X * cardinality matching of a general graph.  For a graph of n vertices and
+X * m edges, it runs in O(n m alpha(n,m)) time, where alpha(n,m) is an inverse
+X * of Ackermann's function.
+X *
+X * To reduce the number of phases of Edmond's algorithm, the implementation
+X * begins with a maximal matching obtained by a greedy heuristic in
+X * O(m + n) time.  This initial matching always has at least half the number
+X * of edges of a maximum matching.
+X *
+X * See:  Robert Endre Tarjan, Data Structures and Network Algorithms,
+X * Society for Industrial and Applied Mathematics, Philadelphia, pp. 113-123,
+X * 1983.
+X *
+X */
+X
+X/*
+X * Author
+X *
+X * John Kececioglu
+X * kece@cs.uga.edu
+X *
+X * Department of Computer Science
+X * The University of Georgia
+X * Athens, GA 30602
+X *
+X */
+X
+X/*
+X * History
+X *
+X * 6 November 1997 JDK
+X * Implemented a more careful ordering of edges that are pushed on the
+X * depth-first search stack.  Edges that form blossoms appear after edges
+X * that do not.  Also, on encountering an edges that forms an augmenting
+X * path, no more edges are pushed onto the search stack.
+X *
+X * 5 November 1997 JDK
+X * Sped up the greedy maximal matching algorithm using a discrete bucketed heap
+X * of vertices prioritized by degree, instead of a pairing heap as before.
+X * This reduces the running time to O(n + m), down from O(n log n + m).
+X *
+X * Fixed a bug in Augment:  the procedure only expanded blossoms on the
+X * augmenting path, which is incorrect.  The code now expands all blossoms
+X * in the alternating tree that contains the augmenting path.
+X *
+X * 3 March 1997 JDK
+X * Fixed a bug in MaximalMatching:  the reuse of the OriginalVertexLabel
+X * macro from the maximum-cardinality matching code in the maximal matching
+X * code, which cast the return value of OriginalLabel into a pointer to a
+X * VertexAttribute, meant that the offset in the struct for the field
+X * OriginalVertexLabelField was not correct.  A new OriginalMaximalVertexLabel
+X * macro was added that correctly cast the return value of OriginalLabel into
+X * a pointer to a MaximalVertexAttribute.
+X *
+X * 3 March 1997 JDK
+X * Fixed a bug in Shrink:  in the loop that pushed onto the search stack the
+X * edges incident to odd vertices on the odd-length cycle, the variable E,
+X * which held the bridge edge along the cycle, was re-used as the loop
+X * variable, destroying the original value of E.
+X *
+X * 28 February 1997 JDK
+X * Fixed a bug in the implementation discovered by Justin Pecqueur.
+X * The old implementation used a stack of vertices to grow the alternating
+X * tree, and as a consequence was not performing a true depth-first search.
+X * This caused the following invariant, that an edge between two even-labeled
+X * vertices forms an odd-length alternating cycle, to not hold.  The new
+X * implementation uses a stack of edges to grow the alternating tree, and
+X * performs a true depth-first search.
+X *
+X * 17 December 1996 JDK
+X * Completed the initial implementation with help from Justin Pecqueur.
+X *
+X */
+X
+X
+X/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+X *
+X * Includes
+X *
+X */
+X
+X
+X#include <stdio.h>
+X#include "matching.h"
+X#include "set.h"
+X
+X
+X/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+X *
+X * Types
+X *
+X */
+X
+X
+Xtypedef ListCell Cell;
+X
+Xtypedef struct
+X{
+X   Vertex *BaseField;
+X}
+XSetAttribute;
+X
+Xtypedef struct
+X{
+X   Element *BlossomField;
+X   Edge    *MatchField;
+X   Edge    *TreeField;
+X   Edge    *BridgeField;
+X   Vertex  *ShoreField;
+X   short    LabelField;
+X   int      AgeField;
+X   Cell    *SelfField;
+X   VertexData    OriginalVertexLabelField;
+X   SetAttribute *OriginalSetLabelField;
+X
+X   
+X#ifdef Debug
+X   
+X   int   NameField;
+X   List *MembersField;
+X   List *ChildrenField;
+X   
+X#endif /* Debug */
+X   
+X   
+X}
+XVertexAttribute;
+X
+X
+X/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+X *
+X * Macros
+X *
+X */
+X
+X
+X#define False 0
+X#define True  1
+X
+X#define EvenLabel      2
+X#define OddLabel       3
+X#define UnreachedLabel 4
+X
+X
+X#define Blossom(V) (((VertexAttribute *) VertexLabel(V))->BlossomField)
+X#define Match(V)   (((VertexAttribute *) VertexLabel(V))->MatchField)
+X#define Tree(V)    (((VertexAttribute *) VertexLabel(V))->TreeField)
+X#define Bridge(V)  (((VertexAttribute *) VertexLabel(V))->BridgeField)
+X#define Shore(V)   (((VertexAttribute *) VertexLabel(V))->ShoreField)
+X#define Label(V)   (((VertexAttribute *) VertexLabel(V))->LabelField)
+X#define Age(V)     (((VertexAttribute *) VertexLabel(V))->AgeField)
+X#define Self(V)    (((VertexAttribute *) VertexLabel(V))->SelfField)
+X
+X#define OriginalVertexLabel(V) \
+X        (((VertexAttribute *) VertexLabel(V))->OriginalVertexLabelField)
+X
+X#define OriginalSetLabel(V) \
+X        (((VertexAttribute *) VertexLabel(V))->OriginalSetLabelField)
+X
+X#define Base(E) \
+X        (((SetAttribute *) SetLabel(E))->BaseField)
+X
+X#define IsMatched(V) (Match(V) != Nil)
+X#define IsReached(V) (Label(V) != UnreachedLabel)
+X#define IsEven(V)    (Label(V) == EvenLabel)
+X#define IsOdd(V)     (Label(V) == OddLabel)
+X
+X#define Other(E, V) (((E) == Nil) ? Nil : EdgeOther(E, V))
+X
+X
+X#ifdef Debug
+X
+X#define Name(V) \
+X        ((V) != Nil ? ((VertexAttribute *) VertexLabel(V))->NameField : 0)
+X
+X#define Members(V) \
+X        (((VertexAttribute *) VertexLabel(V))->MembersField)
+X
+X#define Children(V) \
+X        (((VertexAttribute *) VertexLabel(V))->ChildrenField)
+X
+X#endif /* Debug */
+X
+X
+X/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+X *
+X * Function declarations
+X *
+X */
+X
+X
+Xstatic Void Initialize
+X   Proto(( Graph *, List * ));
+X
+Xstatic Void Terminate
+X   Proto(( Graph * ));
+X
+Xstatic short Search
+X   Proto(( Vertex *, List **, List ** ));
+X
+Xstatic List *Recover
+X   Proto(( Vertex * ));
+X
+Xstatic Void Shrink
+X   Proto(( Edge *, List ** ));
+X
+Xstatic Void Augment
+X   Proto(( List *, List * ));
+X
+Xstatic Void Path
+X   Proto(( Vertex *, Vertex *, List * ));
+X
+Xstatic List *Matching
+X   Proto(( Graph * ));
+X
+Xstatic Void Error
+X   Proto(( char * ));
+X
+X
+X#ifdef Debug
+X
+Xstatic Void DumpAlternatingForest
+X   Proto(( Void ));
+X
+Xstatic Void Traverse
+X   Proto(( Vertex *, Edge *, int ));
+X
+X#endif /* Debug */
+X
+X
+X/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+X *
+X * Global variables
+X *
+X */
+X
+X
+Xstatic VertexAttribute *VertexAttributes;
+X
+Xstatic SetAttribute *SetAttributes;
+X
+Xstatic int Time;
+X
+X
+X#ifdef Debug
+X
+Xstatic Graph *UnderlyingGraph;
+X
+X#endif /* Debug */
+X
+X
+X/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+X *
+X * Computing a maximum cardinality matching
+X *
+X */
+X
+X
+X/*
+X * MaximumCardinalityMatching -- Compute a maximum cardinality matching of
+X *                               a nonbipartite graph
+X *
+X * This implementation of Edmond's algorithm runs in O(n m alpha(n,m)) time
+X * for a graph with n vertices and m edges, where alpha(n,m) is the amortized
+X * time per operation for the disjoint-set data structure.
+X *
+X * A list of the edges in a maximum matching is returned.
+X *
+X */
+XList *MaximumCardinalityMatching
+X
+X#ifdef Ansi
+X   (Graph *G)
+X#else
+X   (G) Graph *G;
+X#endif
+X
+X{
+X   List   *Roots;
+X   Vertex *V;
+X   List   *M;
+X   List   *P, *T;
+X   Cell   *C;  
+X   
+X   Initialize(G, CreateList());
+X   Roots = CreateList();
+X   ForAllGraphVertices(V, G, C)
+X      if (!IsMatched(V))
+X         Self(V) = ListPut(V, Roots);
+X   
+X   while ((V = ListGet(Roots)))
+X      if (Search(V, &P, &T))
+X         Augment(P, T);
+X   M = Matching(G);
+X      
+X   DestroyList(Roots);
+X   Terminate(G);
+X   
+X   return M;
+X}
+X
+X
+X/*
+X * Initialize -- Given an approximate matching, initialize the vertex, edge,
+X *               and disjoint set data structures for the maximum cardinality
+X *               matching computation
+X *
+X */
+Xstatic Void Initialize
+X   
+X#ifdef Ansi
+X   (Graph *G, List *M)
+X#else
+X   (G, M) Graph *G; List *M;
+X#endif
+X
+X{
+X   Cell   *P;
+X   Vertex *V;
+X   Edge   *E;
+X   VertexAttribute *A;
+X   SetAttribute    *B;
+X
+X   
+X#ifdef Debug
+X   
+X   int N;
+X   
+X   N = 1;
+X   UnderlyingGraph = G;
+X   
+X#endif /* Debug */
+X
+X   
+X   Time = 1;
+X   VertexAttributes = (VertexAttribute *)
+X      Allocate(ListSize(GraphVertices(G)) * sizeof(VertexAttribute));
+X   SetAttributes = (SetAttribute *)
+X      Allocate(ListSize(GraphVertices(G)) * sizeof(SetAttribute));
+X   if (VertexAttributes == NULL || SetAttributes == NULL)
+X      Error("(MaximumCardinalityMatching) Memory allocation failed.");
+X  
+X   A = VertexAttributes;
+X   B = SetAttributes;
+X   ForAllGraphVertices(V, G, P)
+X   {
+X      Element   *X;
+X      VertexData D;
+X
+X      D = VertexRelabel(V, A);
+X      X = CreateElement(B);
+X      Match(V) = Nil;
+X      Label(V) = UnreachedLabel;
+X      Age(V) = 0;
+X      Self(V) = Nil;
+X      Blossom(V) = X;
+X      Base(X) = V;
+X      OriginalVertexLabel(V) = D;
+X      OriginalSetLabel(V) = B;
+X
+X      
+X#ifdef Debug
+X      
+X      A->NameField = N++;
+X      
+X#endif /* Debug */
+X
+X      
+X      A++;
+X      B++;
+X   }
+X
+X   ForAllListElements(E, M, Edge *, P)
+X   {
+X      Match(EdgeFrom(E)) = E;
+X      Match(EdgeTo(E)) = E;
+X   }
+X   DestroyList(M);
+X}
+X
+X
+X/*
+X * Terminate -- Free the vertex, edge, and disjoint set data structures used
+X *              by the matchings computation
+X *
+X */
+Xstatic Void Terminate
+X
+X#ifdef Ansi
+X   (Graph *G)
+X#else
+X   (G) Graph *G;
+X#endif
+X
+X{
+X   Cell   *P;
+X   Vertex *V;
+X   
+X   ForAllGraphVertices(V, G, P)
+X   {
+X      DestroyElement(Blossom(V));
+X      VertexRelabel(V, OriginalVertexLabel(V));
+X   }
+X   
+X   Free(VertexAttributes);
+X   Free(SetAttributes);
+X}
+X
+X
+X/*
+X * Search -- Explore an alternating tree rooted at V in depth-first order
+X *
+X * Returns true if an augmenting path starting from V exists.  If such a
+X * path exists, the unmatched edges on the path are returned through P,
+X * and all vertices in the alternating tree containing the path are returned
+X * through Q.
+X *
+X */
+Xstatic short Search
+X
+X#ifdef Ansi
+X   (Vertex *V, List **P, List **Q)
+X#else
+X   (V, P, Q) Vertex *V; List **P, **Q;
+X#endif
+X
+X{
+X   register short   Found;
+X   register Vertex *W;
+X   register Vertex *X, *Y, *Z;
+X   auto     Edge   *E, *F;
+X   auto     List   *S, *T, *U;
+X   register Cell   *C, *D;
+X  
+X   Label(V) = EvenLabel;
+X   Age(V) = Time++;
+X   Found = False;
+X
+X   T = CreateList();
+X   ListPut(V, T);
+X   
+X   S = CreateList();
+X   ForAllIncidentEdges(V, E, C, D)
+X   {
+X      ListPush(E, S);
+X
+X      W = Other(E, V);
+X      if (!IsReached(W) && !IsMatched(W))
+X         break;
+X   }
+X   
+X   while (!ListIsEmpty(S) && !Found)
+X   {
+X      E = ListPop(S);
+X      X = Base(Blossom(EdgeFrom(E)));
+X      Y = Base(Blossom(EdgeTo(E)));
+X      if (X == Y)
+X         continue;
+X      if (!IsEven(X))
+X      {
+X         Z = X;
+X         X = Y;
+X         Y = Z;
+X      }
+X         
+X      if (!IsReached(Y) && !IsMatched(Y))
+X      {
+X         Label(Y) = OddLabel;
+X         Tree(Y) = E;
+X         Age(Y) = Time++;
+X         ListPut(Y, T);
+X            
+X         U = Recover(Y);
+X         ListDelete(Self(Y));
+X               
+X         Found = True;
+X         break;
+X      }
+X         
+X      else if (!IsReached(Y) && IsMatched(Y))
+X      {
+X         Label(Y) = OddLabel;
+X         Tree(Y) = E;
+X         Age(Y) = Time++;
+X         ListPut(Y, T);
+X               
+X         F = Match(Y);
+X         Z = Other(F, Y);
+X         Label(Z) = EvenLabel;
+X         Age(Z) = Time++;
+X         ListPut(Z, T);
+X
+X         ForAllIncidentEdges(Z, E, C, D)
+X            if (E != F)
+X            {
+X               ListPush(E, S);
+X               
+X               W = Other(E, Z);
+X               if (!IsReached(W) && !IsMatched(W))
+X                  break;
+X            }
+X      }
+X         
+X      else if (IsEven(Y))
+X         Shrink(E, &S);
+X   }
+X   DestroyList(S);
+X
+X   if (!Found)
+X   {
+X      DestroyList(T);
+X      *P = Nil;
+X      *Q = Nil;
+X   }
+X   else
+X   {
+X      *P = U;
+X      *Q = T;
+X   }
+X   
+X   return Found;
+X}
+X
+X
+X/*
+X * Recover -- Recover an augmenting path ending at vertex V by walking
+X *            up the tree back to the root.
+X *
+X * Returns a list of the unmatched edges on the path.
+X *
+X */
+Xstatic List *Recover
+X
+X#ifdef Ansi
+X   (register Vertex *V)
+X#else
+X   (V) register Vertex *V;
+X#endif
+X
+X{
+X   register Vertex *W, *B;
+X   register List   *P;
+X
+X   P = CreateList();
+X   
+X   do
+X   {
+X      ListPut(Tree(V), P);
+X
+X      W = Other(Tree(V), V);
+X      B = Base(Blossom(W));
+X      Path(W, B, P);
+X
+X      V = Other(Match(B), B);
+X   }
+X   while (V != Nil);
+X
+X   return P;
+X}
+X
+X
+X/*
+X * Path -- Recursively recover the even-length piece of an alternating path
+X *         that begins at vertex V with a matched edge and ends at base B
+X *         of its blossom
+X *
+X * The unmatched edges on the path are added to list P, and are in arbitrary
+X * order.
+X *
+X */
+Xstatic Void Path
+X
+X#ifdef Ansi
+X   (register Vertex *V, Vertex *B, List *P)
+X#else
+X   (V, B, P) register Vertex *V, *B; List *P;
+X#endif
+X
+X{
+X   register Vertex *W;
+X  
+X   if (V != B)
+X      if (IsOdd(V))
+X      {
+X         Path(Shore(V), Other(Match(V), V), P);
+X         ListPut(Bridge(V), P);
+X         Path(Other(Bridge(V), Shore(V)), B, P);
+X      }
+X      else if (IsEven(V))
+X      {
+X         W = Other(Match(V), V);
+X         ListPut(Tree(W), P);
+X         Path(Other(Tree(W), W), B, P);
+X      }
+X      else
+X         Error("(Path) Internal error.");
+X}
+X
+X
+X/*
+X * Shrink -- Given an edge E between two even blossoms, shrink the implied
+X *           cycle in the alternating tree into a superblossom
+X *
+X * Edges incident to odd vertices on the blossom are added to the stack S
+X * of search edges.
+X *
+X */
+Xstatic Void Shrink
+X
+X#ifdef Ansi
+X   (Edge *E, List **S)
+X#else
+X   (E, S) Edge *E; List **S;
+X#endif
+X
+X{
+X   auto     short    Found;
+X   register Vertex  *V, *W;
+X   register Vertex  *A, *B;
+X   register Element *X, *Y;
+X  
+X   V = EdgeFrom(E);
+X   W = EdgeTo(E);
+X   X = Blossom(V);
+X   Y = Blossom(W);
+X   B = Base(X);
+X   A = Base(Y);
+X   if (Age(A) > Age(B))
+X   {
+X      Vertex  *C;
+X      Element *Z;
+X      
+X      C = A;
+X      A = B;
+X      B = C;
+X      
+X      C = V;
+X      V = W;
+X      W = C;
+X
+X      Z = X;
+X      X = Y;
+X      Y = Z;
+X   }
+X   
+X   /*
+X    * Walk up the alternating tree from vertex V to vertex A, shrinking
+X    * the blossoms into a superblossom.  Edges incident to the odd vertices
+X    * on the path from V to A are pushed onto stack S, to later search from.
+X    */
+X   Found = False;
+X   while (B != A)
+X   {
+X      Cell   *C, *D;
+X      Vertex *Z;
+X      Edge   *F, *M, *T;
+X  
+X      M = Match(B);
+X      W = Other(M, B);
+X      Bridge(W) = E;
+X      Shore(W) = V;
+X      
+X      T = Tree(W);
+X      if (!Found)
+X         ForAllIncidentEdges(W, F, C, D)
+X            if (F != M && F != T)
+X            {
+X               ListPush(F, *S);
+X               
+X               Z = Other(F, W);
+X               if (!IsReached(Z) && !IsMatched(Z))
+X               {
+X                  Found = True;
+X                  break;
+X               }
+X            }
+X      
+X      Y = Blossom(W);
+X      X = SetUnion(Y, X);
+X      E = T;
+X      V = Other(E, W);
+X      
+X      Y = Blossom(V);
+X      X = SetUnion(Y, X);
+X      B = Base(X);
+X   }
+X}
+X
+X
+X/*
+X * Augment -- Augment the matching along augmenting path P, and expand
+X *            into singleton sets all original vertices in T
+X *
+X * This assumes list P contains only the unmatched edges on the path,
+X * and that list T contains all vertices in all blossoms in the alternating
+X * tree containing the augmenting path.
+X *
+X */
+Xstatic Void Augment
+X
+X#ifdef Ansi
+X   (List *P, List *T)
+X#else
+X   (P, T) List *P, *T;
+X#endif
+X
+X{
+X   register Vertex *V;
+X   register Edge   *E;
+X   register Cell   *C;
+X   
+X   ForAllEdges(E, P, C)
+X   {
+X      Match(EdgeFrom(E)) = E;
+X      Match(EdgeTo(E)) = E;
+X   }
+X
+X   ForAllVertices(V, T, C)
+X   {
+X      Element      *B;
+X      SetAttribute *L;
+X      
+X      Label(V) = UnreachedLabel;
+X      
+X      L = OriginalSetLabel(V);
+X      DestroyElement(Blossom(V));
+X      B = CreateElement(L);
+X      Blossom(V) = B;
+X      Base(B) = V;
+X   }
+X
+X   DestroyList(P);
+X   DestroyList(T);
+X}
+X
+X
+X/*
+X * Matching -- Recover the final matching from the vertex match fields
+X *
+X */
+Xstatic List *Matching
+X
+X#ifdef Ansi
+X   (Graph *G)
+X#else
+X   (G) Graph *G;
+X#endif
+X
+X{
+X   Vertex *V;
+X   Edge   *E;
+X   Cell   *P;
+X   List   *M;
+X  
+X   M = CreateList();
+X   
+X   ForAllGraphVertices(V, G, P)
+X   {
+X      E = Match(V);
+X      if (E != Nil && V == EdgeFrom(E))
+X         ListPut(E, M);
+X   }
+X   
+X   return M;
+X}
+X
+X
+X/*
+X * Error -- Print an error message and halt
+X *
+X */
+Xstatic Void Error
+X
+X#ifdef Ansi
+X   (char *message)
+X#else
+X   (message) char *message;
+X#endif
+X
+X{
+X   fprintf(stderr, "%s\n", message);
+X   Halt();
+X}
+X
+X
+X/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+X *
+X * Computing a maximal matching
+X *
+X */
+X
+X
+Xtypedef struct
+X{
+X   int    DegreeField;
+X   Cell  *EntryField;
+X   VertexData OriginalVertexLabelField;
+X}
+XMaximalVertexAttribute;
+X   
+X
+X#define Degree(V) (((MaximalVertexAttribute *) VertexLabel(V))->DegreeField)
+X#define Entry(V)  (((MaximalVertexAttribute *) VertexLabel(V))->EntryField)
+X
+X#define OriginalMaximalVertexLabel(V) \
+X        (((MaximalVertexAttribute *) VertexLabel(V))->OriginalVertexLabelField)
+X
+X
+X/*
+X * MaximalMatching -- Compute a maximal matching of a nonbipartite graph
+X *
+X * A matching is maximal if no edge can be added to it.  This implementation
+X * runs in O(m + n) time for a graph with m edges and n vertices.  A maximal
+X * matching always has at least half the number of edges in a maximum
+X * cardinality matching.
+X *
+X * The maximal matching that is returned is a greedy matching in the sense that
+X * an edge is always added that is lexicographically minimum with respect to
+X * the degrees of the two vertices touched by an edge, where degree is with
+X * respect to the vertex subgraph induced by unmatched vertices.
+X *
+X */
+XList *MaximalMatching
+X
+X#ifdef Ansi
+X   (Graph *G)
+X#else
+X   (G) Graph *G;
+X#endif
+X
+X{
+X   MaximalVertexAttribute *VertexAttributes, *A;
+X   
+X   register int     I, D;
+X   auto     int     N;
+X   register Cell   *P, *Q;
+X   auto     List   *M;
+X   register List  **Heap;
+X   register Vertex *U, *V, *W;
+X   register Edge   *E, *F;
+X
+X   
+X   N = ListSize(GraphVertices(G));
+X   VertexAttributes = (MaximalVertexAttribute *)
+X      Allocate(N * sizeof(MaximalVertexAttribute));
+X   Heap = (List **) Allocate((N - 1) * sizeof(List *));
+X   if (VertexAttributes == NULL || Heap == NULL)
+X      Error("(MaximalMatching) Memory allocation failed.");
+X   Heap -= 1;
+X
+X   A = VertexAttributes;
+X   ForAllGraphVertices(V, G, P)
+X   {
+X      VertexData D;
+X
+X      D = VertexRelabel(V, A);
+X      OriginalMaximalVertexLabel(V) = D;
+X      A++;
+X   }
+X   
+X   ForAllGraphVertices(V, G, P)
+X      Degree(V) = 0;
+X   ForAllGraphEdges(E, G, P)
+X   {
+X      Degree(EdgeFrom(E)) += 1;
+X      Degree(EdgeTo(E)) += 1;
+X   }
+X   
+X   for (I = 1; I < N; I++)
+X      Heap[I] = CreateList();
+X   D = N;
+X   ForAllGraphVertices(V, G, P)
+X   {
+X      I = Degree(V);
+X      if (I > 0)
+X      {
+X         Entry(V) = ListPut(V, Heap[I]);
+X         if (I < D)
+X            D = I;
+X      }
+X      else
+X         Entry(V) = Nil;
+X   }
+X
+X   M = CreateList();
+X   for (;;)
+X   {
+X      V = Nil;
+X      for (; D < N; D++)
+X         if (!ListIsEmpty(Heap[D]))
+X         {
+X            V = (Vertex *) ListFront(Heap[D]);
+X            break;
+X         }
+X      if (!V)
+X         break;
+X
+X      I = N;
+X      ForAllIncidentEdges(V, F, P, Q)
+X      {
+X         U = Other(F, V);
+X         if (Entry(U) && Degree(U) < I)
+X         {
+X            E = F;
+X            I = Degree(U);
+X         }
+X      }
+X      ListPut(E, M);
+X
+X      W = Other(E, V);
+X      ListDelete(Entry(V));
+X      ListDelete(Entry(W));
+X      Entry(V) = Nil;
+X      Entry(W) = Nil;
+X
+X      ForAllIncidentEdges(V, F, P, Q)
+X      {
+X         U = Other(F, V);
+X         if (Entry(U))
+X         {
+X            ListDelete(Entry(U));
+X            I = (Degree(U) -= 1);
+X            if (I > 0)
+X            {
+X               Entry(U) = ListPut(U, Heap[I]);
+X               if (I < D)
+X                  D = I;
+X            }
+X            else
+X               Entry(U) = Nil;
+X         }
+X      }
+X      ForAllIncidentEdges(W, F, P, Q)
+X      {
+X         U = Other(F, W);
+X         if (Entry(U))
+X         {
+X            ListDelete(Entry(U));
+X            I = (Degree(U) -= 1);
+X            if (I > 0)
+X            {
+X               Entry(U) = ListPut(U, Heap[I]);
+X               if (I < D)
+X                  D = I;
+X            }
+X            else
+X               Entry(U) = Nil;
+X         }
+X      }
+X   }
+X
+X   for (I = 1; I < N; I++)
+X      DestroyList(Heap[I]);
+X   Heap += 1;
+X   Free(Heap);
+X   ForAllGraphVertices(V, G, P)
+X      VertexRelabel(V, OriginalMaximalVertexLabel(V));
+X   Free(VertexAttributes);
+X   
+X   return M;
+X}
+X
+X
+X/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+X *
+X * Debugging scaffolding
+X *
+X */
+X
+X
+X#ifdef Debug
+X
+X
+X/*
+X * DumpAlternatingForest -- Write to stderr a representation of the
+X *                          alternating forest
+X *
+X */
+Xstatic Void DumpAlternatingForest
+X
+X#ifdef Ansi
+X   (Void)
+X#else
+X   ()
+X#endif
+X
+X{
+X   Vertex *V;
+X   Cell   *P;
+X   
+X   ForAllGraphVertices(V, UnderlyingGraph, P)
+X   {
+X      if (V == Base(Blossom(V)))
+X         Members(V) = CreateList();
+X      Children(V) = CreateList();
+X   }
+X   
+X   ForAllGraphVertices(V, UnderlyingGraph, P)
+X   {
+X      ListPut(V, Members(Base(Blossom(V))));
+X      if (V == Base(Blossom(V)) && IsReached(V))
+X         if (IsEven(V))
+X         {
+X            if (IsMatched(V))
+X               ListPut(Match(V), Children(Other(Match(V), V)));
+X         }
+X         else /* IsOdd(V) */
+X         {
+X            ListPut(Tree(V),
+X                    Children(Base(Blossom(Other(Tree(V), V)))));
+X         }
+X            
+X   fprintf(stderr, "Alternating forest\n");
+X   ForAllGraphVertices(V, UnderlyingGraph, P)
+X      if (V == Base(Blossom(V)) && IsEven(V) && !IsMatched(V))
+X         Traverse(V, Nil, 0);
+X   fflush(stderr);
+X
+X   ForAllGraphVertices(V, UnderlyingGraph, P)
+X   {
+X      if (V == Base(Blossom(V)))
+X         DestroyList(Members(V));
+X      DestroyList(Children(V));
+X   }
+X}
+X
+X
+X/*
+X * Traverse -- Preorder traversal of a subtree of the alternating tree
+X *
+X */
+Xstatic Void Traverse
+X
+X#ifdef Ansi
+X   (Vertex *V, Edge *E, int D)
+X#else
+X   (V, E, D) Vertex *V; Edge *E; int D;
+X#endif
+X
+X{
+X   Vertex *W, *A, *B;
+X   Cell   *P;
+X   int     i;
+X   
+X   for (i = 1; i <= D; i++)
+X      fprintf(stderr, "%s", " ");
+X   fprintf(stderr, "{");
+X   ForAllVertices(W, Members(Base(Blossom(V))), P)
+X      fprintf(stderr, "%s%d",
+X              W == ListFront(Members(Base(Blossom(V)))) ? "" : " ",
+X              Name(W));
+X   fprintf(stderr, "}");
+X   fprintf(stderr, " %s", IsEven(V) ? "even" : "odd");
+X   if (E)
+X      fprintf(stderr, " (%d, %d)", Name(EdgeFrom(E)), Name(EdgeTo(E)));
+X   fprintf(stderr, "\n");
+X   
+X   ForAllEdges(E, Children(V), P)
+X   {
+X      A = Base(Blossom(EdgeFrom(E)));
+X      B = Base(Blossom(EdgeTo(E)));
+X      if (A != V)
+X         Traverse(A, E, D + 1);
+X      else
+X         Traverse(B, E, D + 1);
+X   }
+X}
+X
+X
+X#endif /* Debug */
+END_OF_matching.c
+if test 22665 -ne `wc -c <matching.c`; then
+    echo shar: \"matching.c\" unpacked with wrong size!
+fi
+# end of overwriting check
+fi
+if test -f set.c -a "${1}" != "-c" ; then 
+  echo shar: Will not over-write existing file \"set.c\"
+else
+echo shar: Extracting \"set.c\" \(3977 characters\)
+sed "s/^X//" >set.c <<'END_OF_set.c'
+X/*
+X * set.c -- Disjoint sets
+X */
+X
+X/*
+X * Copyright 1989 by John Kececioglu
+X */
+X
+X
+X/*
+X * Synopsis
+X *
+X * This is an implementation of Tarjan's disjoint set data structure,
+X * with union by rank, and path halving.  A sequence of n union and
+X * m find operations on a universe of n elements takes O(n + m A(m,n)) time,
+X * where A(m,n) is an inverse of Ackermann's function.  For most conceivable
+X * applications, A(m,n) is a constant.
+X *
+X * See the book, Robert Endre Tarjan, Data Structures and Network Algorithms,
+X * Society for Industrial and Applied Mathematics, Philadelphia, 23-31, 1983.
+X *
+X */
+X
+X/*
+X * Author
+X *
+X * John Kececioglu
+X * kece@cs.uga.edu
+X *
+X * Department of Computer Science
+X * The University of Georgia
+X * Athens, GA 30602
+X *
+X */
+X
+X/*
+X * History
+X *
+X * 7 March 1997 JDK
+X * Restructured the interface to use only an element type, and not a set type.
+X * A call to Union now passes two arbitrary elements, and the sets containing
+X * them are unioned if they are disjoint.
+X *
+X * 26 June 1994 JDK
+X * Made the naming of functions and structures consistent with other libraries.
+X *
+X */
+X
+X
+X#include <stdio.h>
+X#include "set.h"
+X
+X
+X#define BlockSize 8 /* Number of elements allocated per memory request */
+X
+X
+Xtypedef SetData Data;
+X
+X
+Xstatic Element *Pool = Nil; /* Pool of free elements */
+X
+X
+X/*
+X * Element pool maintenance
+X */
+X#define FreeElement(E) (((E)->Up = Pool), Pool = (E))
+X#define NewElement(E)  (((E) = Pool), Pool = Pool->Up)
+X
+X
+X/*
+X * CreateElement -- Create a set element
+X *
+X * The element is the member of an implicit singleton set.  The data supplied
+X * on creation labels this set.
+X *
+X */
+XElement *CreateElement
+X   
+X#ifdef Ansi
+X   (Data D)
+X#else
+X   (D) Data D;
+X#endif
+X
+X{
+X   register Element *E;
+X	
+X   if (Pool == Nil)
+X   {
+X      register Element *Block;
+X      
+X      /*
+X       * Allocate a block of elements
+X       */
+X      Block = (Element *) Allocate(sizeof(Element) * BlockSize);
+X      if (Block == NULL)
+X      {
+X         fprintf(stderr, "(CreateElement) Memory allocation failed.\n");
+X         Halt();
+X      }
+X
+X      /*
+X       * Place the elements in the block into the pool
+X       */
+X      for (E = Block; E - Block < BlockSize; E++)
+X         FreeElement(E);
+X   }
+X   
+X   NewElement(E);
+X   E->Up = E;
+X   E->Rank = 0;
+X   E->Label = D;
+X   
+X   return E;
+X}
+X
+X
+X/*
+X * DestroyElement -- Destroy a set element
+X *
+X * Destruction of an element also destroys the implicit set containing it,
+X * but not the other members of the set.
+X *
+X */
+XVoid DestroyElement
+X
+X#ifdef Ansi
+X   (register Element *E)
+X#else
+X   (E) register Element *E;
+X#endif
+X
+X{
+X   FreeElement(E);
+X}
+X
+X
+X/*
+X * SetUnion -- Destructive union of two disjoint sets
+X *
+X * The sets containing the two specified elements are unioned if they
+X * are disjoint, and a representative element of the unioned set is returned.
+X *
+X * The data labeling the unioned set is the data labeling the set containing
+X * the first argument (i.e. the second set is destructively merged into the
+X * first).
+X *
+X */
+XElement *SetUnion
+X
+X#ifdef Ansi
+X   (register Element *E, register Element *F)
+X#else
+X   (E, F) register Element *E, *F;
+X#endif
+X
+X{
+X   register Data D;
+X   
+X   E = SetFind(E);
+X   F = SetFind(F);
+X   if (E == F)
+X      return E;
+X   
+X   D = E->Label;
+X   if (E->Rank < F->Rank)
+X   {
+X      E->Up = F;
+X      F->Label = D;
+X      return F;
+X   }
+X   else if (E->Rank > F->Rank)
+X   {
+X      F->Up = E;
+X      return E;
+X   }
+X   else
+X   {
+X      E->Rank += 1;
+X      F->Up = E;
+X      return E;
+X   }
+X}
+X
+X
+X/*
+X * SetFind -- Find the set containing a given element
+X *
+X * A representative element of the containing set is returned.
+X *
+X */
+XElement *SetFind
+X
+X#ifdef Ansi
+X   (register Element *E)
+X#else
+X   (E) register Element *E;
+X#endif
+X
+X{
+X   while (E->Up->Up != E->Up)
+X      E = E->Up = E->Up->Up;
+X   return E->Up;
+X}
+X
+X
+X/*
+X * SetLabel -- Return the data labeling a set
+X *
+X * The set is the one containing the specified element.
+X *
+X */
+XData SetLabel
+X
+X#ifdef Ansi
+X   (register Element *E)
+X#else
+X   (E) register Element *E;
+X#endif
+X
+X{
+X   return SetFind(E)->Label;
+X}
+END_OF_set.c
+if test 3977 -ne `wc -c <set.c`; then
+    echo shar: \"set.c\" unpacked with wrong size!
+fi
+# end of overwriting check
+fi
+if test -f graph.h -a "${1}" != "-c" ; then 
+  echo shar: Will not over-write existing file \"graph.h\"
+else
+echo shar: Extracting \"graph.h\" \(4421 characters\)
+sed "s/^X//" >graph.h <<'END_OF_graph.h'
+X/*
+X * graph.h -- Directed graph definitions
+X */
+X
+X/*
+X * Copyright 1989, 1992, 1996 by John Kececioglu
+X */
+X
+X
+X#ifndef GraphInclude
+X#define GraphInclude
+X
+X
+X#include <stdio.h>
+X#include "portable.h"
+X#include "list.h"
+X
+X
+X/*
+X * Graph attribute types
+X */
+Xtypedef Pointer GraphData;
+Xtypedef Pointer VertexData;
+Xtypedef Pointer EdgeData;
+X
+X/*
+X * Directed graph
+X */
+Xtypedef struct GraphStruct {
+X   List *Vertices;
+X   List *Edges;
+X   GraphData Label; /* Graph attribute */
+X      /*
+X       * `Vertices' is reused for the pool of free graphs
+X       */
+X} Graph;
+X
+X/*
+X * Graph vertex
+X */
+Xtypedef struct {
+X   List *In;         /* In-edges */
+X   List *Out;        /* Out-edges */
+X   ListCell *Self;   /* Cell on graph vertex list */
+X   VertexData Label; /* Vertex attribute */
+X      /*
+X       * `Self' is reused for the pool of free vertices
+X       */
+X} Vertex;
+X
+X/*
+X * Directed edge
+X */
+Xtypedef struct {
+X   Vertex *From;   /* Source vertex of edge */
+X   Vertex *To;     /* Target vertex of edge */
+X   ListCell *In;   /* Cell on in-edge list of target vertex */
+X   ListCell *Out;  /* Cell on out-edge list of source vertex */
+X   ListCell *Self; /* Cell on graph edge list */
+X   EdgeData Label; /* Edge attribute */
+X      /*
+X       * `Self' is reused for the pool of free edges
+X       */
+X} Edge;
+X
+X
+X/*
+X * Graphs
+X */
+Xextern Graph *CreateGraph  Proto(( GraphData D ));
+Xextern Void   DestroyGraph Proto(( Graph *G ));
+X   
+Xextern List     *GraphVertices Proto(( Graph *G ));
+Xextern List     *GraphEdges    Proto(( Graph *G ));
+Xextern GraphData GraphLabel    Proto(( Graph *G ));
+Xextern GraphData GraphRelabel  Proto(( Graph *G, GraphData D ));
+X
+X
+X/*
+X * Vertices
+X */
+Xextern Vertex *CreateVertex  Proto(( Graph *G, VertexData D ));
+Xextern Void    DestroyVertex Proto(( Vertex *V));
+X   
+Xextern List      *VertexIn      Proto(( Vertex *V ));
+Xextern List      *VertexOut     Proto(( Vertex *V ));
+Xextern VertexData VertexLabel   Proto(( Vertex *V ));
+Xextern VertexData VertexRelabel Proto(( Vertex *V, VertexData D ));
+X   
+Xextern Void VertexEject  Proto(( Vertex *V ));
+Xextern Void VertexInject Proto(( Vertex *V ));
+X
+X
+X/*
+X * Edges
+X */
+Xextern Edge *CreateEdge  Proto(( Graph *G, Vertex *V, Vertex *W, EdgeData D ));
+Xextern Void  DestroyEdge Proto(( Edge *E ));
+X   
+Xextern Vertex  *EdgeFrom    Proto(( Edge *E ));
+Xextern Vertex  *EdgeTo      Proto(( Edge *E ));
+Xextern EdgeData EdgeLabel   Proto(( Edge *E ));
+Xextern EdgeData EdgeRelabel Proto(( Edge *E, EdgeData D ));
+X   
+Xextern Void EdgeEject  Proto(( Edge *E ));
+Xextern Void EdgeInject Proto(( Edge *E ));
+X
+X
+X/*
+X * Reading and writing
+X */
+Xextern Void WriteGraph
+X   Proto(( Graph *G, FILE *stream ));
+X
+Xextern Graph *ReadGraph
+X   Proto(( FILE *stream ));
+X
+Xextern Void WriteEdgeWeightedGraph
+X   Proto(( Graph *G, float (*Weight)(Edge *), FILE *stream ));
+X
+Xextern Graph *ReadEdgeWeightedGraph
+X   Proto(( FILE *stream, float (**Weight)(Edge *) ));
+X
+X
+X/*
+X * Iteration
+X */
+X#define ForAllVertices(V, L, P) \
+X        ForAllListElements(V, L, Vertex *, P)
+X
+X#define ForAllGraphVertices(V, G, P) \
+X        ForAllVertices(V, GraphVertices(G), P)
+X
+X#define ForAllInVertices(V, W, P) \
+X        for ((P) = ListHead(VertexIn(V)); \
+X             (W) = (ListItem(P) ? EdgeFrom((Edge *) ListNext(P)) : Nil); )
+X
+X#define ForAllOutVertices(V, W, P) \
+X        for ((P) = ListHead(VertexOut(V)); \
+X             (W) = (ListItem(P) ? EdgeTo((Edge *) ListNext(P)) : Nil); )
+X
+X#define ForAllEdges(E, L, P) \
+X        ForAllListElements(E, L, Edge *, P)
+X
+X#define ForAllGraphEdges(E, G, P) \
+X        ForAllEdges(E, GraphEdges(G), P)
+X
+X#define ForAllInEdges(V, E, P) \
+X        ForAllEdges(E, VertexIn(V), P)
+X
+X#define ForAllOutEdges(V, E, P) \
+X        ForAllEdges(E, VertexOut(V), P)
+X
+X#define ForAllIncidentEdges(V, E, P, Q) \
+X        for ((P) = ListHead(VertexIn(V)), \
+X             (Q) = ListHead(VertexOut(V)); \
+X             ((E) = (Edge *) ListItem(P)) || \
+X             ((E) = (Edge *) ListItem(Q)); \
+X             ListItem(P) ? ListNext(P) : ListNext(Q))
+X
+X#define ForAllAdjacentVertices(V, W, P, Q) \
+X        for ((P) = ListHead(VertexIn(V)), \
+X             (Q) = ListHead(VertexOut(V)); \
+X             (ListItem(P) ? ((W) = EdgeFrom((Edge *) ListItem(P)), 1) : 0) || \
+X             (ListItem(Q) ? ((W) = EdgeTo(  (Edge *) ListItem(Q)), 1) : 0); \
+X             ListItem(P) ? ListNext(P) : ListNext(Q))
+X
+X#define EdgeOther(E, V) \
+X        (EdgeFrom(E) != (V) ? EdgeFrom(E) : EdgeTo(E))
+X
+X                         
+X#endif /* GraphInclude */
+END_OF_graph.h
+if test 4421 -ne `wc -c <graph.h`; then
+    echo shar: \"graph.h\" unpacked with wrong size!
+fi
+# end of overwriting check
+fi
+if test -f list.h -a "${1}" != "-c" ; then 
+  echo shar: Will not over-write existing file \"list.h\"
+else
+echo shar: Extracting \"list.h\" \(2136 characters\)
+sed "s/^X//" >list.h <<'END_OF_list.h'
+X/*
+X * list.h -- Linear list definitions
+X */
+X
+X/*
+X * Copyright 1989, 1992 by John Kececioglu
+X */
+X
+X
+X#ifndef ListInclude
+X#define ListInclude
+X
+X
+X#include "portable.h"
+X
+X
+X/*
+X * Nil pointer
+X */
+X#ifndef Nil
+X#define Nil 0
+X#endif
+X
+X/*
+X * List item
+X */
+Xtypedef Pointer ListData;
+X
+X/*
+X * List cell
+X */
+Xtypedef struct ListStruct {
+X   ListData Item;
+X   struct ListStruct *Prev;
+X   struct ListStruct *Next;
+X      /*
+X       * `Next' is reused for the pool of free cells
+X       */
+X} List, ListCell;
+X
+X
+X/*
+X * Creation and destruction
+X */
+Xextern List *CreateList Proto(( Void ));
+Xextern Void DestroyList Proto(( List *L ));
+X
+X   
+X/*
+X * Arbitrary access
+X */
+Xextern ListCell *ListInsertBefore Proto(( ListData X, List *L ));
+Xextern ListCell *ListInsertAfter  Proto(( ListData X, List *L ));
+Xextern ListData ListDelete        Proto(( ListCell *P ));
+Xextern Void     ListInject        Proto(( ListCell *P ));
+Xextern Void     ListEject         Proto(( ListCell *P ));
+X
+X
+X/*
+X * Stacks
+X */
+Xextern ListCell *ListPush Proto(( ListData X, List *L ));
+Xextern ListData ListPop   Proto(( List *L ));
+X   
+Xextern int ListIsEmpty Proto(( List *L ));
+X
+X#define ListTop(L) ListFront(L)
+X
+X   
+X/*
+X * Queues and deques
+X */
+Xextern ListCell *ListPut  Proto(( ListData X, List *L ));
+Xextern ListData ListPull  Proto(( List *L ));
+Xextern ListData ListFront Proto(( List *L ));
+Xextern ListData ListRear  Proto(( List *L ));
+X
+X#define ListGet(L) ListPop(L)
+X
+X   
+X/*
+X * Copying, concatenation, reversal, and size
+X */
+Xextern List *ListCopy    Proto(( List *L ));
+Xextern List *ListCat     Proto(( List *A, List *B ));
+Xextern List *ListReverse Proto(( List *L ));
+Xextern int  ListSize     Proto(( List *L ));
+X
+X   
+X/*
+X * Iteration
+X */
+X#define ListHead(List) ((List)->Next)
+X#define ListTail(List) ((List)->Prev)
+X#define ListItem(Cell) ((Cell)->Item)
+X#define ListNext(Cell) (((Cell) = (Cell)->Next), (Cell)->Prev->Item)
+X#define ListPrev(Cell) (((Cell) = (Cell)->Prev), (Cell)->Next->Item)
+X
+X#define ForAllListElements(Variable, List, Type, Cell) \
+X        for((Cell) = ListHead(List); \
+X            ((Variable) = (Type) ListItem(Cell)); \
+X            (Void) ListNext(Cell))
+X
+X
+X#endif /* ListInclude */
+END_OF_list.h
+if test 2136 -ne `wc -c <list.h`; then
+    echo shar: \"list.h\" unpacked with wrong size!
+fi
+# end of overwriting check
+fi
+if test -f matching.h -a "${1}" != "-c" ; then 
+  echo shar: Will not over-write existing file \"matching.h\"
+else
+echo shar: Extracting \"matching.h\" \(355 characters\)
+sed "s/^X//" >matching.h <<'END_OF_matching.h'
+X/*
+X * matching.h -- Maximum cardinality matching definitions
+X */
+X
+X/*
+X * Copyright 1996 by John Kececioglu
+X */
+X
+X
+X#ifndef MatchingInclude
+X#define MatchingInclude
+X 
+X
+X#include "list.h"
+X#include "graph.h"
+X
+X
+Xextern List *MaximumCardinalityMatching Proto(( Graph *G ));
+Xextern List *MaximalMatching            Proto(( Graph *G ));
+X
+X
+X#endif /* MatchingInclude */
+END_OF_matching.h
+if test 355 -ne `wc -c <matching.h`; then
+    echo shar: \"matching.h\" unpacked with wrong size!
+fi
+# end of overwriting check
+fi
+if test -f portable.h -a "${1}" != "-c" ; then 
+  echo shar: Will not over-write existing file \"portable.h\"
+else
+echo shar: Extracting \"portable.h\" \(1171 characters\)
+sed "s/^X//" >portable.h <<'END_OF_portable.h'
+X/*
+X * portable.h -- Isolate system dependencies for code portability
+X */
+X
+X/*
+X * Copyright 1989 by John Kececioglu
+X */
+X
+X
+X#ifndef PortableInclude
+X#define PortableInclude
+X
+X
+X#define Ansi
+X   /*
+X    * Should not be defined if the compiler does not support the ANSI standard
+X    */
+X
+X
+X/*
+X * Argument lists for function prototypes
+X */
+X#ifdef Ansi
+X#define Proto(arguments) arguments
+X#else
+X#define Proto(arguments) ()
+X#endif
+X
+X
+X/*
+X * Void data type
+X */
+X#ifdef Ansi
+Xtypedef void Void;
+X#else
+Xtypedef int Void;
+X#endif
+X
+X
+X/*
+X * Generic pointer data type
+X */
+X#ifdef Ansi
+Xtypedef void *Pointer;
+X#else
+Xtypedef char *Pointer;
+X#endif
+X
+X
+X/*
+X * Dynamic memory allocation
+X */
+X#ifdef Ansi
+X#include <stdlib.h>
+X#define MallocArgumentType size_t
+X#else
+X#define MallocArgumentType unsigned int
+X#endif
+X
+X#define Allocate(bytes) malloc((MallocArgumentType) (bytes))
+X#define Free(memory)    free((Pointer) (memory))
+X
+X
+X/*
+X * Halting the program
+X */
+X#define Halt() exit(1)
+X
+X
+X/*
+X * Random number generation
+X */
+X#define MaximumRandomInteger         ((long) 2147483647)
+X#define GenerateRandomInteger()      ((long) lrand48())
+X#define SeedRandomIntegerGenerator() srand48((long) 1)
+X
+X
+X#endif /* PortableInclude */
+END_OF_portable.h
+if test 1171 -ne `wc -c <portable.h`; then
+    echo shar: \"portable.h\" unpacked with wrong size!
+fi
+# end of overwriting check
+fi
+if test -f set.h -a "${1}" != "-c" ; then 
+  echo shar: Will not over-write existing file \"set.h\"
+else
+echo shar: Extracting \"set.h\" \(777 characters\)
+sed "s/^X//" >set.h <<'END_OF_set.h'
+X/*
+X * disjointset.h -- Disjoint set definitions
+X */
+X
+X/*
+X * Copyright 1989 by John Kececioglu
+X */
+X
+X
+X#ifndef SetInclude
+X#define SetInclude
+X
+X
+X#include "portable.h"
+X
+X
+X/*
+X * Nil pointer
+X */
+X#ifndef Nil
+X#define Nil 0
+X#endif
+X
+X/*
+X * Data associated with a set
+X */
+Xtypedef Pointer SetData;
+X
+X/*
+X * Element of a set
+X */
+Xtypedef struct ElementStruct {
+X   SetData Label;
+X   int Rank;
+X   struct ElementStruct *Up;
+X      /*
+X       * `Up' is reused for the pool of free elements
+X       */
+X} Element;
+X
+X
+Xextern Element *CreateElement Proto(( SetData D ));
+Xextern Void    DestroyElement Proto(( Element *E ));
+X
+Xextern Element *SetFind  Proto(( Element *E ));
+Xextern Element *SetUnion Proto(( Element *E, Element *F ));
+X   
+Xextern SetData SetLabel Proto(( Element *E ));
+X
+X
+X#endif /* SetInclude */
+END_OF_set.h
+if test 777 -ne `wc -c <set.h`; then
+    echo shar: \"set.h\" unpacked with wrong size!
+fi
+# end of overwriting check
+fi
+echo shar: End of shell archive.
+exit 0

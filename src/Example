@@ -1,0 +1,72 @@
+vertices 36
+edges 48
+
+edge 1 2
+edge 2 3
+edge 3 1
+
+edge 2 4
+edge 4 5
+
+edge 5 6
+edge 6 7
+edge 7 5
+
+edge 7 9
+
+edge 8 9
+edge 9 10
+edge 10 8
+
+edge 8 11
+edge 11 3
+
+edge 6 12
+edge 12 13
+
+edge 13 14
+edge 14 15
+edge 15 13
+
+edge 14 16
+edge 16 17
+
+edge 17 18
+edge 18 19
+edge 19 17
+
+edge 19 21
+
+edge 20 21
+edge 21 22
+edge 22 20
+
+edge 20 23
+edge 23 15
+
+edge 18 27
+
+edge 25 27
+edge 27 28
+
+edge 28 29
+edge 29 30
+edge 30 28
+
+edge 30 33
+
+edge 31 32
+edge 32 33
+edge 33 31
+
+edge 31 34
+edge 34 26
+
+edge 24 25
+edge 25 26
+edge 26 24
+
+edge 24 35
+edge 35 11
+
+edge 35 36
