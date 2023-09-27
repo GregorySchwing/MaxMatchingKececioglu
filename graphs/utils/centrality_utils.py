@@ -17,19 +17,19 @@ def calculate_centrality_and_triangles(G, alpha, num_vertices, output_file):
         import cudf
 
         # Calculate degree centrality using cuGraph
-        degree_centrality = cugraph.centrality.degree_centrality(G_cugraph)
+        degree_centrality = cugraph.centrality.degree_centrality(G)
 
         # Calculate betweenness centrality using cuGraph
-        betweenness_centrality = cugraph.centrality.betweenness_centrality(G_cugraph)
+        betweenness_centrality = cugraph.centrality.betweenness_centrality(G)
 
         # Calculate closeness centrality using cuGraph
-        closeness_centrality = cugraph.centrality.closeness_centrality(G_cugraph)
+        closeness_centrality = cugraph.centrality.closeness_centrality(G)
 
         # Calculate eigenvector centrality using cuGraph
-        eigenvector_centrality = cugraph.centrality.eigenvector_centrality(G_cugraph)
+        eigenvector_centrality = cugraph.centrality.eigenvector_centrality(G)
 
         # Calculate Katz centrality using cuGraph
-        katz_centrality = cugraph.centrality.katz_centrality(G_cugraph, alpha=alpha)
+        katz_centrality = cugraph.centrality.katz_centrality(G, alpha=alpha)
     else:
         # Calculate centrality measures using NetworkX
         degree_centrality = nx.degree_centrality(G)
