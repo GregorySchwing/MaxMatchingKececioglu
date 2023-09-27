@@ -8,4 +8,4 @@ git submodule update
 cd PaRMAT/Release
 make
 cd ../../RMAT
-bash test_cugraph.sh
+bash test.sh
