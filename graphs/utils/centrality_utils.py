@@ -16,11 +16,6 @@ def calculate_centrality_and_triangles(G, alpha, num_vertices, output_file):
         import cugraph
         import cudf
 
-        # Convert the NetworkX edge list to a cuGraph graph
-        edges_df = pd.DataFrame(list(G.edges), columns=["src", "dst"])
-        G_cugraph = cugraph.Graph()
-        G_cugraph.from_cudf_edgelist(cudf.from_pandas(edges_df), source="src", destination="dst")
-
         # Calculate degree centrality using cuGraph
         degree_centrality = cugraph.centrality.degree_centrality(G_cugraph)
 
