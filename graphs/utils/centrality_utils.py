@@ -39,11 +39,11 @@ def calculate_centrality_and_triangles(G, alpha, num_vertices, k, p, output_file
         katz_centrality = nx.katz_centrality(G, alpha=alpha)
 
     # Calculate clustering coefficient using NetworkX
-    clustering_coefficient = nx.average_clustering(G)
-
+    #clustering_coefficient = nx.average_clustering(G)
+    clustering_coefficient=0
     # Calculate the number of triangles
-    triangles = sum(nx.triangles(G).values()) // 3
-
+    #triangles = sum(nx.triangles(G).values()) // 3
+    triangles = 0
     # Append to log file
     append_to_log_file(num_vertices, k, p, output_file, clustering_coefficient,
                        degree_centrality, betweenness_centrality, closeness_centrality,
