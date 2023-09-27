@@ -27,7 +27,7 @@ edges_df = pd.DataFrame(list(G_networkx.edges), columns=["src", "dst"])
 G_cugraph = cnx.from_pandas_edgelist(edges_df, source="src", destination="dst")
 
 # Calculate the Single-Source Shortest Paths (SSSP) using cuGraph
-sssp_df = cnx.sssp.sssp(G_cugraph, 0)  # Assuming source node 0
+sssp_df = cnx.shortest_path(G_cugraph, source=0)  # Assuming source node 0
 
 # Calculate the average path length using cuGraph
 average_path_length = sssp_df['distance'].mean()
