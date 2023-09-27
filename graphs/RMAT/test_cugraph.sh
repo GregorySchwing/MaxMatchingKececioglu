@@ -13,7 +13,7 @@ filename="${VERTICES}_${EDGES}_RMAT.txt"
 a=0.45
 b=0.22
 c=0.22
-python generate_rmat_graph.py $VERTICES $a $b $c $filename 1
+python generate_rmat_graph.py $VERTICES $EDGES $a $b $c $filename 1
 ../../src/matching $filenameKece
 rm $filenameKece
 #cp $filenameShifted $filenameBlossV
