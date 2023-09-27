@@ -1,6 +1,4 @@
 #!/bin/bash
-
-
 C=10
 for i in {5..5}
 do
