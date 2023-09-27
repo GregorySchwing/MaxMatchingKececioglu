@@ -9,7 +9,7 @@ try:
 except ImportError:
     cugraph_available = False
 
-def calculate_centrality_and_triangles(G, alpha, num_vertices, output_file):
+def calculate_centrality_and_triangles(G, num_vertices, output_file):
     if cugraph_available:
         import cugraph
         import cudf
@@ -24,13 +24,13 @@ def calculate_centrality_and_triangles(G, alpha, num_vertices, output_file):
         eigenvector_centrality = cugraph.centrality.eigenvector_centrality(G)
 
         # Calculate Katz centrality using cuGraph
-        katz_centrality = cugraph.centrality.katz_centrality(G, alpha=alpha)
+        katz_centrality = cugraph.centrality.katz_centrality(G)
     else:
         # Calculate centrality measures using NetworkX
         degree_centrality = nx.degree_centrality(G)
         betweenness_centrality = nx.betweenness_centrality(G)
         eigenvector_centrality = nx.eigenvector_centrality(G)
-        katz_centrality = nx.katz_centrality(G, alpha=alpha)
+        katz_centrality = nx.katz_centrality(G)
 
     # Calculate clustering coefficient using NetworkX
     clustering_coefficient = 0
@@ -42,11 +42,11 @@ def calculate_centrality_and_triangles(G, alpha, num_vertices, output_file):
                        eigenvector_centrality, katz_centrality, triangles)
 
     # Save histogram data to CSV files
-    save_histogram_data(degree_centrality, "DegreeCentrality", base_filename)
-    save_histogram_data(betweenness_centrality, "BetweennessCentrality", base_filename)
+    save_histogram_data(degree_centrality, "DegreeCentrality", output_file)
+    save_histogram_data(betweenness_centrality, "BetweennessCentrality", output_file)
     # save_histogram_data(closeness_centrality, "ClosenessCentrality", base_filename) # Removed
-    save_histogram_data(eigenvector_centrality, "EigenvectorCentrality", base_filename)
-    save_histogram_data(katz_centrality, "KatzCentrality", base_filename)
+    save_histogram_data(eigenvector_centrality, "EigenvectorCentrality", output_file)
+    save_histogram_data(katz_centrality, "KatzCentrality", output_file)
 
 def append_to_log_file(num_vertices, output_file, clustering_coefficient,
                        degree_centrality, betweenness_centrality,
@@ -78,13 +78,13 @@ def append_to_log_file(num_vertices, output_file, clustering_coefficient,
 
     log_df.to_csv("log.csv", index=False)
 
-def save_histogram_data(centrality_values, centrality_name, base_filename):
+def save_histogram_data(centrality_values, centrality_name, output_file):
     histogram_data, bin_edges = np.histogram(list(centrality_values.values()), bins=20)
     histogram_df = pd.DataFrame({
         "BinEdges": bin_edges[:-1],
         "Frequency": histogram_data
     })
-    histogram_df.to_csv(f"../utils/{base_filename}_{centrality_name}_histogram.csv", index=False)
+    histogram_df.to_csv(f"../utils/{output_file}_{centrality_name}_histogram.csv", index=False)
 
 def write_edge_list(G, output_file):
     try:
