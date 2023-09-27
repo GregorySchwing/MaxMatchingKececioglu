@@ -18,7 +18,7 @@ filenameMTX="${filenameKece}.mtx"
 python kidney.py -N $VERTICES -M $EDGES -output $filenameKece --O_prob $o --A_prob $a --B_prob $b --AB_prob $ab
 echo $filenameKece
 echo $filenameMTX
-exit 1
+
 ../../src/matching $filenameKece
 /home/greg/mvm/src/cpu $filenameMTX
 /home/greg/mvm/src/a.out $filenameMTX 0 1
