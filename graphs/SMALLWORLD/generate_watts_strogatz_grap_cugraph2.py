@@ -83,6 +83,16 @@ log_df = log_df.append({
 
 log_df.to_csv("log.csv", index=False)
 
+# Write the edge list to the file with the specified format
+with open(output_file, "w") as file:
+    # Write the header lines
+    file.write(f"vertices {num_vertices}\n")
+    file.write(f"edges {G_cugraph.number_of_edges()}\n")
+    
+    # Write each edge with the "edge" prefix, adding 1 to each vertex
+    for edge in G_cugraph.edges().to_pandas():
+        file.write(f"edge {edge['src']+1} {edge['dst']+1}\n")
+
 # Create histograms and save histogram data to CSV files
 def save_histogram_data(centrality_values, centrality_name):
     histogram_data, bin_edges = np.histogram(centrality_values.to_array(), bins=20)
@@ -90,13 +100,5 @@ def save_histogram_data(centrality_values, centrality_name):
         "BinEdges": bin_edges[:-1],
         "Frequency": histogram_data
     })
-    histogram_df.to_csv(f"{base_filename}_{centrality_name}_histogram.csv", index=False)
-
-save_histogram_data(degree_centrality, "DegreeCentrality")
-save_histogram_data(betweenness_centrality, "BetweennessCentrality")
-save_histogram_data(closeness_centrality, "ClosenessCentrality")
-save_histogram_data(eigenvector_centrality, "EigenvectorCentrality")
-save_histogram_data(katz_centrality, "KatzCentrality")
-
-print("Watts-Strogatz small-world graph with {} vertices and {} edges (vertices incremented by 1) written to {}.".format(num_vertices, G_cugraph.number_of_edges(), output_file))
+    histogram_df.to_csv(f"{base
 
