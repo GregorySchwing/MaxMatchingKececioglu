@@ -37,7 +37,7 @@ def calculate_centrality_and_triangles(G, num_vertices, num_edges, output_file):
     # Calculate the number of triangles
     triangles = 0
     # Append to log file
-    append_to_log_file(num_vertices, output_file, clustering_coefficient,
+    append_to_log_file(num_vertices, num_edges, output_file, clustering_coefficient,
                        degree_centrality, betweenness_centrality,
                        eigenvector_centrality, katz_centrality, triangles)
 
