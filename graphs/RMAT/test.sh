@@ -13,7 +13,7 @@ filename="${VERTICES}_${EDGES}_RMAT.txt"
 filenameShifted="${VERTICES}_${EDGES}_RMAT_start_from_1.txt"
 filenameKece="${VERTICES}_${EDGES}_RMAT_Kece.txt"
 filenameBlossV="${VERTICES}_${EDGES}_RMAT_blossV.txt"
-../Release/PaRMAT -nVertices ${VERTICES} -nEdges ${EDGES} -output $filename -threads 16 -sorted -noEdgeToSelf -noDuplicateEdges -undirected
+../PaRMAT/Release/PaRMAT -nVertices ${VERTICES} -nEdges ${EDGES} -output $filename -threads 16 -sorted -noEdgeToSelf -noDuplicateEdges -undirected
 
 awk -v s=1 '{print $1+s, $2+s}' $filename > $filenameShifted
 
@@ -23,7 +23,7 @@ rm $filenameShifted
 sed -i -e 's/^/edge /' $filenameKece
 sed -i "1s/^/vertices $VERTICES\n/" $filenameKece
 sed -i "2s/^/edges $EDGES\n/" $filenameKece
-../../MaxMatchingKececioglu/src/matching $filenameKece
+../../src/matching $filenameKece
 rm $filenameKece
 #cp $filenameShifted $filenameBlossV
 #sed -i -e 's/^/e /' $filenameBlossV

@@ -1,0 +1,3 @@
+[submodule "graphs/PaRMAT"]
+	path = graphs/PaRMAT
+	url = https://github.com/GregorySchwing/PaRMAT.git
