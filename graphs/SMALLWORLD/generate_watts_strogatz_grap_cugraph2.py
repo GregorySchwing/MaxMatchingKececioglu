@@ -94,5 +94,5 @@ save_histogram_data(closeness_centrality, "ClosenessCentrality")
 save_histogram_data(eigenvector_centrality, "EigenvectorCentrality")
 save_histogram_data(katz_centrality, "KatzCentrality")
 
-print(f"Watts-Strogatz small-world graph with {
+print("Watts-Strogatz small-world graph with {} vertices and {} edges (vertices incremented by 1) written to {}.".format(num_vertices, G_cugraph.number_of_edges(), output_file))
 
