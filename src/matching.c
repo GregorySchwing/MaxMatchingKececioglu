@@ -340,7 +340,7 @@ List *MaximumCardinalityMatchingTrack
       if (Search(V, &P, &T)){
          
          #ifdef Debug
-         fprintf(outputFileX, "%d\n",ListSize(P));
+         fprintf(outputFileX, "%d\n",2*ListSize(P)-1);
          fprintf(outputFileY, "%d\n",ListSize(T));
          #endif
          Augment(P, T);
