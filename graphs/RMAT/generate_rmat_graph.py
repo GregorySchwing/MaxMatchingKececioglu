@@ -23,6 +23,7 @@ calculate_triangles = False
 
 if len(sys.argv) == 7 and sys.argv[6].lower() == "true":
     calculate_triangles = True
+    print("Calc triangles")
 
 # Generate an RMAT graph using cuGraph
 G_cugraph = rmat(num_vertices, num_edges, a, b, c)
