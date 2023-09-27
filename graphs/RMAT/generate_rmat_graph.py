@@ -3,6 +3,7 @@
 import sys
 import os
 import networkx as nx
+import cugraph as cnx
 sys.path.insert(0, os.path.abspath('../utils'))  # Add the 'utils' directory to the Python path
 from centrality_utils import calculate_centrality_and_triangles, write_edge_list
 
@@ -23,7 +24,7 @@ if len(sys.argv) == 7 and sys.argv[6].lower() == "true":
     calculate_triangles = True
 
 # Generate an RMAT graph using cuGraph
-G_cugraph = cugraph.generators.rmat(num_vertices, num_edges, a, b, c)
+G_cugraph = cnx.generators.rmat(num_vertices, num_edges, a, b, c)
 
 # Calculate centrality measures if requested
 if calculate_triangles:
