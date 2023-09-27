@@ -26,8 +26,11 @@ G_networkx = nx.watts_strogatz_graph(num_vertices, k, p, seed=123)
 edges_df = pd.DataFrame(list(G_networkx.edges), columns=["src", "dst"])
 G_cugraph = cnx.from_pandas_edgelist(edges_df, source="src", destination="dst")
 
-# Calculate the average path length using cuGraph (SSSP)
-average_path_length = cnx.sssp.average_distance(G_cugraph)
+# Calculate the Single-Source Shortest Paths (SSSP) using cuGraph
+sssp_df = cnx.sssp.sssp(G_cugraph, 0)  # Assuming source node 0
+
+# Calculate the average path length using cuGraph
+average_path_length = sssp_df['distance'].mean()
 
 # Get the degree distribution
 degree_distribution = dict(nx.degree(G_networkx))
@@ -53,13 +56,13 @@ log_file_name = "log.txt"  # You can change the log file name as needed
 with open(log_file_name, "a") as log_file:
     log_file.write(f"Output file: {output_filename}\n")
     log_file.write(f"Command-line arguments: {sys.argv}\n")
-    log_file.write(f"Average path length: {average_path_length.mean()}\n")
+    log_file.write(f"Average path length: {average_path_length}\n")
 
 print(f"Watts-Strogatz small-world graph with {num_vertices} vertices and {G_cugraph.number_of_edges} edges (vertices incremented by 1) written to {output_filename}.")
 
 # Save average path length to a CSV file with input filename + _average_path_length.csv
 avg_path_length_file = f"{base_filename}_average_path_length.csv"
-avg_path_length_df = pd.DataFrame({"Average Path Length": [average_path_length.mean()]})
+avg_path_length_df = pd.DataFrame({"Average Path Length": [average_path_length]})
 avg_path_length_df.to_csv(avg_path_length_file, index=False)
 
 # Save degree distribution to a CSV file with input filename + _degree_distribution.csv
