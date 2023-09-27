@@ -1,8 +1,11 @@
 import os
-import pandas as pd
-import networkx as nx
 import random
+import numpy as np
+import pandas as pd
+import cudf  # Import cuDF
+import networkx as nx
 import matplotlib.pyplot as plt
+
 try:
     import cugraph
     cugraph_available = True
@@ -12,7 +15,6 @@ except ImportError:
 def calculate_centrality_and_triangles(G, num_vertices, num_edges, output_file):
     if cugraph_available:
         import cugraph
-        import cudf
 
         # Calculate degree centrality using cuGraph
         degree_centrality = cugraph.centrality.degree_centrality(G)
@@ -25,19 +27,21 @@ def calculate_centrality_and_triangles(G, num_vertices, num_edges, output_file):
 
         # Calculate Katz centrality using cuGraph
         katz_centrality = cugraph.centrality.katz_centrality(G)
+        
         # Calculate clustering coefficient using NetworkX
         clustering_coefficient = 0
+        
         # Calculate the number of triangles
         triangles = 0
+        
         # Append to log file
         append_to_log_file(num_vertices, num_edges, output_file, clustering_coefficient,
                         degree_centrality['degree_centrality'].mean(), betweenness_centrality['betweenness_centrality'],
                         eigenvector_centrality['eigenvector_centrality'], katz_centrality['katz_centrality'], triangles)
 
-        # Save histogram data to CSV files
+        # Save histogram data using cuDF
         save_histogram_data(degree_centrality['degree_centrality'], "DegreeCentrality", output_file)
         save_histogram_data(betweenness_centrality['betweenness_centrality'], "BetweennessCentrality", output_file)
-        # save_histogram_data(closeness_centrality, "ClosenessCentrality", base_filename) # Removed
         save_histogram_data(eigenvector_centrality['eigenvector_centrality'], "EigenvectorCentrality", output_file)
         save_histogram_data(katz_centrality['katz_centrality'], "KatzCentrality", output_file)
     else:
@@ -47,21 +51,22 @@ def calculate_centrality_and_triangles(G, num_vertices, num_edges, output_file):
         eigenvector_centrality = nx.eigenvector_centrality(G)
         katz_centrality = nx.katz_centrality(G)
 
-    # Calculate clustering coefficient using NetworkX
-    clustering_coefficient = 0
-    # Calculate the number of triangles
-    triangles = 0
-    # Append to log file
-    append_to_log_file(num_vertices, num_edges, output_file, clustering_coefficient,
+        # Calculate clustering coefficient using NetworkX
+        clustering_coefficient = 0
+        
+        # Calculate the number of triangles
+        triangles = 0
+        
+        # Append to log file
+        append_to_log_file(num_vertices, num_edges, output_file, clustering_coefficient,
                        degree_centrality, betweenness_centrality,
                        eigenvector_centrality, katz_centrality, triangles)
 
-    # Save histogram data to CSV files
-    save_histogram_data(degree_centrality, "DegreeCentrality", output_file)
-    save_histogram_data(betweenness_centrality, "BetweennessCentrality", output_file)
-    # save_histogram_data(closeness_centrality, "ClosenessCentrality", base_filename) # Removed
-    save_histogram_data(eigenvector_centrality, "EigenvectorCentrality", output_file)
-    save_histogram_data(katz_centrality, "KatzCentrality", output_file)
+        # Save histogram data using Pandas
+        save_histogram_data(list(degree_centrality.values()), "DegreeCentrality", output_file)
+        save_histogram_data(list(betweenness_centrality.values()), "BetweennessCentrality", output_file)
+        save_histogram_data(list(eigenvector_centrality.values()), "EigenvectorCentrality", output_file)
+        save_histogram_data(list(katz_centrality.values()), "KatzCentrality", output_file)
 
 def append_to_log_file(num_vertices, num_edges, output_file, clustering_coefficient,
                        degree_centrality, betweenness_centrality,
@@ -94,12 +99,16 @@ def append_to_log_file(num_vertices, num_edges, output_file, clustering_coeffici
     log_df.to_csv("log.csv", index=False)
 
 def save_histogram_data(centrality_values, centrality_name, output_file):
-    histogram_data, bin_edges = np.histogram(list(centrality_values.values()), bins=20)
-    histogram_df = pd.DataFrame({
+    histogram_data, bin_edges = np.histogram(centrality_values, bins=20)
+    
+    # Convert to cuDF DataFrame
+    histogram_df = cudf.DataFrame({
         "BinEdges": bin_edges[:-1],
         "Frequency": histogram_data
     })
-    histogram_df.to_csv(f"../utils/{output_file}_{centrality_name}_histogram.csv", index=False)
+    
+    # Save the cuDF DataFrame to CSV
+    histogram_df.to_pandas().to_csv(f"../utils/{output_file}_{centrality_name}_histogram.csv", index=False)
 
 def write_edge_list(G, output_file):
     try:
@@ -113,4 +122,3 @@ def write_edge_list(G, output_file):
         print(f"Edge list written to {output_file}")
     except Exception as e:
         print(f"An error occurred while writing the edge list to {output_file}: {e}")
-
