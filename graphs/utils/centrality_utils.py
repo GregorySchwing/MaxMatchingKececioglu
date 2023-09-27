@@ -6,7 +6,7 @@ import networkx as nx
 import random
 import matplotlib.pyplot as plt
 
-def calculate_centrality_and_triangles(G, alpha, num_vertices, k, p, output_file):
+def calculate_centrality_and_triangles(G, alpha, num_vertices, output_file):
     if "cugraph" in globals():
         import cugraph
         import cudf
@@ -45,7 +45,7 @@ def calculate_centrality_and_triangles(G, alpha, num_vertices, k, p, output_file
     #triangles = sum(nx.triangles(G).values()) // 3
     triangles = 0
     # Append to log file
-    append_to_log_file(num_vertices, k, p, output_file, clustering_coefficient,
+    append_to_log_file(num_vertices, output_file, clustering_coefficient,
                        degree_centrality, betweenness_centrality, closeness_centrality,
                        eigenvector_centrality, katz_centrality, triangles)
 
@@ -56,7 +56,7 @@ def calculate_centrality_and_triangles(G, alpha, num_vertices, k, p, output_file
     save_histogram_data(eigenvector_centrality, "EigenvectorCentrality", base_filename)
     save_histogram_data(katz_centrality, "KatzCentrality", base_filename)
 
-def append_to_log_file(num_vertices, k, p, output_file, clustering_coefficient,
+def append_to_log_file(num_vertices, output_file, clustering_coefficient,
                        degree_centrality, betweenness_centrality, closeness_centrality,
                        eigenvector_centrality, katz_centrality, triangles):
     # Extract the base filename without extension
@@ -75,7 +75,7 @@ def append_to_log_file(num_vertices, k, p, output_file, clustering_coefficient,
     log_df = log_df.append({
         "Vertices": num_vertices,
         "Edges": len(G.edges),
-        "Arguments": f"{num_vertices} {k} {p} {output_file}",
+        "Basefile": f"{output_file}",
         "ClusteringCoefficient": clustering_coefficient,
         "AverageDegreeCentrality": sum(degree_centrality.values()) / len(degree_centrality),
         "AverageBetweennessCentrality": sum(betweenness_centrality.values()) / len(betweenness_centrality),
