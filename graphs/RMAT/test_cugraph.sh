@@ -13,9 +13,9 @@ a=0.45
 b=0.22
 c=0.22
 python generate_rmat_graph.py $j $EDGES $a $b $c $filename true
-echo "Calling ../../src/matching $filenameKece"
-../../src/matching $filenameKece
-rm $filenameKece
+echo "Calling ../../src/matching $filename"
+../../src/matching $filename
+rm $filename
 #cp $filenameShifted $filenameBlossV
 #sed -i -e 's/^/e /' $filenameBlossV
 #sed -i -e 's/$/ 1/' -i $filenameBlossV
