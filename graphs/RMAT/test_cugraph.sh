@@ -13,6 +13,7 @@ a=0.45
 b=0.22
 c=0.22
 python generate_rmat_graph.py $j $EDGES $a $b $c $filename true
+echo "Calling ../../src/matching $filenameKece"
 ../../src/matching $filenameKece
 rm $filenameKece
 #cp $filenameShifted $filenameBlossV
