@@ -77,7 +77,7 @@ def add_edges_parallel(args):
             result.append((u, v))
     return result
 
-# Add edges in parallel
+# Add edges in parallel without progress bars
 with Pool(num_processes) as pool:
     result_edges = pool.map(add_edges_parallel, [(chunk, nx.get_node_attributes(G, 'blood_type'), 0.2) for chunk in edge_chunks])
 
@@ -94,29 +94,31 @@ if args.output is None:
 else:
     output_file = args.output
 
-# Write the edge list to the specified output file
-with open(output_file, "w") as file:
-    # Write the header lines for the original format
-    file.write(f"vertices {args.N}\n")
-    file.write(f"edges {G.number_of_edges()}\n")
+# Create a tqdm progress bar for sequential edge generation
+with tqdm(total=args.M, desc="Edges generated") as pbar_total:
+    # Write the edge list to the specified output file and update the progress bar
+    with open(output_file, "w") as file:
+        # Write the header lines for the original format
+        file.write(f"vertices {args.N}\n")
+        file.write(f"edges {G.number_of_edges()}\n")
 
-    # Write each edge with the "edge" prefix, adding 1 to each vertex
-    for edge in G.edges():
-        u, v = edge
-        file.write(f"edge {u + 1} {v + 1}\n")
-
-# If matrix_market_format is True, write the Matrix Market format to a separate file
-matrix_market_format = True
-if matrix_market_format:
-    matrix_market_file = output_file + ".mtx"
-    with open(matrix_market_file, "w") as mm_file:
-        mm_file.write("%%MatrixMarket matrix coordinate pattern symmetric\n")
-        mm_file.write(f"{args.N} {args.N} {G.number_of_edges()}\n")
+        # Write each edge with the "edge" prefix, adding 1 to each vertex
         for edge in G.edges():
             u, v = edge
-            mm_file.write(f"{u + 1} {v + 1}\n")
+            file.write(f"edge {u + 1} {v + 1}\n")
+            pbar_total.update(1)
 
-    print(f"Matrix Market format written to {matrix_market_file}.")
+    # If matrix_market_format is True, write the Matrix Market format to a separate file
+    matrix_market_format = True
+    if matrix_market_format:
+        matrix_market_file = output_file + ".mtx"
+        with open(matrix_market_file, "w") as mm_file:
+            mm_file.write("%%MatrixMarket matrix coordinate pattern symmetric\n")
+            mm_file.write(f"{args.N} {args.N} {G.number_of_edges()}\n")
+            for edge in G.edges():
+                u, v = edge
+                mm_file.write(f"{u + 1} {v + 1}\n")
+                pbar_total.update(1)
 
 # Print the number of connected components
 num_connected_components = nx.number_connected_components(G)
