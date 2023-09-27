@@ -6,7 +6,7 @@ for C in {2..10}
 do
 for i in {5..5}
 do
-for j in {1..20}
+for j in {1..5}
 do
 a=42  # Integer representation of 0.42
 b=10  # Integer representation of 0.10
@@ -35,7 +35,7 @@ for C in {2..10}
 do
 for i in {5..5}
 do
-for j in {1..20}
+for j in {1..5}
 do
 a=42  # Integer representation of 0.42
 b=10  # Integer representation of 0.10
