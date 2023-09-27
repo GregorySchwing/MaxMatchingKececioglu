@@ -27,8 +27,12 @@ def calculate_centrality_and_triangles(G, num_vertices, num_edges, output_file):
 
         # Calculate Katz centrality using cuGraph
         katz_centrality = cugraph.centrality.katz_centrality(G)
-
-        Gnx=nx.from_edgelist(G.view_edge_list())
+        # Convert the cuGraph graph to a Pandas DataFrame
+        edge_list_df = pd.DataFrame({
+            'source': G.edges()['src'],
+            'destination': G.edges()['dst']
+        })
+        Gnx=nx.from_df(edge_list_df)
         # Calculate clustering coefficient using NetworkX
         clustering_coefficient = nx.clustering(Gnx)
         
