@@ -1,5 +1,3 @@
-# centrality_utils.py
-
 import os
 import pandas as pd
 import networkx as nx
@@ -10,8 +8,8 @@ try:
     cugraph_available = True
 except ImportError:
     cugraph_available = False
-def calculate_centrality_and_triangles(G, alpha, num_vertices, output_file):
 
+def calculate_centrality_and_triangles(G, alpha, num_vertices, output_file):
     if cugraph_available:
         import cugraph
         import cudf
@@ -22,9 +20,6 @@ def calculate_centrality_and_triangles(G, alpha, num_vertices, output_file):
         # Calculate betweenness centrality using cuGraph
         betweenness_centrality = cugraph.centrality.betweenness_centrality(G)
 
-        # Calculate closeness centrality using cuGraph
-        closeness_centrality = cugraph.centrality.closeness_centrality(G)
-
         # Calculate eigenvector centrality using cuGraph
         eigenvector_centrality = cugraph.centrality.eigenvector_centrality(G)
 
@@ -34,37 +29,34 @@ def calculate_centrality_and_triangles(G, alpha, num_vertices, output_file):
         # Calculate centrality measures using NetworkX
         degree_centrality = nx.degree_centrality(G)
         betweenness_centrality = nx.betweenness_centrality(G)
-        closeness_centrality = nx.closeness_centrality(G)
         eigenvector_centrality = nx.eigenvector_centrality(G)
         katz_centrality = nx.katz_centrality(G, alpha=alpha)
 
     # Calculate clustering coefficient using NetworkX
-    #clustering_coefficient = nx.average_clustering(G)
-    clustering_coefficient=0
+    clustering_coefficient = 0
     # Calculate the number of triangles
-    #triangles = sum(nx.triangles(G).values()) // 3
     triangles = 0
     # Append to log file
     append_to_log_file(num_vertices, output_file, clustering_coefficient,
-                       degree_centrality, betweenness_centrality, closeness_centrality,
+                       degree_centrality, betweenness_centrality,
                        eigenvector_centrality, katz_centrality, triangles)
 
     # Save histogram data to CSV files
     save_histogram_data(degree_centrality, "DegreeCentrality", base_filename)
     save_histogram_data(betweenness_centrality, "BetweennessCentrality", base_filename)
-    save_histogram_data(closeness_centrality, "ClosenessCentrality", base_filename)
+    # save_histogram_data(closeness_centrality, "ClosenessCentrality", base_filename) # Removed
     save_histogram_data(eigenvector_centrality, "EigenvectorCentrality", base_filename)
     save_histogram_data(katz_centrality, "KatzCentrality", base_filename)
 
 def append_to_log_file(num_vertices, output_file, clustering_coefficient,
-                       degree_centrality, betweenness_centrality, closeness_centrality,
+                       degree_centrality, betweenness_centrality,
                        eigenvector_centrality, katz_centrality, triangles):
     # Extract the base filename without extension
     base_filename = os.path.splitext(os.path.basename(output_file))[0]
 
     # Create or append to the log CSV file
     log_columns = ["Vertices", "Edges", "Arguments", "ClusteringCoefficient", "AverageDegreeCentrality",
-                   "AverageBetweennessCentrality", "AverageClosenessCentrality", "AverageEigenvectorCentrality",
+                   "AverageBetweennessCentrality", "AverageEigenvectorCentrality",
                    "AverageKatzCentrality", "Triangles"]
 
     if os.path.isfile("log.csv"):
@@ -79,7 +71,6 @@ def append_to_log_file(num_vertices, output_file, clustering_coefficient,
         "ClusteringCoefficient": clustering_coefficient,
         "AverageDegreeCentrality": sum(degree_centrality.values()) / len(degree_centrality),
         "AverageBetweennessCentrality": sum(betweenness_centrality.values()) / len(betweenness_centrality),
-        "AverageClosenessCentrality": sum(closeness_centrality.values()) / len(closeness_centrality),
         "AverageEigenvectorCentrality": sum(eigenvector_centrality.values()) / len(eigenvector_centrality),
         "AverageKatzCentrality": sum(katz_centrality.values()) / len(katz_centrality),
         "Triangles": triangles
@@ -107,7 +98,4 @@ def write_edge_list(G, output_file):
         print(f"Edge list written to {output_file}")
     except Exception as e:
         print(f"An error occurred while writing the edge list to {output_file}: {e}")
-
-
-
 
