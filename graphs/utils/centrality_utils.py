@@ -112,12 +112,28 @@ def save_histogram_data(centrality_values, centrality_name, output_file):
 
 def write_edge_list(G, output_file):
     try:
-        with open(output_file, 'w') as f:
-            f.write(f"vertices {len(G.nodes)}\n")
-            f.write(f"edges {len(G.edges)}\n")
+        # Extract the number of vertices and edges
+        num_vertices = len(G.nodes)
+        num_edges = len(G.edges)
 
-            for edge in G.edges():
-                f.write(f"edge {edge[0] + 1} {edge[1] + 1}\n")  # Add "edge" and 1 to each endpoint
+        # Extract the edge list as a cuDF DataFrame
+        edge_list = G.view_edge_list()
+
+        # Add 1 to each endpoint to match the desired format
+        edge_list['src'] += 1
+        edge_list['dst'] += 1
+
+        # Make "edge" column the index
+        edge_list.set_index('edge', inplace=True)
+
+        # Write the number of vertices and edges
+        with open(output_file, 'w') as f:
+            f.write(f"vertices {num_vertices}\n")
+            f.write(f"edges {num_edges}\n")
+
+        # Append the edge list to the file using cuDF
+        with open(output_file, 'a') as f:
+            edge_list.to_pandas().to_csv(f, sep=' ', header=False)
 
         print(f"Edge list written to {output_file}")
     except Exception as e:
