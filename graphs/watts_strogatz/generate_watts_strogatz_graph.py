@@ -12,7 +12,7 @@ if len(sys.argv) < 5:
 
 num_vertices = int(sys.argv[1])
 k = int(sys.argv[2])
-p = float(sys.argv[3])  # Probability of rewiring each edge
+p = float(sys.argv[3])/10.0  # Probability of rewiring each edge
 output_file = sys.argv[4]
 calculate_triangles = False
 
