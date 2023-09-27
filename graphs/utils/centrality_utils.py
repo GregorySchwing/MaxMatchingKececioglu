@@ -45,9 +45,10 @@ def calculate_centrality_and_triangles(G, num_vertices, num_edges, output_file):
         # Append to log file
         append_to_log_file(num_vertices, num_edges, output_file, clustering_coefficient_df['Clustering_Coefficient'].mean(),
                         degree_centrality['degree_centrality'].mean(), betweenness_centrality['betweenness_centrality'].mean(),
-                        eigenvector_centrality['eigenvector_centrality'].mean(), katz_centrality['katz_centrality'].mean(), 0)
+                        eigenvector_centrality['eigenvector_centrality'].mean(), katz_centrality['katz_centrality'].mean(), triangles['counts'].mean())
 
         # Save histogram data using cuDF
+        save_histogram_data(triangles['counts'], "Counts", output_file)
         save_histogram_data(clustering_coefficient_df['Clustering_Coefficient'], "ClusteringCoefficient", output_file)
         save_histogram_data(degree_centrality['degree_centrality'], "DegreeCentrality", output_file)
         save_histogram_data(betweenness_centrality['betweenness_centrality'], "BetweennessCentrality", output_file)
