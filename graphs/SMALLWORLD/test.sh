@@ -12,8 +12,8 @@ do
 let SCALE=10**$i   # sets SCALE to 10Ei.
 VERTICES=$(($j*$SCALE))
 filename="${VERTICES}_${deg}_WS.txt"
-python generate_watts_strogatz_grap_cugraph2.py $VERTICES $deg $k $filename
-../MaxMatchingKececioglu/src/matching $filename
+python generate_watts_strogatz_graph.py $VERTICES $deg $k $filename 0
+../../src/matching $filename
 rm $filename
 done
 done
