@@ -27,7 +27,7 @@ def calculate_centrality_and_triangles(G, num_vertices, num_edges, output_file):
 
         # Calculate Katz centrality using cuGraph
         katz_centrality = cugraph.centrality.katz_centrality(G)
-        
+        print(katz_centrality)
         # Calculate clustering coefficient using NetworkX
         clustering_coefficient = 0
         
