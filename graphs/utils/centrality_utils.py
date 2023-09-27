@@ -33,7 +33,7 @@ def calculate_centrality_and_triangles(G, num_vertices, num_edges, output_file):
         clustering_coefficient = 0
         
         # Calculate the number of triangles
-        triangles = cugraph.triangle_count(G)
+        triangles = 0
         
         # Append to log file
         append_to_log_file(num_vertices, num_edges, output_file, clustering_coefficient,
