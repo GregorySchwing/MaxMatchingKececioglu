@@ -110,7 +110,7 @@ def save_histogram_data(centrality_values, centrality_name, output_file):
     # Save the cuDF DataFrame to CSV
     histogram_df.to_pandas().to_csv(f"{output_file}_{centrality_name}_histogram.csv", index=False)
 
-def write_edge_list(G, output_file, num_vertices, num_edges):
+def write_edge_list(G, output_file, num_vertices):
     try:
         # Extract the edge list as a cuDF DataFrame
         edge_list = G.view_edge_list()
@@ -123,7 +123,7 @@ def write_edge_list(G, output_file, num_vertices, num_edges):
         # Write the number of vertices and edges
         with open(output_file, 'w') as f:
             f.write(f"vertices {num_vertices}\n")
-            f.write(f"edges {num_edges}\n")
+            f.write(f"edges {len(edge_list)}\n")
 
         # Append the edge list to the file using cuDF
         with open(output_file, 'a') as f:
