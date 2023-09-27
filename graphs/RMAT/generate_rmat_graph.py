@@ -24,7 +24,7 @@ if len(sys.argv) == 7 and sys.argv[6].lower() == "true":
     calculate_triangles = True
 
 # Generate an RMAT graph using cuGraph
-G_cugraph = cnx.generators.rmat(num_vertices, num_edges, a, b, c)
+G_cugraph = cnx.generators.random_rmat(num_vertices, num_edges, a, b, c)
 
 # Calculate centrality measures if requested
 if calculate_triangles:
