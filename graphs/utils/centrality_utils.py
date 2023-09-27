@@ -27,7 +27,7 @@ def calculate_centrality_and_triangles(G, num_vertices, num_edges, output_file):
 
         # Calculate Katz centrality using cuGraph
         katz_centrality = cugraph.centrality.katz_centrality(G)
-        print(katz_centrality)
+
         # Calculate clustering coefficient using NetworkX
         clustering_coefficient = 0
         
@@ -36,8 +36,8 @@ def calculate_centrality_and_triangles(G, num_vertices, num_edges, output_file):
         
         # Append to log file
         append_to_log_file(num_vertices, num_edges, output_file, clustering_coefficient,
-                        degree_centrality['degree_centrality'].mean(), betweenness_centrality['betweenness_centrality'],
-                        eigenvector_centrality['eigenvector_centrality'], katz_centrality['katz_centrality'], triangles)
+                        degree_centrality['degree_centrality'].mean(), betweenness_centrality['betweenness_centrality'].mean(),
+                        eigenvector_centrality['eigenvector_centrality'].mean(), katz_centrality['katz_centrality'].mean(), triangles)
 
         # Save histogram data using cuDF
         save_histogram_data(degree_centrality['degree_centrality'], "DegreeCentrality", output_file)
