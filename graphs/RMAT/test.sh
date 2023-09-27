@@ -13,11 +13,13 @@ filename="${VERTICES}_${EDGES}_RMAT.txt"
 filenameShifted="${VERTICES}_${EDGES}_RMAT_start_from_1.txt"
 filenameKece="${VERTICES}_${EDGES}_RMAT_Kece.txt"
 filenameBlossV="${VERTICES}_${EDGES}_RMAT_blossV.txt"
+filenameMTX="${VERTICES}_${EDGES}_RMAT.txt.mtx"
 ../PaRMAT/Release/PaRMAT -nVertices ${VERTICES} -nEdges ${EDGES} -output $filename -threads 16 -sorted -noEdgeToSelf -noDuplicateEdges -undirected
 
 awk -v s=1 '{print $1+s, $2+s}' $filename > $filenameShifted
 
 cp $filenameShifted $filenameKece
+cp $filenameShifted $filenameMTX
 rm $filename
 rm $filenameShifted
 sed -i -e 's/^/edge /' $filenameKece
@@ -25,6 +27,10 @@ sed -i "1s/^/vertices $VERTICES\n/" $filenameKece
 sed -i "2s/^/edges $EDGES\n/" $filenameKece
 ../../src/matching $filenameKece
 rm $filenameKece
+
+sed -i "1s/^/%%MatrixMarket matrix coordinate pattern symmetric\n/" $filenameMTX
+sed -i "2s/^/$VERTICES $VERTICES $EDGES\n/" $filenameMTX
+
 #cp $filenameShifted $filenameBlossV
 #sed -i -e 's/^/e /' $filenameBlossV
 #sed -i -e 's/$/ 1/' -i $filenameBlossV
