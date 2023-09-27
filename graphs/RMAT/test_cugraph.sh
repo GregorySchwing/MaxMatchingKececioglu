@@ -2,7 +2,7 @@
 
 
 C=10
-for j in {4..6}
+for j in {4..29}
 do
 let VERTICES=2**$j   # sets SCALE to 10Ei.
 EDGES=$(($VERTICES*$C))
