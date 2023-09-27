@@ -31,17 +31,20 @@ def calculate_centrality_and_triangles(G, num_vertices, num_edges, output_file):
         edge_list_df = G.view_edge_list().to_pandas()
         Gnx=nx.from_pandas_edgelist(edge_list_df, source='src', target='dst')
         # Calculate clustering coefficient using NetworkX
-        clustering_coefficient = nx.clustering(Gnx)
+        clustering_coefficient_dict = nx.clustering(Gnx)
+        clustering_coefficient_df_host = pd.DataFrame(list(clustering_coefficient_dict.items()), columns=['Node', 'Clustering_Coefficient'])
         print(clustering_coefficient)
+        clustering_coefficient=cudf.from_pandas(clustering_coefficient_df_host)
         # Calculate the number of triangles
         triangles = cugraph.triangle_count(G)
         
         # Append to log file
-        append_to_log_file(num_vertices, num_edges, output_file, clustering_coefficient,
+        append_to_log_file(num_vertices, num_edges, output_file, clustering_coefficient['Clustering_Coefficient'].mean(),
                         degree_centrality['degree_centrality'].mean(), betweenness_centrality['betweenness_centrality'].mean(),
                         eigenvector_centrality['eigenvector_centrality'].mean(), katz_centrality['katz_centrality'].mean(), triangles)
 
         # Save histogram data using cuDF
+        save_histogram_data(clustering_coefficient['Clustering_Coefficient'], "Clustering_Coefficient", output_file)
         save_histogram_data(degree_centrality['degree_centrality'], "DegreeCentrality", output_file)
         save_histogram_data(betweenness_centrality['betweenness_centrality'], "BetweennessCentrality", output_file)
         save_histogram_data(eigenvector_centrality['eigenvector_centrality'], "EigenvectorCentrality", output_file)
