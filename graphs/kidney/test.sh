@@ -2,6 +2,8 @@
 
 C=10
 C=2
+for C in {2..10}
+do
 for i in {5..5}
 do
 for j in {1..20}
@@ -27,7 +29,10 @@ echo $filenameMTX
 #rm $filename
 done
 done
+done
 
+for C in {2..10}
+do
 for i in {5..5}
 do
 for j in {1..20}
@@ -51,6 +56,7 @@ echo $filenameMTX
 /home/greg/mvm/src/a.out $filenameMTX 0 1
 #/home/greg/mvm/src/a.out $filenameMTX 60 48
 #rm $filename
+done
 done
 done
 
