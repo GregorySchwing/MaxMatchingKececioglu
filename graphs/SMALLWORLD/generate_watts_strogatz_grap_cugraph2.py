@@ -1,7 +1,6 @@
 import sys
 import os
 import pandas as pd
-import matplotlib.pyplot as plt
 import cugraph as cnx
 import cudf
 import networkx as nx
@@ -26,14 +25,20 @@ G_networkx = nx.watts_strogatz_graph(num_vertices, k, p, seed=123)
 edges_df = pd.DataFrame(list(G_networkx.edges), columns=["src", "dst"])
 G_cugraph = cnx.from_pandas_edgelist(edges_df, source="src", destination="dst")
 
-# Calculate the Single-Source Shortest Paths (SSSP) using cuGraph
-sssp_df = cnx.shortest_path(G_cugraph, source=0)  # Assuming source node 0
+# Calculate degree centrality using cuGraph
+degree_centrality = cnx.degree(G_cugraph)
 
-# Calculate the average path length using cuGraph
-average_path_length = sssp_df['distance'].mean()
+# Calculate betweenness centrality using cuGraph
+betweenness_centrality = cnx.betweenness_centrality(G_cugraph)
 
-# Get the degree distribution
-degree_distribution = dict(nx.degree(G_networkx))
+# Calculate closeness centrality using cuGraph
+closeness_centrality = cnx.closeness_centrality(G_cugraph)
+
+# Calculate eigenvector centrality using cuGraph
+eigenvector_centrality = cnx.eigenvector_centrality(G_cugraph)
+
+# Calculate clustering coefficient using NetworkX
+clustering_coefficient = nx.average_clustering(G_networkx)
 
 # Extract the base filename without extension by joining command-line arguments with underscores
 base_filename = "_".join(sys.argv[1:4])
@@ -41,40 +46,26 @@ base_filename = "_".join(sys.argv[1:4])
 # Create the output filename with the base filename and .csv extension
 output_filename = f"{base_filename}.csv"
 
-# Write the edge list to the file with the specified format
-with open(output_filename, "w") as file:
-    # Write the header lines
-    file.write(f"vertices {num_vertices}\n")
-    file.write(f"edges {G_cugraph.number_of_edges}\n")
-    
-    # Write each edge with the "edge" prefix, adding 1 to each vertex
-    for edge in G_cugraph.view_edge_list().to_pandas().itertuples(index=False):
-        file.write(f"edge {edge[0] + 1} {edge[1] + 1}\n")
+# Create or append to the log CSV file
+log_columns = ["Vertices", "Edges", "Arguments", "ClusteringCoefficient", "DegreeCentrality", "BetweennessCentrality", "ClosenessCentrality", "EigenvectorCentrality"]
 
-# Append information to the log file
-log_file_name = "log.txt"  # You can change the log file name as needed
-with open(log_file_name, "a") as log_file:
-    log_file.write(f"Output file: {output_filename}\n")
-    log_file.write(f"Command-line arguments: {sys.argv}\n")
-    log_file.write(f"Average path length: {average_path_length}\n")
+if os.path.isfile("log.csv"):
+    log_df = pd.read_csv("log.csv")
+else:
+    log_df = pd.DataFrame(columns=log_columns)
+
+log_df = log_df.append({
+    "Vertices": num_vertices,
+    "Edges": G_cugraph.number_of_edges,
+    "Arguments": " ".join(sys.argv[1:]),
+    "ClusteringCoefficient": clustering_coefficient,
+    "DegreeCentrality": degree_centrality,
+    "BetweennessCentrality": betweenness_centrality,
+    "ClosenessCentrality": closeness_centrality,
+    "EigenvectorCentrality": eigenvector_centrality,
+}, ignore_index=True)
+
+log_df.to_csv("log.csv", index=False)
 
 print(f"Watts-Strogatz small-world graph with {num_vertices} vertices and {G_cugraph.number_of_edges} edges (vertices incremented by 1) written to {output_filename}.")
-
-# Save average path length to a CSV file with input filename + _average_path_length.csv
-avg_path_length_file = f"{base_filename}_average_path_length.csv"
-avg_path_length_df = pd.DataFrame({"Average Path Length": [average_path_length]})
-avg_path_length_df.to_csv(avg_path_length_file, index=False)
-
-# Save degree distribution to a CSV file with input filename + _degree_distribution.csv
-degree_distribution_file = f"{base_filename}_degree_distribution.csv"
-degree_distribution_df = pd.DataFrame(degree_distribution.items(), columns=["Node", "Degree"])
-degree_distribution_df.to_csv(degree_distribution_file, index=False)
-
-# Plot and save the degree distribution as a line graph
-plt.bar(degree_distribution.keys(), degree_distribution.values())
-plt.xlabel("Node Degree")
-plt.ylabel("Frequency")
-plt.title("Degree Distribution")
-plt.savefig("degree_distribution.png")
-plt.show()
 
