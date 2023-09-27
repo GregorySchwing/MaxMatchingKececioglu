@@ -26,7 +26,7 @@ edges_df = pd.DataFrame(list(G_networkx.edges), columns=["src", "dst"])
 G_cugraph = cnx.from_pandas_edgelist(edges_df, source="src", destination="dst")
 
 # Calculate degree centrality using cuGraph
-degree_centrality = cnx.degree(G_cugraph)
+degree_centrality = cnx.degree_centrality(G_cugraph)
 
 # Calculate betweenness centrality using cuGraph
 betweenness_centrality = cnx.betweenness_centrality(G_cugraph)
