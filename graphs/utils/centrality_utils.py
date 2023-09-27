@@ -28,11 +28,12 @@ def calculate_centrality_and_triangles(G, num_vertices, num_edges, output_file):
         # Calculate Katz centrality using cuGraph
         katz_centrality = cugraph.centrality.katz_centrality(G)
 
+        Gnx=nx.from_edgelist(G.view_edge_list())
         # Calculate clustering coefficient using NetworkX
-        clustering_coefficient = 0
+        clustering_coefficient = nx.clustering(Gnx)
         
         # Calculate the number of triangles
-        triangles = 0
+        triangles = cugraph.triangle_count(G)
         
         # Append to log file
         append_to_log_file(num_vertices, num_edges, output_file, clustering_coefficient,
