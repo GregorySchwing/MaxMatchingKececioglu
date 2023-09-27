@@ -26,7 +26,8 @@ if len(sys.argv) == 8 and sys.argv[7].lower() == "true":
     print("Calc triangles")
 
 # Generate an RMAT graph using cuGraph
-G_cugraph = rmat(num_vertices, num_edges, a, b, c, seed=123)
+#G_cugraph = rmat(num_vertices, num_edges, a, b, c, seed=123)
+G_cugraph = rmat(num_vertices, num_edges, seed=123)
 
 # Calculate centrality measures if requested
 if calculate_triangles:
