@@ -120,10 +120,6 @@ def write_edge_list(G, output_file, num_vertices, num_edges):
         edge_list['dst'] += 1
         print(edge_list)
 
-        # Make "edge" column the index
-        edge_list.set_index('edge', inplace=True)
-        print(edge_list)
-
         # Write the number of vertices and edges
         with open(output_file, 'w') as f:
             f.write(f"vertices {num_vertices}\n")
@@ -131,7 +127,7 @@ def write_edge_list(G, output_file, num_vertices, num_edges):
 
         # Append the edge list to the file using cuDF
         with open(output_file, 'a') as f:
-            edge_list.to_pandas().to_csv(f, sep=' ', header=False)
+            edge_list.to_pandas().to_csv(f, sep=' ', header=False, index_label='edge')
 
         print(f"Edge list written to {output_file}")
     except Exception as e:
