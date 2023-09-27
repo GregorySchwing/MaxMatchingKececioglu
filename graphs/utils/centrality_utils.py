@@ -118,9 +118,11 @@ def write_edge_list(G, output_file, num_vertices, num_edges):
         # Add 1 to each endpoint to match the desired format
         edge_list['src'] += 1
         edge_list['dst'] += 1
+        print(edge_list)
 
         # Make "edge" column the index
         edge_list.set_index('edge', inplace=True)
+        print(edge_list)
 
         # Write the number of vertices and edges
         with open(output_file, 'w') as f:
