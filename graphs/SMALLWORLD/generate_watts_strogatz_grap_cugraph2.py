@@ -26,9 +26,6 @@ G_networkx = nx.watts_strogatz_graph(num_vertices, k, p, seed=123)
 edges_df = pd.DataFrame(list(G_networkx.edges), columns=["src", "dst"])
 G_cugraph = cnx.from_pandas_edgelist(edges_df, source="src", destination="dst")
 
-# Calculate the clustering coefficient using cuGraph
-clustering_coefficient = cnx.clustering_coefficient(G_cugraph)
-
 # Calculate the average shortest path length using NetworkX
 average_path_length = nx.average_shortest_path_length(G_networkx)
 
@@ -56,7 +53,6 @@ log_file_name = "log.txt"  # You can change the log file name as needed
 with open(log_file_name, "a") as log_file:
     log_file.write(f"Output file: {output_filename}\n")
     log_file.write(f"Command-line arguments: {sys.argv}\n")
-    log_file.write(f"Clustering coefficient: {clustering_coefficient}\n")
     log_file.write(f"Average path length: {average_path_length}\n")
 
 print(f"Watts-Strogatz small-world graph with {num_vertices} vertices and {G_cugraph.number_of_edges} edges (vertices incremented by 1) written to {output_filename}.")
