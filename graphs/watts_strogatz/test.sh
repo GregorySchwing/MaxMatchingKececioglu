@@ -6,7 +6,7 @@ for i in {5..5}
 do
 for j in {1..20}
 do
-for deg in 10 25 50
+for deg in 2 3 5 10
 do
 for p in {0..10}
 do
