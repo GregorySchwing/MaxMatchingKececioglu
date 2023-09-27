@@ -2,6 +2,8 @@ import networkx as nx
 import random
 import argparse
 from tqdm import tqdm
+import psutil
+from multiprocessing import Pool
 
 # Function to randomly assign blood types to vertices based on provided probabilities
 def assign_blood_type(probabilities):
@@ -16,6 +18,10 @@ def are_compatible(blood_type1, blood_type2):
     elif blood_type1 == blood_type2:
         return True
     return False
+
+# Determine the number of processes based on the number of threads available
+threads_count = psutil.cpu_count(logical=False)
+num_processes = max(1, int(threads_count))
 
 # Parse command-line arguments
 parser = argparse.ArgumentParser(description='Generate a graph with specified number of vertices, edges, and output file name.')
@@ -51,24 +57,35 @@ for i in range(args.N):
     G.add_node(i, blood_type=blood_type)
 
 # Add edges until M edges are added (capitalized)
-with tqdm(total=args.M) as pbar:
-    while G.number_of_edges() < args.M:
-        # Randomly choose two vertices
-        u, v = random.sample(G.nodes(), 2)
+edges_per_process = args.M // num_processes
 
-        # Get the blood types of the selected vertices
-        blood_type_u = G.nodes[u]['blood_type']
-        blood_type_v = G.nodes[v]['blood_type']
+# Create edge chunks for parallel processing
+edge_chunks = []
+for _ in range(num_processes):
+    edge_chunk = random.sample(G.nodes(), edges_per_process * 2)  # Sample twice as many nodes
+    edge_chunk = [(edge_chunk[i], edge_chunk[i+1]) for i in range(0, len(edge_chunk), 2)]  # Create pairs
+    edge_chunks.append(edge_chunk)
 
-        # Check if the blood types are compatible
-        if are_compatible(blood_type_u, blood_type_v):
-            G.add_edge(u, v)
-            pbar.update(1)  # Update the status bar
-        else:
-            # Add an edge with probability p = 0.2
-            if random.random() <= 0.2:
-                G.add_edge(u, v)
-                pbar.update(1)  # Update the status bar
+# Function to add edges in parallel
+def add_edges_parallel(args):
+    chunk, node_blood_types, p = args
+    result = []
+    for u, v in chunk:
+        blood_type_u = node_blood_types[u]
+        blood_type_v = node_blood_types[v]
+        if are_compatible(blood_type_u, blood_type_v) or random.random() <= p:
+            result.append((u, v))
+    return result
+
+# Add edges in parallel
+with Pool(num_processes) as pool:
+    result_edges = pool.map(add_edges_parallel, [(chunk, nx.get_node_attributes(G, 'blood_type'), 0.2) for chunk in edge_chunks])
+
+# Flatten the list of edge lists
+edges_to_add = [edge for sublist in result_edges for edge in sublist]
+
+# Add the edges to the graph
+G.add_edges_from(edges_to_add)
 
 # Default output file name includes N, M, and blood type probabilities (capitalized)
 # Generate the output file name only if no output argument is provided

@@ -1,21 +1,23 @@
 #!/bin/bash
 
 C=10
-
+C=2
 for i in {3..3}
 do
-for j in {1..10}
+for j in {5..10}
 do
 a=42  # Integer representation of 0.42
 b=10  # Integer representation of 0.10
 o=44  # Integer representation of 0.44
 ab=4   # Integer representation of 0.04
 let SCALE=10**$i   # sets SCALE to 10Ei.
-VERTICES=$(($j*$SCALE))
+let UNSCALEDV=10**$j   # sets SCALE to 10Ei.
+VERTICES=$(($UNSCALEDV))
 EDGES=$(($C*$VERTICES))
 filenameKece="${VERTICES}_${EDGES}_o${o}_a${a}_b${b}_ab${ab}.KPD.txt"
 filenameMTX="${filenameKece}.mtx"
-python kidney.py -N $VERTICES -M $EDGES -output $filenameKece --O_prob $o --A_prob $a --B_prob $b --AB_prob $ab
+#python kidney.py -N $VERTICES -M $EDGES -output $filenameKece --O_prob $o --A_prob $a --B_prob $b --AB_prob $ab
+python kidney_parallel.py -N $VERTICES -M $EDGES -output $filenameKece --O_prob $o --A_prob $a --B_prob $b --AB_prob $ab
 echo $filenameKece
 echo $filenameMTX
 
