@@ -26,7 +26,7 @@ if len(sys.argv) == 7 and sys.argv[6].lower() == "true":
 
 # Generate an RMAT graph using cuGraph
 G_cugraph = rmat(num_vertices, num_edges, a, b, c)
-nx_graph = g.to_networkx()
+nx_graph = G_cugraph.to_networkx()
 # Calculate centrality measures if requested
 if calculate_triangles:
     alpha = 0.1  # Adjust as needed
