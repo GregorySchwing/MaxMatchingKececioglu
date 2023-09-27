@@ -33,12 +33,6 @@ if calculate_triangles:
     alpha = 0.1  # Adjust as needed
     calculate_centrality_and_triangles(G_cugraph, num_vertices, num_edges, output_file)
 
-# Convert the cuGraph graph to a cuPy array
-G_cupy = G_cugraph.to_cupy()
-
-# Convert the cuPy array to a NetworkX graph
-nx_graph = cnx.from_cudf_edgelist(G_cupy, source='src', destination='dst')
-
 # Write the edge list to the file
-write_edge_list(nx_graph, output_file)
+write_edge_list(G_cugraph, output_file)
 
