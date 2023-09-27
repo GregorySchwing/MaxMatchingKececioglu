@@ -22,9 +22,9 @@ output_file = sys.argv[4]
 # Generate a Watts-Strogatz small-world graph using NetworkX
 G_networkx = nx.watts_strogatz_graph(num_vertices, k, p, seed=123)
 
-# Convert the NetworkX graph to a cuGraph graph
-G_cugraph = cnx.Graph()
-G_cugraph.from_networkx(G_networkx)
+# Convert the NetworkX edge list to a cuGraph graph
+edges_df = pd.DataFrame(list(G_networkx.edges), columns=["src", "dst"])
+G_cugraph = cnx.from_pandas_edgelist(edges_df, source="src", destination="dst")
 
 # Calculate the clustering coefficient using cuGraph
 clustering_coefficient = cnx.clustering_coefficient(G_cugraph)
