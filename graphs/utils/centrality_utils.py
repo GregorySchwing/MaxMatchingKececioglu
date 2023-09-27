@@ -119,7 +119,7 @@ def write_edge_list(G, output_file, num_vertices, num_edges):
         edge_list['dst'] += 1
         # Set the index to a constant string
         constant_index = 'edge'
-        edge_list.index = [constant_index] * len(df)
+        edge_list.index = [constant_index] * len(edge_list)
         # Write the number of vertices and edges
         with open(output_file, 'w') as f:
             f.write(f"vertices {num_vertices}\n")
