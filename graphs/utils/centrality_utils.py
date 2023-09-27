@@ -32,7 +32,7 @@ def calculate_centrality_and_triangles(G, num_vertices, num_edges, output_file):
         Gnx=nx.from_pandas_edgelist(edge_list_df, source='src', target='dst')
         # Calculate clustering coefficient using NetworkX
         clustering_coefficient = nx.clustering(Gnx)
-        
+        print(clustering_coefficient)
         # Calculate the number of triangles
         triangles = cugraph.triangle_count(G)
         
