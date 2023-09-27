@@ -80,8 +80,6 @@ def append_to_log_file(num_vertices, num_edges, output_file, clustering_coeffici
                        degree_centrality, betweenness_centrality,
                        eigenvector_centrality, katz_centrality, triangles):
     # Extract the base filename without extension
-    base_filename = os.path.basename(output_file)
-    print(base_filename)
     # Create or append to the log CSV file
     log_columns = ["Vertices", "Edges", "Arguments", "ClusteringCoefficient", "AverageDegreeCentrality",
                    "AverageBetweennessCentrality", "AverageEigenvectorCentrality",
@@ -95,7 +93,7 @@ def append_to_log_file(num_vertices, num_edges, output_file, clustering_coeffici
     log_df = log_df.append({
         "Vertices": num_vertices,
         "Edges": num_edges,
-        "Basefile": f"{output_file}",
+        "Basefile": output_file,
         "ClusteringCoefficient": clustering_coefficient,
         "AverageDegreeCentrality": degree_centrality,
         "AverageBetweennessCentrality": betweenness_centrality,
