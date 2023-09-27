@@ -80,7 +80,7 @@ def append_to_log_file(num_vertices, num_edges, output_file, clustering_coeffici
                        degree_centrality, betweenness_centrality,
                        eigenvector_centrality, katz_centrality, triangles):
     # Extract the base filename without extension
-    base_filename = os.path.splitext(os.path.basename(output_file))[0]
+    base_filename = os.path.basename(output_file)
 
     # Create or append to the log CSV file
     log_columns = ["Vertices", "Edges", "Arguments", "ClusteringCoefficient", "AverageDegreeCentrality",
