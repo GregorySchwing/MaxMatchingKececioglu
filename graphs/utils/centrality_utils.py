@@ -5,9 +5,14 @@ import pandas as pd
 import networkx as nx
 import random
 import matplotlib.pyplot as plt
-
+try:
+    import cugraph
+    cugraph_available = True
+except ImportError:
+    cugraph_available = False
 def calculate_centrality_and_triangles(G, alpha, num_vertices, output_file):
-    if "cugraph" in globals():
+
+    if cugraph_available:
         import cugraph
         import cudf
 
