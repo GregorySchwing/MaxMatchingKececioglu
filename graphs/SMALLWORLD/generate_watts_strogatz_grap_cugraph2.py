@@ -47,6 +47,9 @@ katz_centrality = cugraph.centrality.katz_centrality(G_cugraph, alpha=alpha)
 # Calculate clustering coefficient using NetworkX
 clustering_coefficient = nx.average_clustering(G_networkx)
 
+# Calculate the number of triangles
+triangles = cugraph.triangle_count(G_cugraph)
+
 # Calculate the average centrality measures
 avg_degree_centrality = degree_centrality.mean()
 avg_betweenness_centrality = betweenness_centrality.mean()
@@ -58,7 +61,7 @@ avg_katz_centrality = katz_centrality.mean()
 base_filename = "_".join(sys.argv[1:4])
 
 # Create or append to the log CSV file
-log_columns = ["Vertices", "Edges", "Arguments", "ClusteringCoefficient", "AverageDegreeCentrality", "AverageBetweennessCentrality", "AverageClosenessCentrality", "AverageEigenvectorCentrality", "AverageKatzCentrality"]
+log_columns = ["Vertices", "Edges", "Arguments", "ClusteringCoefficient", "AverageDegreeCentrality", "AverageBetweennessCentrality", "AverageClosenessCentrality", "AverageEigenvectorCentrality", "AverageKatzCentrality", "TriangleCount"]
 
 if os.path.isfile("log.csv"):
     log_df = pd.read_csv("log.csv")
@@ -75,6 +78,7 @@ log_df = log_df.append({
     "AverageClosenessCentrality": avg_closeness_centrality,
     "AverageEigenvectorCentrality": avg_eigenvector_centrality,
     "AverageKatzCentrality": avg_katz_centrality,
+    "TriangleCount": triangles,
 }, ignore_index=True)
 
 log_df.to_csv("log.csv", index=False)
