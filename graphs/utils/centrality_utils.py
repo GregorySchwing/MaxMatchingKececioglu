@@ -84,10 +84,10 @@ def append_to_log_file(num_vertices, num_edges, output_file, clustering_coeffici
         "Edges": num_edges,
         "Basefile": f"{output_file}",
         "ClusteringCoefficient": clustering_coefficient,
-        "AverageDegreeCentrality": sum(degree_centrality.values()) / len(degree_centrality),
-        "AverageBetweennessCentrality": sum(betweenness_centrality.values()) / len(betweenness_centrality),
-        "AverageEigenvectorCentrality": sum(eigenvector_centrality.values()) / len(eigenvector_centrality),
-        "AverageKatzCentrality": sum(katz_centrality.values()) / len(katz_centrality),
+        "AverageDegreeCentrality": degree_centrality,
+        "AverageBetweennessCentrality": betweenness_centrality,
+        "AverageEigenvectorCentrality": eigenvector_centrality,
+        "AverageKatzCentrality": katz_centrality,
         "Triangles": triangles
     }, ignore_index=True)
 
