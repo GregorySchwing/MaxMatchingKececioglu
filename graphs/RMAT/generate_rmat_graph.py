@@ -21,7 +21,7 @@ d = 1.0 -a-b-c
 output_file = sys.argv[6]
 calculate_triangles = False
 print(sys.argv,len(sys.argv),sys.argv[6].lower())
-if len(sys.argv) == 7 and sys.argv[6].lower() == "true":
+if len(sys.argv) == 8 and sys.argv[7].lower() == "true":
     calculate_triangles = True
     print("Calc triangles")
 
