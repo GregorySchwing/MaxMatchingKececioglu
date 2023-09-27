@@ -37,11 +37,9 @@ def calculate_centrality_and_triangles(G, num_vertices, num_edges, output_file):
         clustering_coefficient_dict = nx.clustering(Gnx)
         clustering_coefficient_df_host = pd.DataFrame(list(clustering_coefficient_dict.items()), columns=['Node', 'Clustering_Coefficient'])
         clustering_coefficient_df=cudf.from_pandas(clustering_coefficient_df_host)
-        print(clustering_coefficient_df)
 
         # Calculate the number of triangles
         triangles = cugraph.triangle_count(G)
-        print(triangles['counts'])
         # Append to log file
         append_to_log_file(num_vertices, num_edges, output_file, clustering_coefficient_df['Clustering_Coefficient'].mean(),
                         degree_centrality['degree_centrality'].mean(), betweenness_centrality['betweenness_centrality'].mean(),
