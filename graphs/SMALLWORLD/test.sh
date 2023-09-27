@@ -2,8 +2,8 @@
 
 
 C=10
-k=0.3
-for deg in 2 3 5 10
+p=0.3
+for degDenom in 10 5 2 1
 do
 for i in {5..5}
 do
@@ -12,7 +12,8 @@ do
 let SCALE=10**$i   # sets SCALE to 10Ei.
 VERTICES=$(($j*$SCALE))
 filename="${VERTICES}_${deg}_WS.txt"
-python generate_watts_strogatz_graph.py $VERTICES $deg $k $filename 0
+deg=$((VERTICES / degDenom))
+python generate_watts_strogatz_graph.py $VERTICES $deg $p $filename 0
 ../../src/matching $filename
 rm $filename
 done
