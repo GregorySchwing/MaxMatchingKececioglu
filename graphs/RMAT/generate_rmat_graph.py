@@ -31,7 +31,7 @@ G_cugraph = rmat(num_vertices, num_edges, a, b, c)
 # Calculate centrality measures if requested
 if calculate_triangles:
     alpha = 0.1  # Adjust as needed
-    calculate_centrality_and_triangles(G_cugraph, num_vertices, output_file)
+    calculate_centrality_and_triangles(G_cugraph, num_vertices, num_edges, output_file)
 
 nx_graph = G_cugraph.to_networkx()
 # Write the edge list to the file

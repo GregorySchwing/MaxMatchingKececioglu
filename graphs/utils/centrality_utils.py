@@ -9,7 +9,7 @@ try:
 except ImportError:
     cugraph_available = False
 
-def calculate_centrality_and_triangles(G, num_vertices, output_file):
+def calculate_centrality_and_triangles(G, num_vertices, num_edges, output_file):
     if cugraph_available:
         import cugraph
         import cudf
@@ -48,7 +48,7 @@ def calculate_centrality_and_triangles(G, num_vertices, output_file):
     save_histogram_data(eigenvector_centrality, "EigenvectorCentrality", output_file)
     save_histogram_data(katz_centrality, "KatzCentrality", output_file)
 
-def append_to_log_file(num_vertices, output_file, clustering_coefficient,
+def append_to_log_file(num_vertices, num_edges, output_file, clustering_coefficient,
                        degree_centrality, betweenness_centrality,
                        eigenvector_centrality, katz_centrality, triangles):
     # Extract the base filename without extension
@@ -66,7 +66,7 @@ def append_to_log_file(num_vertices, output_file, clustering_coefficient,
 
     log_df = log_df.append({
         "Vertices": num_vertices,
-        "Edges": len(G.edges),
+        "Edges": num_edges,
         "Basefile": f"{output_file}",
         "ClusteringCoefficient": clustering_coefficient,
         "AverageDegreeCentrality": sum(degree_centrality.values()) / len(degree_centrality),
