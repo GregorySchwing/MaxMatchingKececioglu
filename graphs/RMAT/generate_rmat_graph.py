@@ -34,5 +34,5 @@ if calculate_triangles:
     calculate_centrality_and_triangles(G_cugraph, num_vertices, num_edges, output_file)
 
 # Write the edge list to the file
-write_edge_list(G_cugraph, output_file)
+write_edge_list(G_cugraph, output_file, num_vertices, num_edges)
 
