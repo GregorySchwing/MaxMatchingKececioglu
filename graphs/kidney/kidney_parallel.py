@@ -98,6 +98,8 @@ parser.add_argument('--O_prob', type=int, default=50, help='Probability of blood
 parser.add_argument('--A_prob', type=int, default=30, help='Probability of blood type A (in integer form)')
 parser.add_argument('--B_prob', type=int, default=15, help='Probability of blood type B (in integer form)')
 parser.add_argument('--AB_prob', type=int, default=5, help='Probability of blood type AB (in integer form)')
+parser.add_argument('--crossmatch_prob', type=int, default=0.2, help='Probability of crossmatch')
+
 parser.add_argument('-output', type=str, default=None, help='Output file name')
 args = parser.parse_args()
 
@@ -143,7 +145,7 @@ result_vertices = []  # Changed variable name
 while len(result_vertices) <= args.N:  # Changed variable name
     # Add edges in parallel without progress bars
     with Pool(num_processes) as pool:
-        result_edges_batch = pool.map(evaluate_pairs, [(args.N, nx.get_node_attributes(G, 'blood_type'), 0.2, 0.2) for _ in range(num_processes)])
+        result_edges_batch = pool.map(evaluate_pairs, [(args.N, nx.get_node_attributes(G, 'blood_type'), args.crossmatch_prob, args.crossmatch_prob) for _ in range(num_processes)])
 
     # Flatten the list of edge lists and extend the result_vertices list
     edges_batch = [edge for sublist in result_edges_batch for edge in sublist]
@@ -171,7 +173,7 @@ with tqdm(total=n*(n-1)//2, desc="Processing pairs") as pbar_total:
     # Create a Pool for parallel processing
     with Pool(num_groups) as pool:
         # Pass group and p as arguments to generate_pairs_for_group
-        compatible_pairs_list = pool.map(generate_pairs_for_group, [(group, 0.2) for group in groups])  # Replace 0.2 with your desired probability
+        compatible_pairs_list = pool.map(generate_pairs_for_group, [(group, args.crossmatch_prob) for group in groups])  # Replace args.crossmatch_prob with your desired probability
 
 
 # Flatten the list of compatible pairs
