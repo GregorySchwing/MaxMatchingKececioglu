@@ -45,20 +45,21 @@ def pair_compatible_index(successful_pairs, pair1_index, pair2_index):
 
 # Function to generate pairs for a given group
 def generate_pairs_for_group(args):
-    group = args
+    group, p = args
     compatible_pairs = []  # List to store compatible pairs
     for x in group:
         pairs = [(x, y) for y in range(x + 1, n)]
         pbar_total.update(len(pairs))  # Update the progress bar here
         
-        # Check ABO compatibility and append compatible pairs to the list
+        # Check ABO compatibility and append compatible pairs to the list with probability 1 - p
         for u, v in pairs:
             blood_type_u = G.nodes[u]['blood_type']
             blood_type_v = G.nodes[v]['blood_type']
-            if are_compatible(blood_type_u, blood_type_v):
+            if are_compatible(blood_type_u, blood_type_v) and random.uniform(0, 1) > p:
                 compatible_pairs.append((u, v))
                 
     return compatible_pairs
+
 
 
 def balanced_groups(n, num_groups):
@@ -169,8 +170,9 @@ print(f"Total size: {total_size}")
 with tqdm(total=n*(n-1)//2, desc="Processing pairs") as pbar_total:
     # Create a Pool for parallel processing
     with Pool(num_groups) as pool:
-        # Pass group as an argument to generate_pairs_for_group
-        compatible_pairs_list = pool.map(generate_pairs_for_group, groups)
+        # Pass group and p as arguments to generate_pairs_for_group
+        compatible_pairs_list = pool.map(generate_pairs_for_group, [(group, 0.2) for group in groups])  # Replace 0.2 with your desired probability
+
 
 # Flatten the list of compatible pairs
 compatible_pairs = [pair for pairs in compatible_pairs_list for pair in pairs]
