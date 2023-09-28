@@ -117,7 +117,7 @@ while len(result_vertices) <= args.N:  # Changed variable name
 
 # Remove extra edges if more than N edges were generated
 result_vertices = result_vertices[:args.N]  # Changed variable name
-
+print(len(result_vertices))
 from itertools import combinations_with_replacement, islice, tee
 
 n_processes = num_processes
@@ -128,8 +128,7 @@ pair_chunks = [
     list(islice(p, i, None, n_processes))
     for i, p in enumerate(tee(pairs, n_processes))
 ]
-
-print(pair_chunks)
+print(len(pair_chunks))
 quit()
 # Add the edges to the graph
 G.add_edges_from(result_vertices)  # Changed variable name
