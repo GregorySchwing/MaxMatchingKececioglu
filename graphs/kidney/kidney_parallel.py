@@ -43,6 +43,38 @@ def pair_compatible_index(successful_pairs, pair1_index, pair2_index):
     
     return compatible1 or compatible2
 
+# Function to generate pairs for a given group
+def generate_pairs_for_group(group):
+    pairs_list = []
+    for x in group:
+        pairs = [(x, y) for y in range(x + 1, n)]
+        pairs_list.append(pairs)
+    return list(pairs_list)
+
+def balanced_groups(n, num_groups):
+    total = n * (n + 1) // 2  # Sum of 1 to n
+    group_size = total // num_groups  # Calculate the target group size
+
+    groups = []
+    current_group = []  # Initialize the current group
+    current_sum = 0
+
+    for i, j in zip(range(1, n + 1), range(n, 0, -1)):
+        current_group.append(i-1)
+        current_sum += j
+
+        # If the current sum exceeds or equals the target group size, start a new group
+        if current_sum >= group_size:
+            groups.append(current_group)
+            current_group = []  # Start a new group
+            current_sum = 0
+
+    # Add the last group if it's not empty
+    if current_group:
+        groups.append(current_group)
+
+    return groups
+
 # Determine the number of processes based on the number of threads available
 threads_count = psutil.cpu_count(logical=False)
 num_processes = max(1, int(threads_count))
@@ -80,15 +112,6 @@ for i in range(args.N):
     blood_type = assign_blood_type(blood_type_probs)
     G.add_node(i, blood_type=blood_type)
 
-# Add edges until M edges are added (capitalized)
-edges_per_process = args.M // num_processes
-
-# Create edge chunks for parallel processing
-edge_chunks = []
-for _ in range(num_processes):
-    edge_chunk = random.choices(list(G.nodes()), k=edges_per_process * 2)  # Sample with replacement
-    edge_chunk = [(edge_chunk[i], edge_chunk[i + 1]) for i in range(0, len(edge_chunk), 2)]  # Create pairs
-    edge_chunks.append(edge_chunk)
 
 # Function to add edges in parallel
 def evaluate_pairs(args):
@@ -118,6 +141,25 @@ while len(result_vertices) <= args.N:  # Changed variable name
 # Remove extra edges if more than N edges were generated
 result_vertices = result_vertices[:args.N]  # Changed variable name
 print(len(result_vertices))
+
+
+# Example usage:
+n = args.N  # Sum of 1 to 10
+num_groups = num_processes
+groups = balanced_groups(n, num_groups)
+# Print the size of each group
+for i, pairs in enumerate(groups):
+    print(f"Group {i + 1} size: {len(pairs)}")
+# Calculate and print the sum of the sizes
+total_size = sum(len(pairs) for pairs in groups)
+print(f"Total size: {total_size}")
+# Create a Pool for parallel processing
+quit()
+
+with Pool(num_groups) as pool:
+    results = pool.map(generate_pairs_for_group, groups)
+quit()
+
 from itertools import combinations_with_replacement, islice, tee
 
 n_processes = num_processes
