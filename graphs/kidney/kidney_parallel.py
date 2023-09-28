@@ -44,12 +44,22 @@ def pair_compatible_index(successful_pairs, pair1_index, pair2_index):
     return compatible1 or compatible2
 
 # Function to generate pairs for a given group
-def generate_pairs_for_group(group):
-    pairs_list = []
+def generate_pairs_for_group(args):
+    group = args
+    compatible_pairs = []  # List to store compatible pairs
     for x in group:
         pairs = [(x, y) for y in range(x + 1, n)]
-        pairs_list.append(pairs)
-    return list(pairs_list)
+        pbar_total.update(len(pairs))  # Update the progress bar here
+        
+        # Check ABO compatibility and append compatible pairs to the list
+        for u, v in pairs:
+            blood_type_u = G.nodes[u]['blood_type']
+            blood_type_v = G.nodes[v]['blood_type']
+            if are_compatible(blood_type_u, blood_type_v):
+                compatible_pairs.append((u, v))
+                
+    return compatible_pairs
+
 
 def balanced_groups(n, num_groups):
     total = n * (n + 1) // 2  # Sum of 1 to n
@@ -154,26 +164,24 @@ for i, pairs in enumerate(groups):
 total_size = sum(len(pairs) for pairs in groups)
 print(f"Total size: {total_size}")
 # Create a Pool for parallel processing
-quit()
 
-with Pool(num_groups) as pool:
-    results = pool.map(generate_pairs_for_group, groups)
-quit()
+# Create a single progress bar
+with tqdm(total=n*(n-1)//2, desc="Processing pairs") as pbar_total:
+    # Create a Pool for parallel processing
+    with Pool(num_groups) as pool:
+        # Pass group as an argument to generate_pairs_for_group
+        compatible_pairs_list = pool.map(generate_pairs_for_group, groups)
 
-from itertools import combinations_with_replacement, islice, tee
+# Flatten the list of compatible pairs
+compatible_pairs = [pair for pairs in compatible_pairs_list for pair in pairs]
 
-n_processes = num_processes
-n = args.N  # num cols/rows in matrix
 
-pairs = ((i, j) for i, j in combinations_with_replacement(range(n), 2) if i != j)
-pair_chunks = [
-    list(islice(p, i, None, n_processes))
-    for i, p in enumerate(tee(pairs, n_processes))
-]
-print(len(pair_chunks))
-quit()
+# Calculate and print the sum of the results
+num_edges = len(compatible_pairs)
+print(f"Total Edges: {num_edges}")
+
 # Add the edges to the graph
-G.add_edges_from(result_vertices)  # Changed variable name
+G.add_edges_from(compatible_pairs)  # Changed variable name
 
 # Default output file name includes N, M, and blood type probabilities (capitalized)
 # Generate the output file name only if no output argument is provided
