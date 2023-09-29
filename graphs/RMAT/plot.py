@@ -82,6 +82,11 @@ for i, c_value in enumerate(unique_c_values):
         marker_symbol = marker_symbols[j % len(marker_symbols)]  # Cycle through marker symbols
         color = colors[j % num_subplots]  # Cycle through colors
         line = ax.plot(df_numstack['V'], df_numstack['relative_speedup'], marker=marker_symbol, linestyle='-', markersize=6, label=label, color=color)
+        
+        # Calculate and plot the standard deviation as a shaded area
+        std_dev = df_numstack[['seconds_CPU', 'seconds_GPU']].std(axis=1)
+        ax.fill_between(df_numstack['V'], df_numstack['relative_speedup'] - std_dev, df_numstack['relative_speedup'] + std_dev, alpha=0.2, color=color)
+        
         legend_handles.append(Line2D([0], [0], color=color, marker=marker_symbol, markersize=6, label=label))
 
 # Create a single horizontal legend outside the subplots
