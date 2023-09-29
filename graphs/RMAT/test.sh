@@ -2,7 +2,8 @@
 
 
 C=2
-for C in {2..10}
+Clist=(2 3 5 10 15 20 30 40 50 60 70 80 90 100)
+for C in ${Clist[@]}
 do
 for i in {5..5}
 do
