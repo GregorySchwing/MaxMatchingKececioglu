@@ -28,7 +28,7 @@ rm $filenameShifted
 sed -i -e 's/^/edge /' $filenameKece
 sed -i "1s/^/vertices $VERTICES\n/" $filenameKece
 sed -i "2s/^/edges $EDGES\n/" $filenameKece
-../../src/matching $filenameKece
+#../../src/matching $filenameKece
 rm $filenameKece
 
 sed -i "1s/^/%%MatrixMarket matrix coordinate pattern symmetric\n/" $filenameMTX
@@ -43,7 +43,7 @@ sed -i "2s/^/$VERTICES $VERTICES $EDGES\n/" $filenameMTX
 /home/greg/mvm/src/cpu $filenameMTX
 #/home/greg/mvm/src/a.out $filenameMTX 0 1
 /home/greg/mvm/src/a.out $filenameMTX 60 48
-#rm $filenameMTX
+rm $filenameMTX
 
 
 done
