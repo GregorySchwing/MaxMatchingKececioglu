@@ -62,7 +62,8 @@ colors = sns.color_palette("colorblind", num_subplots)
 
 # Create a figure with subplots arranged in a grid
 fig, axs = plt.subplots(num_rows, num_cols, figsize=(12, 8))
-fig.suptitle('Relative Speedup vs. V (Grouped by C, NUMSTACK_GPU, and Device)', fontsize=16)
+fig.suptitle('Relative Speedup versus Vertices for Different Numbers (N) of Blocks', fontsize=16, y=0.95)
+fig.text(0.5, 0.92, 'C=M/N', fontsize=14, ha='center')  # Add the subtitle
 
 # Flatten the axs array if it's multidimensional
 axs = axs.ravel()
@@ -74,7 +75,7 @@ color_mapping = {}
 for i, numstack in enumerate(relative_speedup_df[relative_speedup_df['C'] == first_c_value]['NUMSTACK_GPU'].unique()):
     color = colors[i % len(colors)]  # Cycle through colors
     color_mapping[numstack] = color
-    patches.append(mpatches.Patch(color=color, label=f'NUMSTACK_GPU={numstack}'))
+    patches.append(mpatches.Patch(color=color, label=f'N={int(numstack)}'))
 
 # Add the patches to the top of the figure
 fig.legend(handles=patches, loc='upper center', ncol=len(patches), bbox_to_anchor=(0.5, 0.97))
@@ -91,7 +92,7 @@ for i, c_value in enumerate(unique_c_values):
     legend_handles = []
     for j, numstack in enumerate(df_c['NUMSTACK_GPU'].unique()):
         df_numstack = df_c[df_c['NUMSTACK_GPU'] == numstack]
-        label = f'NUMSTACK_GPU={numstack}'
+        label = f'N={int(numstack)}'
         marker_symbol = marker_symbols[j % len(marker_symbols)]  # Cycle through marker symbols
         color = color_mapping[numstack]  # Use color from the mapping
         line = ax.plot(df_numstack['V'], df_numstack['relative_speedup'], marker=marker_symbol, linestyle='-', markersize=6, label=label, color=color)
