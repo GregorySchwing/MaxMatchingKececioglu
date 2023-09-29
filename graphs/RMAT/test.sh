@@ -3,6 +3,8 @@
 
 C=2
 Clist=(2 3 5 10 15 20 30 40 50 60 70 80 90 100)
+for repl in {1..5}
+do
 for C in ${Clist[@]}
 do
 for i in {5..5}
@@ -41,11 +43,13 @@ sed -i "2s/^/$VERTICES $VERTICES $EDGES\n/" $filenameMTX
 #../../blossom5-v2.04.src/blossom5 -e $filenameBlossV
 
 /home/greg/mvm/src/cpu $filenameMTX
-#/home/greg/mvm/src/a.out $filenameMTX 0 1
+/home/greg/mvm/src/a.out $filenameMTX 0 1
 /home/greg/mvm/src/a.out $filenameMTX 60 48
+/home/greg/mvm/src/a.out $filenameMTX 60 32
 rm $filenameMTX
 
 
+done
 done
 done
 done
