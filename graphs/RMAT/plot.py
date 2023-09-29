@@ -61,7 +61,7 @@ marker_symbols = ['o', 's', 'D', '^', 'v', '<', '>', 'p', '*', 'H']
 colors = sns.color_palette("colorblind", num_subplots)
 
 # Create a figure with subplots arranged in a grid
-fig, axs = plt.subplots(num_rows, num_cols, figsize=(12, 8))
+fig, axs = plt.subplots(num_rows, num_cols, figsize=(20, 13))
 fig.suptitle('Relative Speedup versus Vertices for Different Numbers (B) of Blocks', fontsize=16, y=1.0)
 fig.text(0.5, 0.95, 'C=M/N', fontsize=16, ha='center')  # Add the subtitle
 
@@ -105,10 +105,9 @@ for i, c_value in enumerate(unique_c_values):
 
 # Create a single horizontal legend outside the subplots
 fig.legend(handles=legend_handles, loc='upper center', ncol=len(df_c['NUMSTACK_GPU'].unique()), bbox_to_anchor=(0.5, -0.05))
+plt.tight_layout(rect=[0, 0, 1, 0.97])
 plt.savefig('relative_speedup_plot.png')
 # Adjust spacing between subplots
-plt.tight_layout(rect=[0, 0, 1, 0.97])
-
 # Show the plot
 plt.show()
 
