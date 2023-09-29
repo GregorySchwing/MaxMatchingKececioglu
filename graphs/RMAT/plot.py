@@ -62,8 +62,8 @@ colors = sns.color_palette("colorblind", num_subplots)
 
 # Create a figure with subplots arranged in a grid
 fig, axs = plt.subplots(num_rows, num_cols, figsize=(12, 8))
-fig.suptitle('Relative Speedup versus Vertices for Different Numbers (N) of Blocks', fontsize=16, y=0.95)
-fig.text(0.5, 0.92, 'C=M/N', fontsize=14, ha='center')  # Add the subtitle
+fig.suptitle('Relative Speedup versus Vertices for Different Numbers (N) of Blocks', fontsize=16, y=1.0)
+fig.text(0.5, 0.95, 'C=M/N', fontsize=16, ha='center')  # Add the subtitle
 
 # Flatten the axs array if it's multidimensional
 axs = axs.ravel()
@@ -78,7 +78,7 @@ for i, numstack in enumerate(relative_speedup_df[relative_speedup_df['C'] == fir
     patches.append(mpatches.Patch(color=color, label=f'N={int(numstack)}'))
 
 # Add the patches to the top of the figure
-fig.legend(handles=patches, loc='upper center', ncol=len(patches), bbox_to_anchor=(0.5, 0.97))
+fig.legend(handles=patches, loc='upper center', ncol=len(patches), bbox_to_anchor=(0.5, 0.95))
 
 for i, c_value in enumerate(unique_c_values):
     ax = axs[i]
