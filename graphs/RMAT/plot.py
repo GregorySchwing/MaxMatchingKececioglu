@@ -37,34 +37,35 @@ df_cpu['NUMSTACK'] = 1
 # Merge GPU and CPU dataframes on 'C' and 'V'
 combined_df = df_gpu.merge(df_cpu, on=['C', 'V'], suffixes=('_GPU', '_CPU'), how='outer')
 
-# Calculate relative speedup by dividing CPU seconds by GPU seconds
-combined_df['relative_speedup'] = combined_df['seconds_CPU'] / combined_df['seconds_GPU']
+# Calculate relative speedup using the mean seconds for each NUMSTACK_GPU value
+relative_speedup_df = combined_df.groupby(['C', 'V', 'NUMSTACK_GPU'])[['seconds_CPU', 'seconds_GPU']].mean().reset_index()
+relative_speedup_df['relative_speedup'] = relative_speedup_df['seconds_CPU'] / relative_speedup_df['seconds_GPU']
 
 # Get unique C values from the combined dataframe
-unique_c_values = combined_df['C'].unique()
+unique_c_values = relative_speedup_df['C'].unique()
 
 # Check if there are unique C values before creating subplots
 if len(unique_c_values) > 0:
     # Create a figure with subplots arranged in a grid
     fig, axs = plt.subplots(len(unique_c_values), 1, figsize=(10, 6 * len(unique_c_values)), sharex=True)
-    fig.suptitle('Relative Speedup vs. V (Grouped by C and NUMSTACK)', fontsize=16)
+    fig.suptitle('Relative Speedup vs. V (Grouped by C, NUMSTACK_GPU, and Device)', fontsize=16)
 
     # Iterate through unique C values and create subplots in the grid
     for i, c_value in enumerate(unique_c_values):
         ax = axs[i]
-        df_c = combined_df[combined_df['C'] == c_value]
+        df_c = relative_speedup_df[relative_speedup_df['C'] == c_value]
 
         ax.set_title(f'C={c_value}')
         ax.set_xlabel('V')
         ax.set_ylabel('Relative Speedup')
 
-        # Plot relative speedup for each NUMSTACK value
+        # Plot relative speedup for each NUMSTACK_GPU value
         for numstack in df_c['NUMSTACK_GPU'].unique():
             df_numstack = df_c[df_c['NUMSTACK_GPU'] == numstack]
-            label = f'NUMSTACK={numstack}'
+            label = f'NUMSTACK_GPU={numstack}'
             ax.plot(df_numstack['V'], df_numstack['relative_speedup'], marker='o', linestyle='-', markersize=6, label=label)
 
-        ax.legend(title='NUMSTACK')
+        ax.legend(title='NUMSTACK_GPU')
 
     # Adjust spacing between subplots
     plt.tight_layout(rect=[0, 0, 1, 0.97])
