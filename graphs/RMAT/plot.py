@@ -1,7 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns  # Import seaborn for colorblind-accessible colors
-from matplotlib.lines import Line2D  # Import Line2D for legend handles
+import seaborn as sns
+from matplotlib.lines import Line2D
+import matplotlib.patches as mpatches
 
 # Read the CSV file for GPUResults (change the path as needed)
 df_gpu = pd.read_csv('GPUResults.csv')
@@ -66,6 +67,18 @@ fig.suptitle('Relative Speedup vs. V (Grouped by C, NUMSTACK_GPU, and Device)', 
 # Flatten the axs array if it's multidimensional
 axs = axs.ravel()
 
+# Create patches at the top of the figure with NUMSTACKS as text labels for the first unique C value
+first_c_value = unique_c_values[0]
+patches = []
+color_mapping = {}
+for i, numstack in enumerate(relative_speedup_df[relative_speedup_df['C'] == first_c_value]['NUMSTACK_GPU'].unique()):
+    color = colors[i % len(colors)]  # Cycle through colors
+    color_mapping[numstack] = color
+    patches.append(mpatches.Patch(color=color, label=f'NUMSTACK_GPU={numstack}'))
+
+# Add the patches to the top of the figure
+fig.legend(handles=patches, loc='upper center', ncol=len(patches), bbox_to_anchor=(0.5, 0.97))
+
 for i, c_value in enumerate(unique_c_values):
     ax = axs[i]
     df_c = relative_speedup_df[relative_speedup_df['C'] == c_value]
@@ -80,9 +93,9 @@ for i, c_value in enumerate(unique_c_values):
         df_numstack = df_c[df_c['NUMSTACK_GPU'] == numstack]
         label = f'NUMSTACK_GPU={numstack}'
         marker_symbol = marker_symbols[j % len(marker_symbols)]  # Cycle through marker symbols
-        color = colors[j % num_subplots]  # Cycle through colors
+        color = color_mapping[numstack]  # Use color from the mapping
         line = ax.plot(df_numstack['V'], df_numstack['relative_speedup'], marker=marker_symbol, linestyle='-', markersize=6, label=label, color=color)
-        
+
         # Calculate and plot the standard deviation as a shaded area
         std_dev = df_numstack[['seconds_CPU', 'seconds_GPU']].std(axis=1)
         ax.fill_between(df_numstack['V'], df_numstack['relative_speedup'] - std_dev, df_numstack['relative_speedup'] + std_dev, alpha=0.2, color=color)
