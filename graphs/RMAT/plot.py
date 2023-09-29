@@ -105,7 +105,7 @@ for i, c_value in enumerate(unique_c_values):
 
 # Create a single horizontal legend outside the subplots
 fig.legend(handles=legend_handles, loc='upper center', ncol=len(df_c['NUMSTACK_GPU'].unique()), bbox_to_anchor=(0.5, -0.05))
-
+plt.savefig('relative_speedup_plot.png')
 # Adjust spacing between subplots
 plt.tight_layout(rect=[0, 0, 1, 0.97])
 
