@@ -24,7 +24,7 @@ Void main (int argc, char **argv)
       G = ReadGraph(stdin,&N,&EdgeListSize);
    clock_t start_time, end_time;
    double elapsed_time_ms;
-   #ifdef Debug
+   #ifndef NDEBUG
    const char* extensionX = ".augP";
    char outputFilenameX[500];
    strcpy(outputFilenameX, argv[1]);
@@ -45,7 +45,7 @@ Void main (int argc, char **argv)
    output_fileZ = fopen(outputFilenameZ, "w");
    #endif
 
-   #ifdef Debug
+   #ifndef NDEBUG
    M = MaximumCardinalityMatchingTrack(G,output_fileX,output_fileY,output_fileZ);
    fclose(output_fileX);
    fclose(output_fileY);
@@ -62,7 +62,7 @@ Void main (int argc, char **argv)
    // Print the elapsed time in milliseconds
    printf("Elapsed Time: %.2f milliseconds\n", elapsed_time_ms);
    printf("Elapsed Time: %.2f seconds\n", elapsed_time_ms/1000.0);
-   fprintf(stdout, "The %d edges of a maximum-cardinality matching are\n",
+   fprintf(stdout, "There are %d edges in the maximum-cardinality matching.\n",
            ListSize(M));
 
    char inputFilename[500];
