@@ -96,6 +96,7 @@
 #include <stdio.h>
 #include "matching.h"
 #include "set.h"
+#include <time.h>
 
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -434,12 +435,21 @@ static Void Initialize
       A++;
       B++;
    }
-
+   clock_t start_time, end_time;
+   double elapsed_time_ms;
+   start_time = clock();
    ForAllListElements(E, M, Edge *, P)
    {
       Match(EdgeFrom(E)) = E;
       Match(EdgeTo(E)) = E;
    }
+   end_time = clock();
+   // Calculate the elapsed time in milliseconds
+   elapsed_time_ms = ((double)(end_time - start_time) / CLOCKS_PER_SEC) * 1000.0;
+   // Print the elapsed time in milliseconds
+   printf("Elapsed Time Greedy Initialization: %.2f milliseconds\n", elapsed_time_ms);
+   printf("Elapsed Time Greedy Initialization: %.2f seconds\n", elapsed_time_ms/1000.0);
+
    DestroyList(M);
 }
 

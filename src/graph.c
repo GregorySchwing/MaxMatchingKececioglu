@@ -700,7 +700,7 @@ Void WriteGraph
     */
    P = ListHead(G->Edges);
    while ((E = (Edge *) ListNext(P)))
-      fprintf(stream, "edge %d %d\n",
+      fprintf(stream, "edge %ld %ld\n",
          ((VertexData *) E->From->Label) - L + 1,
          ((VertexData *) E->To->Label) - L + 1);
    
@@ -847,7 +847,7 @@ Void WriteEdgeWeightedGraph
     */
    P = ListHead(GraphEdges(G));
    while ((E = (Edge *) ListNext(P)))
-      fprintf(stream, "edge %d %d %g\n",
+      fprintf(stream, "edge %ld %ld %g\n",
          ((VertexData *) E->From->Label) - L + 1,
          ((VertexData *) E->To->Label) - L + 1,
          Weight(E));
