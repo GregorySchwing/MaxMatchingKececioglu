@@ -97,6 +97,7 @@
 #include "matching.h"
 #include "set.h"
 #include <time.h>
+#include "bipartite.h"
 
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -449,6 +450,8 @@ static Void Initialize
    // Print the elapsed time in milliseconds
    printf("Elapsed Time Greedy Initialization: %.2f milliseconds\n", elapsed_time_ms);
    printf("Elapsed Time Greedy Initialization: %.2f seconds\n", elapsed_time_ms/1000.0);
+
+   bipartite(G);
 
    DestroyList(M);
 }

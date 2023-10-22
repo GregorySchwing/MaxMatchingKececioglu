@@ -1,6 +1,8 @@
 CC	= gcc
-#CFLAGS	= -O3 -DDebug=1
+CCX	= g++
+
 CFLAGS	= -O3 -DNDEBUG
+CXXFLAGS	= -O3 -DNDEBUG --ansi -fpermissive 
 
 RM   = rm -f
 SHAR = shar
@@ -8,13 +10,14 @@ LINT = lint -x
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-SOURCES = driver.c matching.c graph.c list.c set.c
-OBJECTS = driver.o matching.o graph.o list.o set.o
+SOURCES = driver.c matching.c graph.c list.c set.c bipartite.cpp
+OBJECTS = driver.o matching.o graph.o list.o set.o bipartite.o
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 matching : ${OBJECTS}
-	${CC} ${CFLAGS} -o matching ${OBJECTS}
+#	${CC} ${CFLAGS} -o matching ${OBJECTS}
+	${CCX} ${CXXFLAGS} -o matching ${OBJECTS}
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
