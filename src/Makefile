@@ -2,7 +2,7 @@ CC	= gcc
 CCX	= g++
 
 CFLAGS	= -O3 -DNDEBUG
-CXXFLAGS	= -O3 -DNDEBUG --ansi -fpermissive 
+CXXFLAGS	= -O3 -DNDEBUG 
 
 RM   = rm -f
 SHAR = shar
