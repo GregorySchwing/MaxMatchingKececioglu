@@ -5,7 +5,7 @@ NVCC = nvcc
 
 CFLAGS	= -O3 -DNDEBUG -std=c++98 -fpermissive -w 
 CXXFLAGS	= -O3 -DNDEBUG --ansi
-CUDAFLAGS = -O2 -w 
+CUDAFLAGS = -O3 -Xptxas -O3 -Xcompiler -O3 -w 
 
 RM   = rm -f
 SHAR = shar
