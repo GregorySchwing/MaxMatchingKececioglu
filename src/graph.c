@@ -759,7 +759,8 @@ Graph *ReadGraph
     * Create an empty graph
     */
    G = CreateGraph(Nil);
-   
+   G->EL.Rows = (int *)malloc(2 * (*M) * sizeof(int));
+   G->EL.Cols = (int *)malloc(2 * (*M) * sizeof(int));
    /*
     * Insert the vertices
     */
@@ -769,13 +770,18 @@ Graph *ReadGraph
    /*
     * Read the list of edges and insert them
     */
+   register Edge *E;
    for (i = 0; i < *M; i++)
    {
       if (fscanf(stream, " edge %d %d", &a, &b) != 2)
          Error("(ReadGraph) Edge not recognized.");
-      CreateEdge(G, V[a - 1], V[b - 1], Nil);
+      // Instead of ignoring the return value, use it to make hash table.
+      E = CreateEdge(G, V[a - 1], V[b - 1], Nil);
       //CreateEdge(G, V[a], V[b], Nil);
-
+      G->EL.Rows[2*i] = a - 1;
+      G->EL.Rows[2*i + 1] = b - 1;
+      G->EL.Cols[2*i] = b - 1;
+      G->EL.Cols[2*i + 1] = a - 1;
    }
 
    /*

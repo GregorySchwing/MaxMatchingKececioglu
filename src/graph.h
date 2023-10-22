@@ -23,6 +23,15 @@ typedef Pointer GraphData;
 typedef Pointer VertexData;
 typedef Pointer EdgeData;
 
+
+/*
+ * Edge list for CUDA
+ */
+typedef struct EdgeListSOA {
+   int *Rows;
+   int *Cols;
+} EdgeList;
+
 /*
  * Directed graph
  */
@@ -33,7 +42,9 @@ typedef struct GraphStruct {
       /*
        * `Vertices' is reused for the pool of free graphs
        */
+   EdgeList EL;
 } Graph;
+
 
 /*
  * Graph vertex
