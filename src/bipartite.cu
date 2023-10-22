@@ -40,13 +40,20 @@
 #include "list.h"
 
 typedef ListCell Cell;
+//#define Match(V)   (((VertexAttribute *) VertexLabel(V))->MatchField)
 
 void bipartite(Graph * G){
+    int n = ListSize(G->Vertices);
+    int m = ListSize(G->Edges);
+    CSRGraph csr(n,m);
     register Cell   *P;
     register Vertex *V;
     register Edge   *E;
     ForAllGraphVertices(V, G, P)
     {
+        //E = Match(V);
+        //if (E != Nil && V == EdgeFrom(E))
+        //    ListPut(E, M);
     }
     ForAllGraphEdges(E, G, P)
     {

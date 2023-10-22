@@ -3,7 +3,7 @@ CC	= g++
 CCX	= g++
 NVCC = nvcc
 
-CFLAGS	= -O3 -DNDEBUG --ansi -fpermissive -w 
+CFLAGS	= -O3 -DNDEBUG -std=c++98 -fpermissive -w 
 CXXFLAGS	= -O3 -DNDEBUG --ansi
 CUDAFLAGS = -O2 -w 
 
