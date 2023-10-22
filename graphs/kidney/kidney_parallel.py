@@ -98,7 +98,7 @@ parser.add_argument('--O_prob', type=int, default=50, help='Probability of blood
 parser.add_argument('--A_prob', type=int, default=30, help='Probability of blood type A (in integer form)')
 parser.add_argument('--B_prob', type=int, default=15, help='Probability of blood type B (in integer form)')
 parser.add_argument('--AB_prob', type=int, default=5, help='Probability of blood type AB (in integer form)')
-parser.add_argument('--crossmatch_prob', type=int, default=0.2, help='Probability of crossmatch')
+parser.add_argument('--crossmatch_prob', type=float, default=0.2, help='Probability of crossmatch')
 
 parser.add_argument('-output', type=str, default=None, help='Output file name')
 args = parser.parse_args()
