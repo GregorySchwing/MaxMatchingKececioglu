@@ -38,9 +38,10 @@
 #include "CSRGraph.cuh"
 #include "graph.h"
 #include "list.h"
+#include "matching.h"
 
 typedef ListCell Cell;
-//#define Match(V)   (((VertexAttribute *) VertexLabel(V))->MatchField)
+#define Match(V)   (((VertexAttribute *) VertexLabel(V))->MatchField)
 
 void bipartite(Graph * G){
     int n = ListSize(G->Vertices);
@@ -51,9 +52,11 @@ void bipartite(Graph * G){
     register Edge   *E;
     ForAllGraphVertices(V, G, P)
     {
-        //E = Match(V);
-        //if (E != Nil && V == EdgeFrom(E))
-        //    ListPut(E, M);
+        E = Match(V);
+        if (E != Nil && V == EdgeFrom(E))
+        {
+            //ListPut(E, M);
+        }
     }
     ForAllGraphEdges(E, G, P)
     {

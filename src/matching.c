@@ -95,51 +95,8 @@
 
 #include <stdio.h>
 #include "matching.h"
-#include "set.h"
 #include <time.h>
 #include "bipartite.h"
-
-
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *
- * Types
- *
- */
-
-
-typedef ListCell Cell;
-
-typedef struct
-{
-   Vertex *BaseField;
-}
-SetAttribute;
-
-typedef struct
-{
-   Element *BlossomField;
-   Edge    *MatchField;
-   Edge    *TreeField;
-   Edge    *BridgeField;
-   Vertex  *ShoreField;
-   short    LabelField;
-   int      AgeField;
-   Cell    *SelfField;
-   VertexData    OriginalVertexLabelField;
-   SetAttribute *OriginalSetLabelField;
-
-   
-#ifdef Debug
-   
-   int   NameField;
-   List *MembersField;
-   List *ChildrenField;
-   
-#endif /* Debug */
-   
-   
-}
-VertexAttribute;
 
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
