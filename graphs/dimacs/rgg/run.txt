@@ -1,0 +1,5 @@
+#!/bin/bash
+for i in $(seq 15 1 24)
+do
+  ./mvm ../dimacs/rgg/rgg_n_2_$i_s0/rgg_n_2_$i_s0.mtx
+done

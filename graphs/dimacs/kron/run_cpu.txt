@@ -1,0 +1,5 @@
+#!/bin/bash
+for i in $(seq 16 1 21)
+do
+  ./cpu ../dimacs/kron/kron_g500-logn$i/kron_g500-logn$i.mtx
+done

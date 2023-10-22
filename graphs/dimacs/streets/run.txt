@@ -1,0 +1,10 @@
+#!/usr/bin/bash
+
+./mvm ../dimacs/streets/luxembourg_osm/luxembourg_osm.mtx
+./mvm ../dimacs/streets/belgium_osm/belgium.mtx
+./mvm ../dimacs/streets/netherlands_osm/netherlands_osm.mtx
+./mvm ../dimacs/streets/italy_osm/italy_osm.mtx
+./mvm ../dimacs/streets/great-britain_osm/great-britain_osm.mtx
+./mvm ../dimacs/streets/germany_osm/germany_osm.mtx
+./mvm ../dimacs/streets/asia_osm/asia_osm.mtx
+./mvm ../dimacs/streets/europe_osm/europe_osm.mtx

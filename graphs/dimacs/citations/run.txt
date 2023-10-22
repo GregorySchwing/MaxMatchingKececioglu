@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+
+./mvm ../dimacs/citations/coAuthorsCiteseer/coAuthorsCiteseer.mtx
+./mvm ../dimacs/citations/coAuthorsDBLP/coAuthorsDBLP.mtx
+./mvm ../dimacs/citations/citationCiteseer/citationCiteseer.mtx
+./mvm ../dimacs/citations/coPapersDBLP/coPapersDBLP.mtx
+./mvm ../dimacs/citations/coPapersCiteseer/coPapersCiteseer.mtx

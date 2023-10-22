@@ -1,0 +1,18 @@
+#!/usr/bin/bash
+export CUDA_VISIBLE_DEVICES=1
+cd ../build
+#bash ../dimacs/2DDynSims/run.txt
+#bash ../dimacs/citations/run.txt
+bash ../dimacs/delauney/run.txt
+#bash ../dimacs/kron/run.txt
+#bash ../dimacs/rgg/run.txt
+bash ../dimacs/streets/run.txt
+bash ../SNAP/stateRoads/run.txt
+
+#bash ../dimacs/2DDynSims/run_cpu.txt
+#bash ../dimacs/citations/run_cpu.txt
+bash ../dimacs/delauney/run_cpu.txt
+#bash ../dimacs/kron/run_cpu.txt
+#bash ../dimacs/rgg/run_cpu.txt
+bash ../dimacs/streets/run_cpu.txt
+bash ../SNAP/stateRoads/run_cpu.txt
