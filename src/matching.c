@@ -440,6 +440,7 @@ static Void Initialize
    start_time = clock();
    ForAllListElements(E, M, Edge *, P)
    {
+      printf("Matching %lu - %lu\n",(EdgeFrom(E)-(G->VertexArray[0]))/sizeof(Vertex*), (EdgeTo(E)-(G->VertexArray[0]))/sizeof(Vertex*));
       Match(EdgeFrom(E)) = E;
       Match(EdgeTo(E)) = E;
    }

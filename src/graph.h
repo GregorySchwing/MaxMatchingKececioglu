@@ -33,20 +33,6 @@ typedef struct EdgeListSOA {
 } EdgeList;
 
 /*
- * Directed graph
- */
-typedef struct GraphStruct {
-   List *Vertices;
-   List *Edges;
-   GraphData Label; /* Graph attribute */
-      /*
-       * `Vertices' is reused for the pool of free graphs
-       */
-   EdgeList EL;
-} Graph;
-
-
-/*
  * Graph vertex
  */
 typedef struct {
@@ -73,6 +59,20 @@ typedef struct {
        * `Self' is reused for the pool of free edges
        */
 } Edge;
+
+/*
+ * Directed graph
+ */
+typedef struct GraphStruct {
+   List *Vertices;
+   List *Edges;
+   GraphData Label; /* Graph attribute */
+      /*
+       * `Vertices' is reused for the pool of free graphs
+       */
+   EdgeList EL;
+   Vertex ** VertexArray;
+} Graph;
 
 
 /*

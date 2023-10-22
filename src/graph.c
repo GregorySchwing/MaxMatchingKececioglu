@@ -736,7 +736,7 @@ Graph *ReadGraph
 {
    //auto int M, N;
    register Graph *G;
-   register Vertex **V;
+   //register Vertex **V;
    auto int a, b;
    register int i;
    
@@ -748,24 +748,26 @@ Graph *ReadGraph
    if (fscanf(stream, " edges %d", M) != 1)
       Error("(ReadGraph) Number of edges not recognized.");
    
-   /*
-    * Allocate an array to hold onto vertices
-    */
-   V = (Vertex **) Allocate(*N * sizeof(Vertex *));
-   if (V == NULL)
-      Error("(ReadGraph) Memory allocation failed.");
-   
+
    /*
     * Create an empty graph
     */
    G = CreateGraph(Nil);
    G->EL.Rows = (int *)malloc(2 * (*M) * sizeof(int));
    G->EL.Cols = (int *)malloc(2 * (*M) * sizeof(int));
+   
+   /*
+    * Allocate an array to hold onto vertices
+    */
+   G->VertexArray = (Vertex **) Allocate(*N * sizeof(Vertex *));
+   if (G->VertexArray == NULL)
+      Error("(ReadGraph) Memory allocation failed.");
+   
    /*
     * Insert the vertices
     */
    for (i = 0; i < *N; i++)
-      V[i] = CreateVertex(G, Nil);
+      G->VertexArray[i] = CreateVertex(G, Nil);
    
    /*
     * Read the list of edges and insert them
@@ -776,7 +778,7 @@ Graph *ReadGraph
       if (fscanf(stream, " edge %d %d", &a, &b) != 2)
          Error("(ReadGraph) Edge not recognized.");
       // Instead of ignoring the return value, use it to make hash table.
-      E = CreateEdge(G, V[a - 1], V[b - 1], Nil);
+      E = CreateEdge(G, G->VertexArray[a - 1], G->VertexArray[b - 1], Nil);
       //CreateEdge(G, V[a], V[b], Nil);
       G->EL.Rows[2*i] = a - 1;
       G->EL.Rows[2*i + 1] = b - 1;
@@ -787,7 +789,7 @@ Graph *ReadGraph
    /*
     * Free memory
     */
-   Free(V);
+   //Free(V);
    
    /*
     * Return the graph
