@@ -6,7 +6,7 @@
 #include <string.h>
 typedef ListCell Cell;
 
-Void main (int argc, char **argv)
+int main (int argc, char **argv)
 {
    int   N,EdgeListSize;
    List *M;

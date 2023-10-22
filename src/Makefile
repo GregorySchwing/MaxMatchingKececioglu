@@ -1,10 +1,11 @@
-CC	= gcc
+# Compiling C code with gcc prevents effortless linking.
+CC	= g++
 CCX	= g++
 NVCC = nvcc
 
-CFLAGS	= -O3 -DNDEBUG
-CXXFLAGS	= -O3 -DNDEBUG 
-CUDAFLAGS = -O2
+CFLAGS	= -O3 -DNDEBUG --ansi -fpermissive -w 
+CXXFLAGS	= -O3 -DNDEBUG --ansi
+CUDAFLAGS = -O2 -w 
 
 RM   = rm -f
 SHAR = shar
