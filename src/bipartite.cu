@@ -36,5 +36,19 @@
  */
 #include "bipartite.h"
 #include "CSRGraph.cuh"
+#include "graph.h"
+#include "list.h"
 
-void bipartite(Graph * graph){}
+typedef ListCell Cell;
+
+void bipartite(Graph * G){
+    register Cell   *P;
+    register Vertex *V;
+    register Edge   *E;
+    ForAllGraphVertices(V, G, P)
+    {
+    }
+    ForAllGraphEdges(E, G, P)
+    {
+    }
+}
