@@ -755,7 +755,9 @@ Graph *ReadGraph
    G = CreateGraph(Nil);
    G->EL.Rows = (int *)malloc(2 * (*M) * sizeof(int));
    G->EL.Cols = (int *)malloc(2 * (*M) * sizeof(int));
-   
+   G->EL.M = (*M);
+   G->EL.N = (*N);
+
    /*
     * Allocate an array to hold onto vertices
     */

@@ -1,6 +1,9 @@
 CC	= gcc
+NVCC = nvcc
+
 #CFLAGS	= -O3 -DDebug=1
 CFLAGS	= -O3 -DNDEBUG
+CUDAFLAGS = -O3 -Xptxas -O3 -Xcompiler -O3 -w 
 
 RM   = rm -f
 SHAR = shar
@@ -8,14 +11,24 @@ LINT = lint -x
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-SOURCES = driver.c matching.c graph.c list.c set.c
-OBJECTS = driver.o matching.o graph.o list.o set.o
+SOURCES = driver.c matching.c graph.c list.c set.c bipartite.cu
+OBJECTS = driver.o matching.o graph.o list.o set.o bipartite.o
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# -dc is the flag for separate compilation. 
+# The architecture must be specified before -dc see (with a generic Makefile).
+
+%.o: %.cu
+	${NVCC} -dc $(CUDAFLAGS) $< -o $@
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-matching : ${OBJECTS}
-	${CC} ${CFLAGS} -o matching ${OBJECTS}
+#matching : ${OBJECTS}
+#	${CC} ${CFLAGS} -o matching ${OBJECTS}
 
+matching : ${OBJECTS}
+#	${CC} ${CFLAGS} -o matching ${OBJECTS}
+	${NVCC} -o matching ${OBJECTS}
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 clean :

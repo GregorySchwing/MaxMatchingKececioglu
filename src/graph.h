@@ -30,6 +30,8 @@ typedef Pointer EdgeData;
 typedef struct EdgeListSOA {
    int *Rows;
    int *Cols;
+   int M;
+   int N;
 } EdgeList;
 
 /*
