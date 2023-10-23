@@ -15,7 +15,7 @@ __global__ void setNumInArray(T *arrays, T *index, T *value, int num_index);
 
 struct CSRGraph {
 public:
-    CSRGraph(int _n, int _m, int * rows, int * cols);
+    CSRGraph(int _n, int _m, int * rows, int * cols, int * matching);
     void createOffsets();
 
 //private:

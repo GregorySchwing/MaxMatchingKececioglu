@@ -10,7 +10,7 @@ __global__ void setNumInArray(T *arrays, T *index, T *value, int num_index)
   arrays[index[tid]] = value[tid];
 }
 
-CSRGraph::CSRGraph(int _n, int _m, int * rows, int * cols) 
+CSRGraph::CSRGraph(int _n, int _m, int * rows, int * cols, int * matching) 
 {
 
   m = _m;
@@ -22,6 +22,7 @@ CSRGraph::CSRGraph(int _n, int _m, int * rows, int * cols)
   //cols_h.resize(2 * m);
   rows_h.assign(rows, rows + 2*m);
   cols_h.assign(cols, cols + 2*m);
+  mate_h.assign(matching, matching + n);
   vals_h.resize(2 * m, 1);
 
   rows_d.resize(2 * m);
@@ -36,7 +37,6 @@ CSRGraph::CSRGraph(int _n, int _m, int * rows, int * cols)
   // This will be the degrees array.
   degrees_d.resize(n);
 
-  mate_h.resize(n,-1);
   mate_d.resize(n,-1);
 
   createOffsets();

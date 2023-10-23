@@ -755,7 +755,7 @@ Graph *ReadGraph
    G = CreateGraph(Nil);
    G->EL.Rows = (int *)malloc(2 * (*M) * sizeof(int));
    G->EL.Cols = (int *)malloc(2 * (*M) * sizeof(int));
-   
+   G->EL.Matching = (int *)calloc(*N, sizeof(int));
    G->EL.M = (*M);
    G->EL.N = (*N);
 

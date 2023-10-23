@@ -44,7 +44,7 @@ void bipartite(Graph * G){
     int n = G->EL.N;
     int m = G->EL.M;
     //printf("Generating CSR with %d rows, %d columns\n",m,m);
-    CSRGraph csr(n,m,G->EL.Rows,G->EL.Cols);
+    CSRGraph csr(n,m,G->EL.Rows,G->EL.Cols,G->EL.Matching);
     
     GreedyMatcher gm(csr);
     std::chrono::time_point<std::chrono::steady_clock> m_StartTime = std::chrono::steady_clock::now();
