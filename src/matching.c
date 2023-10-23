@@ -446,7 +446,6 @@ static Void Initialize
    {
       int matchPair = G->EL.Matching[vertexID];
       if (matchPair >= 0 && vertexID < matchPair){
-         printf("Matching %d - %d\n",vertexID,matchPair);
          OrderedPair key = {vertexID,matchPair};
          Edge *result1 = get(G->hash, key);
          assert(result1 != NULL);
@@ -459,6 +458,10 @@ static Void Initialize
    // Calculate the elapsed time in milliseconds
    elapsed_time_ms = ((double)(end_time - start_time) / CLOCKS_PER_SEC) * 1000.0;
    // Print the elapsed time in milliseconds
+
+   // Print the elapsed time in milliseconds
+   printf("Load Matching from GPU : Elapsed Time: %.2f milliseconds\n", elapsed_time_ms);
+   printf("Load Matching from GPU : Elapsed Time: %.2f seconds\n", elapsed_time_ms/1000.0);
    DestroyList(M);
 }
 

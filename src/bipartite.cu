@@ -41,17 +41,18 @@
 #include <chrono>
 
 void bipartite(Graph * G){
+    std::chrono::time_point<std::chrono::steady_clock> m_StartTime = std::chrono::steady_clock::now();
     int n = G->EL.N;
     int m = G->EL.M;
     //printf("Generating CSR with %d rows, %d columns\n",m,m);
     CSRGraph csr(n,m,G->EL.Rows,G->EL.Cols,G->EL.Matching);
     
     GreedyMatcher gm(csr);
-    std::chrono::time_point<std::chrono::steady_clock> m_StartTime = std::chrono::steady_clock::now();
     int numAugmented = gm.maxMatch();
+    csr.copyMatchingBack();
     std::chrono::time_point<std::chrono::steady_clock> m_EndTime = std::chrono::steady_clock::now();
     double elapsedSeconds = std::chrono::duration_cast<std::chrono::milliseconds>(m_EndTime - m_StartTime).count() / 1000.0;  
     std::cout << "Greedy match seconds: " << elapsedSeconds << "; edges augmented: " << numAugmented << std::endl;
-    csr.copyMatchingBack();
+
     //BFS b(csr, gm);
 }

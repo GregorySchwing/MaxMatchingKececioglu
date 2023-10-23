@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "hash_table.h"
 
-#define TABLE_SIZE 100 // You can adjust the table size as needed.
+#define TABLE_SIZE 100
 
 struct HashTable {
     int size;
@@ -10,7 +10,6 @@ struct HashTable {
 };
 
 int hashFunction(OrderedPair key, int tableSize) {
-    // A simple hash function for OrderedPair keys.
     return (key.x + key.y) % tableSize;
 }
 
@@ -38,6 +37,7 @@ HashTable *createHashTable(int size) {
 
 void insert(HashTable *table, OrderedPair key, Edge *value) {
     int index = hashFunction(key, table->size);
+    
     KeyValuePair *newPair = (KeyValuePair *)malloc(sizeof(KeyValuePair));
     if (newPair == NULL) {
         perror("Unable to allocate memory for a new key-value pair.");
@@ -46,32 +46,60 @@ void insert(HashTable *table, OrderedPair key, Edge *value) {
 
     newPair->key = key;
     newPair->value = value;
-    table->table[index] = newPair;
+    newPair->next = NULL;
+
+    if (table->table[index] == NULL) {
+        table->table[index] = newPair;
+    } else {
+        KeyValuePair *current = table->table[index];
+        while (current->next != NULL) {
+            current = (KeyValuePair *)current->next; // Type cast here.
+        }
+        current->next = newPair;
+    }
 }
 
 Edge *get(HashTable *table, OrderedPair key) {
     int index = hashFunction(key, table->size);
     KeyValuePair *pair = table->table[index];
-    if (pair != NULL && pair->key.x == key.x && pair->key.y == key.y) {
-        return pair->value;
+    
+    while (pair != NULL) {
+        if (pair->key.x == key.x && pair->key.y == key.y) {
+            return pair->value;
+        }
+        pair = (KeyValuePair *)pair->next; // Type cast here.
     }
-    return NULL; // Key not found.
+
+    return NULL;
 }
 
 void removeKey(HashTable *table, OrderedPair key) {
     int index = hashFunction(key, table->size);
-    KeyValuePair *pair = table->table[index];
-    if (pair != NULL && pair->key.x == key.x && pair->key.y == key.y) {
-        free(pair); // Free the memory of the key-value pair.
-        table->table[index] = NULL;
+    KeyValuePair *current = table->table[index];
+    KeyValuePair *prev = NULL;
+
+    while (current != NULL) {
+        if (current->key.x == key.x && current->key.y == key.y) {
+            if (prev != NULL) {
+                prev->next = current->next;
+            } else {
+                table->table[index] = (struct KeyValuePair *)current->next; // Add a type cast here.
+            }
+            free(current);
+            return; // Key removed successfully.
+        }
+        prev = current;
+        current = (KeyValuePair *)current->next; // Type cast here.
     }
 }
 
 void destroyHashTable(HashTable *table) {
     for (int i = 0; i < table->size; i++) {
-        KeyValuePair *pair = table->table[i];
-        if (pair != NULL) {
-            free(pair);
+        KeyValuePair *current = table->table[i];
+        while (current != NULL) {
+            KeyValuePair *next = (KeyValuePair *)current->next; // Type cast here.
+            free(current);
+            current = next;
         }
     }
     free(table->table);

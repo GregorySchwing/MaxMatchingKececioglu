@@ -3,16 +3,16 @@
 
 #include "edge_vertex.h"
 
-// Forward declaration of the Edge structure as an incomplete type.
 
 typedef struct {
     int x;
     int y;
 } OrderedPair;
 
-typedef struct {
+typedef struct KeyValuePair {
     OrderedPair key;
-    Edge *value; // Use the forward declaration.
+    Edge *value;
+    struct KeyValuePair* next; // Linked list for separate chaining.
 } KeyValuePair;
 
 typedef struct HashTable HashTable;
