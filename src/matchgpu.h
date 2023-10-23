@@ -25,15 +25,14 @@ __global__ void gSelect(int *match, int *dkeepMatching, const int nrVertices, co
 __global__ void gaSelect(int *match, int *dkeepMatching, const int nrVertices, const uint random);
 __global__ void gaSelect_from_mis(int *match, int *dkeepMatching, int *L_d,const int nrVertices);
 __global__ void gMatch(int *match, const int *requests, const int nrVertices);
-__global__ void gMatchEdgeList(unsigned long long * BTypePair_disjoint_list_d,int* BTypePair_disjoint_list_counter_d,unsigned long long * BTypePair_list_d, unsigned long long * root_list_d,int* BTypePair_list_counter_d,
-								int *match, const int *requests, const int nrVertices);
+__global__ void gMatchEdgeList(uint64_t *BTypePair_disjoint_list_d, unsigned int *BTypePair_disjoint_list_counter_d, uint64_t *BTypePair_list_d, int *search_tree_src_d, unsigned int *BTypePair_list_counter_d,
+                               int *match, const int *requests, const int nrVertices);
 //==== Random greedy matching kernels ====
 __global__ void grRequest(unsigned int *CP_d,unsigned int *IC_d,int *requests, const int *match, const int nrVertices);
 __global__ void grRespond(unsigned int *CP_d,unsigned int *IC_d,int *requests, const int *match, const int nrVertices);
 
-__global__ void grRequestEdgeList(unsigned long long * BTypePair_list_d, unsigned long long * root_list_d,int* BTypePair_list_counter_d,int *requests, const int *match, const int nrVertices);
-__global__ void grRespondEdgeList(unsigned long long * BTypePair_list_d, unsigned long long * root_list_d,int* BTypePair_list_counter_d,int *requests, const int *match, const int nrVertices);
-
+__global__ void grRequestEdgeList(uint64_t *BTypePair_list_d, int *search_tree_src_d, unsigned int *BTypePair_list_counter_d, int *requests, const int *match, const int nrVertices);
+__global__ void grRespondEdgeList(uint64_t *BTypePair_list_d, int *search_tree_src_d, unsigned int *BTypePair_list_counter_d, int *requests, const int *match, const int nrVertices);
 
 //==== Weighted greedy matching kernels ====
 __global__ void gwRequest(int *requests, const int *match, const int nrVertices);

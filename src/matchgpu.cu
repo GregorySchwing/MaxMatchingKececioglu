@@ -183,41 +183,6 @@ __global__ void gMatch(int *match, const int *requests, const int nrVertices)
 	}
 }
 
-
-__global__ void gMatchEdgeList(unsigned long long * BTypePair_disjoint_list_d,int* BTypePair_disjoint_list_counter_d,unsigned long long * BTypePair_list_d, unsigned long long * root_list_d,int* BTypePair_list_counter_d,
-								int *match, const int *requests, const int nrVertices)
-{
-
-	const int i = blockIdx.x*blockDim.x + threadIdx.x;
-
-	if (i >= BTypePair_list_counter_d[0] || i >= nrVertices) return;
-
-	uint32_t curr_u = (uint32_t)BTypePair_list_d[i];
-	uint32_t curr_v = (BTypePair_list_d[i] >> 32);
-	uint32_t curr_u_root = (uint32_t)root_list_d[i];
-	uint32_t curr_v_root = (root_list_d[i] >> 32);
-
-	const int r_u = requests[curr_u_root];
-	const int r_v = requests[curr_v_root];
-
-	if (r_u < nrVertices && r_v < nrVertices)
-	{
-		//This vertex has made a valid request.
-		if (r_u == curr_v && r_v == curr_u && curr_u < curr_v)
-		{
-			//Match the vertices if the request was mutual.
-			//match[i] = 4 + min(i, r);
-			// I need a pointer to the match for traversal.
-			match[curr_u_root] = 4 + curr_v;
-			match[curr_v_root] = 4 + curr_u;
-			uint64_t edgePair = (uint64_t) curr_v << 32 | curr_u;
-			int top = atomicAdd(BTypePair_disjoint_list_counter_d,1);
-			BTypePair_disjoint_list_d[top]=edgePair;
-		}
-	}
-}
-
-
 //==== Random greedy matching kernels ====
 __global__ void grRequest(unsigned int *CP_d,unsigned int *IC_d,int *requests, const int *match, const int nrVertices)
 {
@@ -304,48 +269,87 @@ __global__ void grRespond(unsigned int *CP_d,unsigned int *IC_d,int *requests, c
 
 
 //==== Random greedy matching kernels ====
-__global__ void grRequestEdgeList(unsigned long long * BTypePair_list_d, unsigned long long * root_list_d,int* BTypePair_list_counter_d,int *requests, const int *match, const int nrVertices)
+__global__ void grRequestEdgeList(uint64_t *BTypePair_list_d, int *search_tree_src_d, unsigned int *BTypePair_list_counter_d, int *requests, const int *match, const int nrVertices)
 {
 
-	//Let all blue vertices make requests.
-	const int i = blockIdx.x*blockDim.x + threadIdx.x;
+  // Let all blue vertices make requests.
+  const int i = blockIdx.x * blockDim.x + threadIdx.x;
 
-	if (i >= BTypePair_list_counter_d[0] || i >= nrVertices) return;
-	
-	//const int2 indices = tex1Dfetch(neighbourRangesTexture, i);
-	uint32_t curr_u = (uint32_t)BTypePair_list_d[i];
-	uint32_t curr_v = (BTypePair_list_d[i] >> 32);
-	uint32_t curr_u_root = (uint32_t)root_list_d[i];
-	uint32_t curr_v_root = (root_list_d[i] >> 32);
-	//Look at all blue vertices and let them make requests.
-	if (match[curr_u_root] == 0 && match[curr_v_root] == 1)
-	{
-		requests[curr_u_root] = curr_v;
-	} else if (match[curr_v_root] == 0 && match[curr_u_root] == 1){
-		requests[curr_v_root] = curr_u;
-	}
+  if (i >= BTypePair_list_counter_d[0] || i >= nrVertices)
+    return;
+
+  // const int2 indices = tex1Dfetch(neighbourRangesTexture, i);
+  uint32_t curr_u = (uint32_t)BTypePair_list_d[i];
+  uint32_t curr_v = (BTypePair_list_d[i] >> 32);
+  int curr_u_root = search_tree_src_d[curr_u];
+  int curr_v_root = search_tree_src_d[curr_v];
+  // Look at all blue vertices and let them make requests.
+  if (match[curr_u_root] == 0 && match[curr_v_root] == 1)
+  {
+    requests[curr_u_root] = curr_v;
+  }
+  else if (match[curr_v_root] == 0 && match[curr_u_root] == 1)
+  {
+    requests[curr_v_root] = curr_u;
+  }
 }
 
-__global__ void grRespondEdgeList(unsigned long long * BTypePair_list_d, unsigned long long * root_list_d,int* BTypePair_list_counter_d,int *requests, const int *match, const int nrVertices)
+__global__ void grRespondEdgeList(uint64_t *BTypePair_list_d, int *search_tree_src_d, unsigned int *BTypePair_list_counter_d, int *requests, const int *match, const int nrVertices)
 {
-	//Let all blue vertices make requests.
-	const int i = blockIdx.x*blockDim.x + threadIdx.x;
+  // Let all blue vertices make requests.
+  const int i = blockIdx.x * blockDim.x + threadIdx.x;
 
-	if (i >= BTypePair_list_counter_d[0] || i >= nrVertices) return;
+  if (i >= BTypePair_list_counter_d[0] || i >= nrVertices)
+    return;
 
-	uint32_t curr_u = (uint32_t)BTypePair_list_d[i];
-	uint32_t curr_v = (BTypePair_list_d[i] >> 32);
-	uint32_t curr_u_root = (uint32_t)root_list_d[i];
-	uint32_t curr_v_root = (root_list_d[i] >> 32);
-	//Look at all blue vertices and let them make requests.
-	if (match[curr_u_root] == 0 && match[curr_v_root] == 1 && requests[curr_u_root]==curr_v)
-	{
-		requests[curr_v_root] = curr_u;
-	} else if (match[curr_v_root] == 0 && match[curr_u_root] == 1 && requests[curr_v_root]==curr_u){
-		requests[curr_u_root] = curr_v;
-	}
+  uint32_t curr_u = (uint32_t)BTypePair_list_d[i];
+  uint32_t curr_v = (BTypePair_list_d[i] >> 32);
+  int curr_u_root = search_tree_src_d[curr_u];
+  int curr_v_root = search_tree_src_d[curr_v];
+  // Look at all blue vertices and let them make requests.
+  if (match[curr_u_root] == 0 && match[curr_v_root] == 1 && requests[curr_u_root] == curr_v)
+  {
+    requests[curr_v_root] = curr_u;
+  }
+  else if (match[curr_v_root] == 0 && match[curr_u_root] == 1 && requests[curr_v_root] == curr_u)
+  {
+    requests[curr_u_root] = curr_v;
+  }
 }
 
+__global__ void gMatchEdgeList(uint64_t *BTypePair_disjoint_list_d, unsigned int *BTypePair_disjoint_list_counter_d, uint64_t *BTypePair_list_d, int *search_tree_src_d, unsigned int *BTypePair_list_counter_d,
+                               int *match, const int *requests, const int nrVertices)
+{
+
+  const int i = blockIdx.x * blockDim.x + threadIdx.x;
+
+  if (i >= BTypePair_list_counter_d[0] || i >= nrVertices)
+    return;
+
+  uint32_t curr_u = (uint32_t)BTypePair_list_d[i];
+  uint32_t curr_v = (BTypePair_list_d[i] >> 32);
+  int curr_u_root = search_tree_src_d[curr_u];
+  int curr_v_root = search_tree_src_d[curr_v];
+
+  const int r_u = requests[curr_u_root];
+  const int r_v = requests[curr_v_root];
+
+  if (r_u < nrVertices && r_v < nrVertices)
+  {
+    // This vertex has made a valid request.
+    if (r_u == curr_v && r_v == curr_u && curr_u < curr_v)
+    {
+      // Match the vertices if the request was mutual.
+      // match[i] = 4 + min(i, r);
+      //  I need a pointer to the match for traversal.
+      match[curr_u_root] = 4 + curr_v;
+      match[curr_v_root] = 4 + curr_u;
+      uint64_t edgePair = (uint64_t)curr_v << 32 | curr_u;
+      int top = atomicAdd(BTypePair_disjoint_list_counter_d, 1);
+      BTypePair_disjoint_list_d[top] = edgePair;
+    }
+  }
+}
 
 //==== Weighted greedy matching kernels ====
 __global__ void gwRequest(int *requests, const int *match, const int nrVertices)
