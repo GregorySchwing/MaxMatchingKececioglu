@@ -335,13 +335,13 @@ List *MaximumCardinalityMatchingTrack
    ForAllGraphVertices(V, G, C)
       if (!IsMatched(V))
          Self(V) = ListPut(V, Roots);
-   #ifdef Debug
+   #ifndef NDEBUG
    int numDead=0;
    #endif
    while ((V = ListGet(Roots))){
       if (Search(V, &P, &T)){
          
-         #ifdef Debug
+         #ifndef NDEBUG
          fprintf(outputFileX, "%d\n",2*ListSize(P)-1);
          fprintf(outputFileY, "%d\n",ListSize(T));
          #endif
@@ -349,7 +349,7 @@ List *MaximumCardinalityMatchingTrack
 
 
       } 
-      #ifdef Debug
+      #ifndef NDEBUG
       else {
          numDead+=ListSize(T);
          DestroyList(T);
@@ -595,7 +595,7 @@ static short Search
 
    if (!Found)
    {
-      #if Debug
+      #ifndef NDEBUG
       *P = U;
       *Q = T;
       #else
