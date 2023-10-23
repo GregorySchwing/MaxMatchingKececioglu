@@ -10,11 +10,15 @@ __global__ void setNumInArray(T *arrays, T *index, T *value, int num_index)
   arrays[index[tid]] = value[tid];
 }
 
-CSRGraph::CSRGraph(int _n, int _m, int * rows, int * cols, int * matching) 
+CSRGraph::CSRGraph(int _n, int _m, int * _rows, int * _cols, int * _matching) 
 {
 
   m = _m;
   n = _n;
+
+  rows = _rows;
+  cols = _cols;
+  matching = _matching;
 
   rows_d.resize(2 * m);
   cols_d.resize(2 * m);

@@ -22,6 +22,7 @@ public:
     const int INF = 1e9;
     unsigned int m;
     unsigned int n;
+    int *rows, *cols, *matching;
     thrust::device_vector<unsigned int> rows_d;
     thrust::device_vector<unsigned int> cols_d;
     thrust::device_vector<char> vals_d;
