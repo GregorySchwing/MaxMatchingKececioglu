@@ -11,8 +11,8 @@ LINT = lint -x
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-SOURCES = driver.c matching.c graph.c list.c set.c bipartite.cu matchgpu.cu CSRGraph.cu GreedyMatcher.cu 
-OBJECTS = driver.o matching.o graph.o list.o set.o bipartite.o matchgpu.o CSRGraph.o GreedyMatcher.o
+SOURCES = driver.c matching.c graph.c list.c set.c hash_table.c bipartite.cu matchgpu.cu CSRGraph.cu GreedyMatcher.cu 
+OBJECTS = driver.o matching.o graph.o list.o set.o hash_table.o bipartite.o matchgpu.o CSRGraph.o GreedyMatcher.o
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # -dc is the flag for separate compilation. 

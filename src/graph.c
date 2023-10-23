@@ -758,7 +758,7 @@ Graph *ReadGraph
    G->EL.Matching = (int *)calloc(*N, sizeof(int));
    G->EL.M = (*M);
    G->EL.N = (*N);
-
+   G->hash = createHashTable(*M);
    /*
     * Allocate an array to hold onto vertices
     */
@@ -787,6 +787,8 @@ Graph *ReadGraph
       G->EL.Rows[2*i + 1] = b - 1;
       G->EL.Cols[2*i] = b - 1;
       G->EL.Cols[2*i + 1] = a - 1;
+      OrderedPair key = {a - 1,b - 1};
+      insert(G->hash, key, E);
    }
 
    /*
