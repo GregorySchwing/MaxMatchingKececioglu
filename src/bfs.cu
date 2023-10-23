@@ -84,7 +84,7 @@ int BFS::augmentNaivePaths()
       }
       setAllPaths_augmenting<<<dimGrid, THREADS_PER_BLOCK>>>(rows_d_ptr, cols_d_ptr, m_d_ptr, S_d_ptr, sigma_d_ptr, search_tree_src_d_ptr, csr.n, BTypePair_list_d_ptr, BTypePair_list_counter_d_ptr);
       BTypePair_list_counter_h = BTypePair_list_counter_d;
-      // printf("Non-disjoint %d paths\n", BTypePair_list_counter_h[0]);
+      printf("Non-disjoint %d paths\n", BTypePair_list_counter_h[0]);
       cudaMemset(req_d_ptr, 0, sizeof(*req_d_ptr) * csr.n);
 
       srand(1);
@@ -104,7 +104,7 @@ int BFS::augmentNaivePaths()
         gm.c_h = gm.c_d;
       }
       BTypePair_disjoint_list_counter_h = BTypePair_disjoint_list_counter_d;
-      // printf("Disjoint %d paths\n", BTypePair_disjoint_list_counter_h[0]);
+      printf("Disjoint %d paths\n", BTypePair_disjoint_list_counter_h[0]);
 
       lift_path_parallel<<<dimGrid, THREADS_PER_BLOCK>>>(m_d_ptr, pred_d_ptr, BTypePair_disjoint_list_d_ptr, BTypePair_disjoint_list_counter_d_ptr);
       numAugmented += BTypePair_disjoint_list_counter_h[0];
