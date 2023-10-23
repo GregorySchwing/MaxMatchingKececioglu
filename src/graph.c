@@ -44,7 +44,7 @@
 
 #include <stdio.h>
 #include "graph.h"
-
+#include <assert.h>
 
 #define VertexBlockSize 16 /* Number of vertices allocated per request */
 #define EdgeBlockSize   32 /* Number of edges allocated per request */
@@ -789,6 +789,8 @@ Graph *ReadGraph
       G->EL.Cols[2*i + 1] = a - 1;
       OrderedPair key = {a - 1,b - 1};
       insert(G->hash, key, E);
+      Edge *result1 = get(G->hash, key);
+      assert(result1==E);
    }
 
    /*
