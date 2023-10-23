@@ -25,18 +25,10 @@ public:
     thrust::device_vector<unsigned int> rows_d;
     thrust::device_vector<unsigned int> cols_d;
     thrust::device_vector<char> vals_d;
-    thrust::host_vector<int> rows_h;
-    thrust::host_vector<int> cols_h;
-    thrust::host_vector<char> vals_h;
-    thrust::host_vector<unsigned int> offsets_h;
-    thrust::host_vector<unsigned int> keylabel_h;
-    thrust::host_vector<unsigned int> nonzerodegrees_h;
-    thrust::host_vector<unsigned int> degrees_h;
     thrust::device_vector<unsigned int> offsets_d;
     thrust::device_vector<unsigned int> keylabel_d;
     thrust::device_vector<unsigned int> nonzerodegrees_d;
     thrust::device_vector<unsigned int> degrees_d;
-    thrust::host_vector<int> mate_h;
     thrust::device_vector<int> mate_d;
 };
 

@@ -31,7 +31,6 @@ CSRGraph::CSRGraph(int _n, int _m, int * rows, int * cols, int * matching)
   // This will be the degrees array.
   degrees_d.resize(n);
 
-
   createOffsets();
 }
 
