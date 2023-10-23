@@ -97,6 +97,7 @@
 #include "matching.h"
 #include "set.h"
 #include <time.h>
+#include "bipartite.h"
 
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -397,6 +398,8 @@ static Void Initialize
    
 #endif /* Debug */
 
+
+   bipartite(G);
    
    Time = 1;
    VertexAttributes = (VertexAttribute *)
@@ -448,9 +451,6 @@ static Void Initialize
    // Calculate the elapsed time in milliseconds
    elapsed_time_ms = ((double)(end_time - start_time) / CLOCKS_PER_SEC) * 1000.0;
    // Print the elapsed time in milliseconds
-   printf("Elapsed Time Greedy Initialization: %.2f milliseconds\n", elapsed_time_ms);
-   printf("Elapsed Time Greedy Initialization: %.2f seconds\n", elapsed_time_ms/1000.0);
-
    DestroyList(M);
 }
 
