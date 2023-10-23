@@ -43,7 +43,7 @@
 void bipartite(Graph * G){
     int n = G->EL.N;
     int m = G->EL.M;
-    printf("Generating CSR with %d rows, %d columns\n",m,m);
+    //printf("Generating CSR with %d rows, %d columns\n",m,m);
     CSRGraph csr(n,m,G->EL.Rows,G->EL.Cols);
     
     GreedyMatcher gm(csr);
