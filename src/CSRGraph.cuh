@@ -18,7 +18,7 @@ public:
     CSRGraph(int _n, int _m, int * rows, int * cols);
     void createOffsets();
 
-private:
+//private:
     const int INF = 1e9;
     unsigned int m;
     unsigned int n;
