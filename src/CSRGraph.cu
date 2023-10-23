@@ -55,3 +55,9 @@ void CSRGraph::createOffsets()
     vals_d.clear();
     nonzerodegrees_d.clear();
   }
+
+
+void CSRGraph::copyMatchingBack()
+{
+  thrust::copy(mate_d.begin(), mate_d.end(), matching);
+}

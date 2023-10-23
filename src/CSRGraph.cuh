@@ -17,6 +17,7 @@ struct CSRGraph {
 public:
     CSRGraph(int _n, int _m, int * rows, int * cols, int * matching);
     void createOffsets();
+    void copyMatchingBack();
 
 //private:
     const int INF = 1e9;
