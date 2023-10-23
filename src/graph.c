@@ -787,10 +787,25 @@ Graph *ReadGraph
       G->EL.Rows[2*i + 1] = b - 1;
       G->EL.Cols[2*i] = b - 1;
       G->EL.Cols[2*i + 1] = a - 1;
-      OrderedPair key = {a - 1,b - 1};
-      insert(G->hash, key, E);
-      Edge *result1 = get(G->hash, key);
-      assert(result1==E);
+      if (a < b){
+         OrderedPair key = {a - 1,b - 1};
+         insert(G->hash, key, E);
+         Edge *result1 = get(G->hash, key);
+         assert(result1==E);
+         Vertex * u = EdgeFrom(result1);
+         Vertex * v = EdgeTo(result1);
+         assert(u == G->VertexArray[a - 1]);
+         assert(v == G->VertexArray[b - 1]);
+      } else {
+         OrderedPair key = {b - 1,a - 1};
+         insert(G->hash, key, E);
+         Edge *result1 = get(G->hash, key);
+         assert(result1==E);
+         Vertex * u = EdgeTo(result1);
+         Vertex * v = EdgeFrom(result1);
+         assert(u == G->VertexArray[b - 1]);
+         assert(v == G->VertexArray[a - 1]); 
+      }
    }
 
    /*

@@ -98,7 +98,7 @@
 #include "set.h"
 #include <time.h>
 #include "bipartite.h"
-
+#include <assert.h>
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *
@@ -441,11 +441,19 @@ static Void Initialize
    clock_t start_time, end_time;
    double elapsed_time_ms;
    start_time = clock();
-   ForAllListElements(E, M, Edge *, P)
+   int vertexID = 0;
+   ForAllGraphVertices(V, G, P)
    {
-      printf("Matching %lu - %lu\n",(EdgeFrom(E)-(G->VertexArray[0]))/sizeof(Vertex*), (EdgeTo(E)-(G->VertexArray[0]))/sizeof(Vertex*));
-      Match(EdgeFrom(E)) = E;
-      Match(EdgeTo(E)) = E;
+      int matchPair = G->EL.Matching[vertexID];
+      if (matchPair >= 0 && vertexID < matchPair){
+         printf("Matching %d - %d\n",vertexID,matchPair);
+         OrderedPair key = {vertexID,matchPair};
+         Edge *result1 = get(G->hash, key);
+         assert(result1 != NULL);
+         Match(EdgeFrom(result1)) = result1;
+         Match(EdgeTo(result1)) = result1;
+      }
+      vertexID++;
    }
    end_time = clock();
    // Calculate the elapsed time in milliseconds
