@@ -52,6 +52,6 @@ void bipartite(Graph * G){
     std::chrono::time_point<std::chrono::steady_clock> m_EndTime = std::chrono::steady_clock::now();
     double elapsedSeconds = std::chrono::duration_cast<std::chrono::milliseconds>(m_EndTime - m_StartTime).count() / 1000.0;  
     std::cout << "Greedy match seconds: " << elapsedSeconds << "; edges augmented: " << numAugmented << std::endl;
-    
+    csr.copyMatchingBack();
     //BFS b(csr, gm);
 }
