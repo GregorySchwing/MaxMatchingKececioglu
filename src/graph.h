@@ -37,6 +37,34 @@ typedef struct EdgeListSOA {
 } EdgeList;
 
 /*
+ * Edge list for CUDA
+ */
+typedef struct Matchmaker2 {
+        int nr, nc, nn;
+        int *rxadj;
+        int *radj;
+        
+        int *cxadj, *cadj;
+        
+        int *_rxadj;
+        int *_radj;
+        int *_cxadj;
+        int *_cadj;
+        int *_cmatch;
+        int *_rmatch;
+        int *_is_inserted;
+        int *_bfs, *_preced;
+        
+        int *_non_matched_found;
+        int *_is_inserted2;
+        
+        int *_root_array;
+        
+        int match_types[11];
+} Matcher;
+
+
+/*
  * Directed graph
  */
 typedef struct GraphStruct {
@@ -47,6 +75,7 @@ typedef struct GraphStruct {
        * `Vertices' is reused for the pool of free graphs
        */
    EdgeList EL;
+   Matcher mm;
    Vertex ** VertexArray;
    HashTable * hash;
 } Graph;

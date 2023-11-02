@@ -45,6 +45,7 @@
 #include <stdio.h>
 #include "graph.h"
 #include <assert.h>
+#include "matchmaker/matcher.h"
 
 #define VertexBlockSize 16 /* Number of vertices allocated per request */
 #define EdgeBlockSize   32 /* Number of edges allocated per request */
@@ -759,6 +760,10 @@ Graph *ReadGraph
    G->EL.M = (*M);
    G->EL.N = (*N);
    G->hash = createHashTable(*M);
+   allocateGPUMatcher(G);
+   if(G->mm._bfs==NULL){
+      exit(0);
+   }
    /*
     * Allocate an array to hold onto vertices
     */
