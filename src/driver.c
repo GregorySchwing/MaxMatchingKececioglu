@@ -25,6 +25,7 @@ Void main (int argc, char **argv)
    int * rows;
    int * cols;
    int * matching;
+   clock_t start_time_e2e = clock();
    main_lib(argc, argv, log, &rows, &cols, &matching, &nr, &nc, &nn);
    N = nr;
    EdgeListSize = nn/2;
@@ -34,6 +35,7 @@ Void main (int argc, char **argv)
 
    clock_t start_time, end_time;
    double elapsed_time_ms;
+   double total_time_ms;
    #ifndef NDEBUG
    const char* extensionX = ".augP";
    char outputFilenameX[500];
@@ -68,8 +70,11 @@ Void main (int argc, char **argv)
 
    // Calculate the elapsed time in milliseconds
    elapsed_time_ms = ((double)(end_time - start_time) / CLOCKS_PER_SEC) * 1000.0;
-
+   total_time_ms = ((double)(end_time - start_time_e2e) / CLOCKS_PER_SEC) * 1000.0;
    // Print the elapsed time in milliseconds
+   printf("Total Time: %.2f milliseconds\n", total_time_ms);
+   printf("Total Time: %.2f seconds\n", total_time_ms/1000.0);
+
    printf("Elapsed Time: %.2f milliseconds\n", elapsed_time_ms);
    printf("Elapsed Time: %.2f seconds\n", elapsed_time_ms/1000.0);
    fprintf(stdout, "There are %d edges in the maximum-cardinality matching.\n",
