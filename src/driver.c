@@ -25,7 +25,7 @@ Void main (int argc, char **argv)
    int * rows;
    int * cols;
    int * matching;
-   main_lib(argc, argv, log, rows, cols, matching, &nr, &nc, &nn);
+   main_lib(argc, argv, log, &rows, &cols, &matching, &nr, &nc, &nn);
 
    for (int r = 0; r < nc; ++r){
       int start = rows[r];
