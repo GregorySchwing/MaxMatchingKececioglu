@@ -74,10 +74,11 @@ typedef struct GraphStruct {
       /*
        * `Vertices' is reused for the pool of free graphs
        */
-   EdgeList EL;
-   Matcher mm;
+   
+   //EdgeList EL;
+   //Matcher mm;
    Vertex ** VertexArray;
-   HashTable * hash;
+   //HashTable * hash;
 } Graph;
 
 

@@ -754,6 +754,7 @@ Graph *ReadGraph
     * Create an empty graph
     */
    G = CreateGraph(Nil);
+   /*
    G->EL.Rows = (int *)malloc(2 * (*M) * sizeof(int));
    G->EL.Cols = (int *)malloc(2 * (*M) * sizeof(int));
    G->EL.Matching = (int *)calloc(*N, sizeof(int));
@@ -764,6 +765,7 @@ Graph *ReadGraph
    if(G->mm._bfs==NULL){
       exit(0);
    }
+   */
    /*
     * Allocate an array to hold onto vertices
     */
@@ -788,6 +790,7 @@ Graph *ReadGraph
       // Instead of ignoring the return value, use it to make hash table.
       E = CreateEdge(G, G->VertexArray[a - 1], G->VertexArray[b - 1], Nil);
       //CreateEdge(G, V[a], V[b], Nil);
+      /*
       G->EL.Rows[2*i] = a - 1;
       G->EL.Rows[2*i + 1] = b - 1;
       G->EL.Cols[2*i] = b - 1;
@@ -811,6 +814,7 @@ Graph *ReadGraph
          assert(u == G->VertexArray[b - 1]);
          assert(v == G->VertexArray[a - 1]); 
       }
+      */
    }
 
    /*

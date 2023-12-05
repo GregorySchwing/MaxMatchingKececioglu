@@ -26,7 +26,17 @@ Void main (int argc, char **argv)
    int * cols;
    int * matching;
    main_lib(argc, argv, log, rows, cols, matching, &nr, &nc, &nn);
+
+   for (int r = 0; r < nc; ++r){
+      int start = rows[r];
+      int end = rows[r+1];
+      printf("row %d start %d end %d\n",r,start,end);
+      for (;start<end;start++){
+         printf("%d %d\n",r,cols[start]);
+      }
+   }
    return;
+
    FILE *f;
 
    if (argc>1){

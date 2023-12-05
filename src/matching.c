@@ -439,6 +439,7 @@ static Void Initialize
       A++;
       B++;
    }
+   /*
    if (useInit){
       clock_t start_time, end_time;
       double elapsed_time_ms;
@@ -465,6 +466,7 @@ static Void Initialize
       printf("Load Matching from GPU : Elapsed Time: %.2f milliseconds\n", elapsed_time_ms);
       printf("Load Matching from GPU : Elapsed Time: %.2f seconds\n", elapsed_time_ms/1000.0);
    }
+   */
    DestroyList(M);
 }
 
