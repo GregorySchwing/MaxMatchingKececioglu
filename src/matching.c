@@ -204,8 +204,8 @@ VertexAttribute;
  */
 
 
-static Void Initialize
-   Proto(( Graph *, List * ));
+//static Void Initialize
+//   Proto(( Graph *, List * ));
 
 static Void Terminate
    Proto(( Graph * ));
@@ -373,7 +373,8 @@ List *MaximumCardinalityMatchingTrack
  *               matching computation
  *
  */
-static Void Initialize
+//static Void Initialize
+Void Initialize
    
 #ifdef Ansi
    (Graph *G, List *M)

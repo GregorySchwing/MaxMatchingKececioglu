@@ -770,6 +770,11 @@ Graph *CreateGraphFromCSC
       G->VertexArray[i] = CreateVertex(G, Nil);
    
    /*
+    * Initialize graph
+   */
+   Initialize(G, CreateList());
+
+   /*
     * Read the list of edges and insert them
     */
    register Edge *E;

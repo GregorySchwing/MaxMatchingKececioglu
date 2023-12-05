@@ -136,6 +136,9 @@ extern Graph *ReadGraph
 extern Graph *CreateGraphFromCSC
    Proto(( int *cxadj, int *cadj, int *matching, int nr_ptr, int nc_ptr, int nn_ptr));
 
+extern Void Initialize
+   Proto(( Graph *, List * ));
+
 extern Void WriteEdgeWeightedGraph
    Proto(( Graph *G, float (*Weight)(Edge *), FILE *stream ));
 
