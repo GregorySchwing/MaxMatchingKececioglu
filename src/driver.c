@@ -24,7 +24,8 @@ Void main (int argc, char **argv)
    int nr, nc, nn;
    int * rows;
    int * cols;
-   main_lib(argc, argv, log, rows, cols, &nr, &nc, &nn);
+   int * matching;
+   main_lib(argc, argv, log, rows, cols, matching, &nr, &nc, &nn);
    return;
    FILE *f;
 
