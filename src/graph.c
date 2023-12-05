@@ -44,7 +44,8 @@
 
 #include <stdio.h>
 #include "graph.h"
-
+#include <assert.h>
+#include "matchmaker/matcher.h"
 
 #define VertexBlockSize 16 /* Number of vertices allocated per request */
 #define EdgeBlockSize   32 /* Number of edges allocated per request */
@@ -718,6 +719,106 @@ Void WriteGraph
    Free(L);
 }
 
+/*
+ * CreateGraphFromCSC -- Read in a graph from a CSC
+ *
+ * Assumes the graph is provided as a symmetric CSC.
+ *
+ */
+Graph *CreateGraphFromCSC
+
+#ifdef Ansi
+   (int *cxadj, int *cadj, int *matching, int nr, int nc, int nn)
+#else
+   (stream) FILE *stream;
+#endif
+
+{
+   //auto int M, N;
+   register Graph *G;
+   //register Vertex **V;
+   auto int a, b;
+   register int i;
+
+   /*
+    * Create an empty graph
+    */
+   G = CreateGraph(Nil);
+   /*
+   G->EL.Rows = (int *)malloc(2 * (*M) * sizeof(int));
+   G->EL.Cols = (int *)malloc(2 * (*M) * sizeof(int));
+   G->EL.Matching = (int *)calloc(*N, sizeof(int));
+   G->EL.M = (*M);
+   G->EL.N = (*N);
+   G->hash = createHashTable(*M);
+   //allocateGPUMatcher(G);
+   if(G->mm._bfs==NULL){
+      exit(0);
+   }
+   */
+   /*
+    * Allocate an array to hold onto vertices
+    */
+   G->VertexArray = (Vertex **) Allocate(nr * sizeof(Vertex *));
+   if (G->VertexArray == NULL)
+      Error("(ReadGraph) Memory allocation failed.");
+   
+   /*
+    * Insert the vertices
+    */
+   for (i = 0; i < nr; i++)
+      G->VertexArray[i] = CreateVertex(G, Nil);
+   
+   /*
+    * Read the list of edges and insert them
+    */
+   register Edge *E;
+   for (int r = 0; r < nc; ++r){
+      int start = cxadj[r];
+      int end = cxadj[r+1];
+      //printf("col %d start %d end %d\n",r,start,end);
+      for (;start<end;start++)
+         if (r<cadj[start])
+            E = CreateEdge(G, G->VertexArray[r], G->VertexArray[cadj[start]], Nil);
+   }
+
+      //CreateEdge(G, V[a], V[b], Nil);
+      /*
+      G->EL.Rows[2*i] = a - 1;
+      G->EL.Rows[2*i + 1] = b - 1;
+      G->EL.Cols[2*i] = b - 1;
+      G->EL.Cols[2*i + 1] = a - 1;
+      if (a < b){
+         OrderedPair key = {a - 1,b - 1};
+         insert(G->hash, key, E);
+         Edge *result1 = get(G->hash, key);
+         assert(result1==E);
+         Vertex * u = EdgeFrom(result1);
+         Vertex * v = EdgeTo(result1);
+         assert(u == G->VertexArray[a - 1]);
+         assert(v == G->VertexArray[b - 1]);
+      } else {
+         OrderedPair key = {b - 1,a - 1};
+         insert(G->hash, key, E);
+         Edge *result1 = get(G->hash, key);
+         assert(result1==E);
+         Vertex * u = EdgeTo(result1);
+         Vertex * v = EdgeFrom(result1);
+         assert(u == G->VertexArray[b - 1]);
+         assert(v == G->VertexArray[a - 1]); 
+      }
+      */
+
+   /*
+    * Free memory
+    */
+   //Free(V);
+   
+   /*
+    * Return the graph
+    */
+   return G;
+}
 
 /*
  * ReadGraph -- Read in a graph from a text file
@@ -736,7 +837,7 @@ Graph *ReadGraph
 {
    //auto int M, N;
    register Graph *G;
-   register Vertex **V;
+   //register Vertex **V;
    auto int a, b;
    register int i;
    
@@ -748,40 +849,78 @@ Graph *ReadGraph
    if (fscanf(stream, " edges %d", M) != 1)
       Error("(ReadGraph) Number of edges not recognized.");
    
-   /*
-    * Allocate an array to hold onto vertices
-    */
-   V = (Vertex **) Allocate(*N * sizeof(Vertex *));
-   if (V == NULL)
-      Error("(ReadGraph) Memory allocation failed.");
-   
+
    /*
     * Create an empty graph
     */
    G = CreateGraph(Nil);
+   /*
+   G->EL.Rows = (int *)malloc(2 * (*M) * sizeof(int));
+   G->EL.Cols = (int *)malloc(2 * (*M) * sizeof(int));
+   G->EL.Matching = (int *)calloc(*N, sizeof(int));
+   G->EL.M = (*M);
+   G->EL.N = (*N);
+   G->hash = createHashTable(*M);
+   //allocateGPUMatcher(G);
+   if(G->mm._bfs==NULL){
+      exit(0);
+   }
+   */
+   /*
+    * Allocate an array to hold onto vertices
+    */
+   G->VertexArray = (Vertex **) Allocate(*N * sizeof(Vertex *));
+   if (G->VertexArray == NULL)
+      Error("(ReadGraph) Memory allocation failed.");
    
    /*
     * Insert the vertices
     */
    for (i = 0; i < *N; i++)
-      V[i] = CreateVertex(G, Nil);
+      G->VertexArray[i] = CreateVertex(G, Nil);
    
    /*
     * Read the list of edges and insert them
     */
+   register Edge *E;
    for (i = 0; i < *M; i++)
    {
       if (fscanf(stream, " edge %d %d", &a, &b) != 2)
          Error("(ReadGraph) Edge not recognized.");
-      CreateEdge(G, V[a - 1], V[b - 1], Nil);
+      // Instead of ignoring the return value, use it to make hash table.
+      E = CreateEdge(G, G->VertexArray[a - 1], G->VertexArray[b - 1], Nil);
       //CreateEdge(G, V[a], V[b], Nil);
-
+      /*
+      G->EL.Rows[2*i] = a - 1;
+      G->EL.Rows[2*i + 1] = b - 1;
+      G->EL.Cols[2*i] = b - 1;
+      G->EL.Cols[2*i + 1] = a - 1;
+      if (a < b){
+         OrderedPair key = {a - 1,b - 1};
+         insert(G->hash, key, E);
+         Edge *result1 = get(G->hash, key);
+         assert(result1==E);
+         Vertex * u = EdgeFrom(result1);
+         Vertex * v = EdgeTo(result1);
+         assert(u == G->VertexArray[a - 1]);
+         assert(v == G->VertexArray[b - 1]);
+      } else {
+         OrderedPair key = {b - 1,a - 1};
+         insert(G->hash, key, E);
+         Edge *result1 = get(G->hash, key);
+         assert(result1==E);
+         Vertex * u = EdgeTo(result1);
+         Vertex * v = EdgeFrom(result1);
+         assert(u == G->VertexArray[b - 1]);
+         assert(v == G->VertexArray[a - 1]); 
+      }
+      */
    }
 
    /*
     * Free memory
     */
-   Free(V);
+   //Free(V);
    
    /*
     * Return the graph

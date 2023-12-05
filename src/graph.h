@@ -14,7 +14,8 @@
 #include <stdio.h>
 #include "portable.h"
 #include "list.h"
-
+#include "edge_vertex.h"
+#include "hash_table.h"
 
 /*
  * Graph attribute types
@@ -22,6 +23,46 @@
 typedef Pointer GraphData;
 typedef Pointer VertexData;
 typedef Pointer EdgeData;
+
+
+/*
+ * Edge list for CUDA
+ */
+typedef struct EdgeListSOA {
+   int *Rows;
+   int *Cols;
+   int *Matching;
+   int M;
+   int N;
+} EdgeList;
+
+/*
+ * Edge list for CUDA
+ */
+typedef struct Matchmaker2 {
+        int nr, nc, nn;
+        int *rxadj;
+        int *radj;
+        
+        int *cxadj, *cadj;
+        
+        int *_rxadj;
+        int *_radj;
+        int *_cxadj;
+        int *_cadj;
+        int *_cmatch;
+        int *_rmatch;
+        int *_is_inserted;
+        int *_bfs, *_preced;
+        
+        int *_non_matched_found;
+        int *_is_inserted2;
+        
+        int *_root_array;
+        
+        int match_types[11];
+} Matcher;
+
 
 /*
  * Directed graph
@@ -33,35 +74,12 @@ typedef struct GraphStruct {
       /*
        * `Vertices' is reused for the pool of free graphs
        */
+   
+   //EdgeList EL;
+   //Matcher mm;
+   Vertex ** VertexArray;
+   //HashTable * hash;
 } Graph;
-
-/*
- * Graph vertex
- */
-typedef struct {
-   List *In;         /* In-edges */
-   List *Out;        /* Out-edges */
-   ListCell *Self;   /* Cell on graph vertex list */
-   VertexData Label; /* Vertex attribute */
-      /*
-       * `Self' is reused for the pool of free vertices
-       */
-} Vertex;
-
-/*
- * Directed edge
- */
-typedef struct {
-   Vertex *From;   /* Source vertex of edge */
-   Vertex *To;     /* Target vertex of edge */
-   ListCell *In;   /* Cell on in-edge list of target vertex */
-   ListCell *Out;  /* Cell on out-edge list of source vertex */
-   ListCell *Self; /* Cell on graph edge list */
-   EdgeData Label; /* Edge attribute */
-      /*
-       * `Self' is reused for the pool of free edges
-       */
-} Edge;
 
 
 /*
@@ -114,6 +132,9 @@ extern Void WriteGraph
 
 extern Graph *ReadGraph
    Proto(( FILE *stream , int * N, int * M));
+
+extern Graph *CreateGraphFromCSC
+   Proto(( int *cxadj, int *cadj, int *matching, int nr_ptr, int nc_ptr, int nn_ptr));
 
 extern Void WriteEdgeWeightedGraph
    Proto(( Graph *G, float (*Weight)(Edge *), FILE *stream ));

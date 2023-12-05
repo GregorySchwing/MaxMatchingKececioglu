@@ -4,6 +4,9 @@
 #include <time.h>
 #include <unistd.h>
 #include <string.h>
+
+#include "../matchmaker2/main_lib.cuh"
+
 typedef ListCell Cell;
 
 Void main (int argc, char **argv)
@@ -12,16 +15,23 @@ Void main (int argc, char **argv)
    List *M;
    Cell *P;
    
+
    Graph  *G;
    Vertex *V;
    Edge   *E;
+   FILE *log;
+   log = fopen("log.txt", "w");
+   int nr, nc, nn;
+   int * rows;
+   int * cols;
+   int * matching;
+   main_lib(argc, argv, log, &rows, &cols, &matching, &nr, &nc, &nn);
+   N = nr;
+   EdgeListSize = nn/2;
+   G = CreateGraphFromCSC(rows, cols, matching, nr, nc, nn);
+
    FILE *f;
-   if (argc>1){
-      printf("%s\n",argv[1]);  
-      f = fopen(argv[1], "r"); // "r" for read 
-      G = ReadGraph(f,&N,&EdgeListSize);
-   } else 
-      G = ReadGraph(stdin,&N,&EdgeListSize);
+
    clock_t start_time, end_time;
    double elapsed_time_ms;
    #ifndef NDEBUG

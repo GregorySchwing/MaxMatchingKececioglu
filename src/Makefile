@@ -1,6 +1,9 @@
 CC	= gcc
+NVCC = nvcc
+
 #CFLAGS	= -O3 -DDebug=1
 CFLAGS	= -O3 -DNDEBUG
+CUDAFLAGS = -O3 -Xptxas -O3 -Xcompiler -O3 -w 
 
 RM   = rm -f
 SHAR = shar
@@ -8,18 +11,41 @@ LINT = lint -x
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-SOURCES = driver.c matching.c graph.c list.c set.c
-OBJECTS = driver.o matching.o graph.o list.o set.o
+#SOURCES = driver.c matching.c graph.c list.c set.c hash_table.c bipartite.cu matchgpu.cu CSRGraph.cu GreedyMatcher.cu\
+#bfs.cu matchmaker/matcher.cu
+#OBJECTS = driver.o matching.o graph.o list.o set.o hash_table.o bipartite.o matchgpu.o CSRGraph.o GreedyMatcher.o\
+#bfs.o matcher.o
+
+SOURCES = driver.c matching.c graph.c list.c set.c hash_table.c
+OBJECTS = driver.o matching.o graph.o list.o set.o hash_table.o
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# -dc is the flag for separate compilation. 
+# The architecture must be specified before -dc see (with a generic Makefile).
+
+%.o: %.cu
+	${NVCC} -dc $(CUDAFLAGS) $< -o $@
+
+%.o: matchmaker/%.cu
+	${NVCC} -dc $(CUDAFLAGS) $< -o $@
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-matching : ${OBJECTS}
-	${CC} ${CFLAGS} -o matching ${OBJECTS}
+#matching : ${OBJECTS}
+#	${CC} ${CFLAGS} -o matching ${OBJECTS}
+all: matching mmaker_lib.a
 
+mmaker_lib.a: 
+	$(MAKE) -C ../matchmaker2 mmaker_lib.a
+
+matching : ${OBJECTS} mmaker_lib.a
+#	${CC} ${CFLAGS} -o matching ${OBJECTS}
+	${NVCC} -o matching ${OBJECTS} -L../matchmaker2 -l:mmaker_lib.a
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 clean :
 	${RM} *.o Makefile.bak core
+	$(MAKE) -C ../matchmaker2 clean
 
 shar :
 	${SHAR} Makefile Notes Version Example *.c *.h > matching.sh

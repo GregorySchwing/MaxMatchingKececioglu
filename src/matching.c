@@ -97,7 +97,8 @@
 #include "matching.h"
 #include "set.h"
 #include <time.h>
-
+//#include "bipartite.h"
+#include <assert.h>
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *
@@ -334,13 +335,13 @@ List *MaximumCardinalityMatchingTrack
    ForAllGraphVertices(V, G, C)
       if (!IsMatched(V))
          Self(V) = ListPut(V, Roots);
-   #ifdef Debug
+   #ifndef NDEBUG
    int numDead=0;
    #endif
    while ((V = ListGet(Roots))){
       if (Search(V, &P, &T)){
          
-         #ifdef Debug
+         #ifndef NDEBUG
          fprintf(outputFileX, "%d\n",2*ListSize(P)-1);
          fprintf(outputFileY, "%d\n",ListSize(T));
          #endif
@@ -348,7 +349,7 @@ List *MaximumCardinalityMatchingTrack
 
 
       } 
-      #ifdef Debug
+      #ifndef NDEBUG
       else {
          numDead+=ListSize(T);
          DestroyList(T);
@@ -397,6 +398,9 @@ static Void Initialize
    
 #endif /* Debug */
 
+   int useInit = 0;
+   //if (useInit)
+   //   bipartite(G);
    
    Time = 1;
    VertexAttributes = (VertexAttribute *)
@@ -435,21 +439,34 @@ static Void Initialize
       A++;
       B++;
    }
-   clock_t start_time, end_time;
-   double elapsed_time_ms;
-   start_time = clock();
-   ForAllListElements(E, M, Edge *, P)
-   {
-      Match(EdgeFrom(E)) = E;
-      Match(EdgeTo(E)) = E;
-   }
-   end_time = clock();
-   // Calculate the elapsed time in milliseconds
-   elapsed_time_ms = ((double)(end_time - start_time) / CLOCKS_PER_SEC) * 1000.0;
-   // Print the elapsed time in milliseconds
-   printf("Elapsed Time Greedy Initialization: %.2f milliseconds\n", elapsed_time_ms);
-   printf("Elapsed Time Greedy Initialization: %.2f seconds\n", elapsed_time_ms/1000.0);
+   /*
+   if (useInit){
+      clock_t start_time, end_time;
+      double elapsed_time_ms;
+      start_time = clock();
+      int vertexID = 0;
+      ForAllGraphVertices(V, G, P)
+      {
+         int matchPair = G->EL.Matching[vertexID];
+         if (matchPair >= 0 && vertexID < matchPair){
+            OrderedPair key = {vertexID,matchPair};
+            Edge *result1 = get(G->hash, key);
+            assert(result1 != NULL);
+            Match(EdgeFrom(result1)) = result1;
+            Match(EdgeTo(result1)) = result1;
+         }
+         vertexID++;
+      }
+      end_time = clock();
+      // Calculate the elapsed time in milliseconds
+      elapsed_time_ms = ((double)(end_time - start_time) / CLOCKS_PER_SEC) * 1000.0;
+      // Print the elapsed time in milliseconds
 
+      // Print the elapsed time in milliseconds
+      printf("Load Matching from GPU : Elapsed Time: %.2f milliseconds\n", elapsed_time_ms);
+      printf("Load Matching from GPU : Elapsed Time: %.2f seconds\n", elapsed_time_ms/1000.0);
+   }
+   */
    DestroyList(M);
 }
 
@@ -583,7 +600,7 @@ static short Search
 
    if (!Found)
    {
-      #if Debug
+      #ifndef NDEBUG
       *P = U;
       *Q = T;
       #else
