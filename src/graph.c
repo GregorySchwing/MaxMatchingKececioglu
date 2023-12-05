@@ -728,7 +728,7 @@ Void WriteGraph
 Graph *CreateGraphFromCSC
 
 #ifdef Ansi
-   (int *cxadj, int *cadj, int *matching, int nr, int nc, int nn)
+   (int *cxadj, int *cadj, int *matching, int nr, int nc, int nn, int match_type)
 #else
    (stream) FILE *stream;
 #endif
@@ -785,7 +785,7 @@ Graph *CreateGraphFromCSC
       for (;start<end;start++)
          if (r<cadj[start]){
             E = CreateEdge(G, G->VertexArray[r], G->VertexArray[cadj[start]], Nil);
-            if(matching[r]==cadj[start]){
+            if(match_type <= 11 && matching[r]==cadj[start]){
                Match(E);
             }
          }

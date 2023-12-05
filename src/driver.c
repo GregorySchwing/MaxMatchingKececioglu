@@ -26,10 +26,10 @@ Void main (int argc, char **argv)
    int * cols;
    int * matching;
    clock_t start_time_e2e = clock();
-   main_lib(argc, argv, log, &rows, &cols, &matching, &nr, &nc, &nn);
+   int match_type = main_lib(argc, argv, log, &rows, &cols, &matching, &nr, &nc, &nn);
    N = nr;
    EdgeListSize = nn/2;
-   G = CreateGraphFromCSC(rows, cols, matching, nr, nc, nn);
+   G = CreateGraphFromCSC(rows, cols, matching, nr, nc, nn, match_type);
 
    FILE *f;
 

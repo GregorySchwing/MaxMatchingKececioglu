@@ -134,7 +134,7 @@ extern Graph *ReadGraph
    Proto(( FILE *stream , int * N, int * M));
 
 extern Graph *CreateGraphFromCSC
-   Proto(( int *cxadj, int *cadj, int *matching, int nr_ptr, int nc_ptr, int nn_ptr));
+   Proto(( int *cxadj, int *cadj, int *matching, int nr_ptr, int nc_ptr, int nn_ptr, int match_type));
 
 extern Void Initialize
    Proto(( Graph *, List * ));
