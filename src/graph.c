@@ -760,7 +760,7 @@ Graph *ReadGraph
    G->EL.M = (*M);
    G->EL.N = (*N);
    G->hash = createHashTable(*M);
-   allocateGPUMatcher(G);
+   //allocateGPUMatcher(G);
    if(G->mm._bfs==NULL){
       exit(0);
    }

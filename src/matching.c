@@ -97,7 +97,7 @@
 #include "matching.h"
 #include "set.h"
 #include <time.h>
-#include "bipartite.h"
+//#include "bipartite.h"
 #include <assert.h>
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -399,8 +399,8 @@ static Void Initialize
 #endif /* Debug */
 
    int useInit = 0;
-   if (useInit)
-      bipartite(G);
+   //if (useInit)
+   //   bipartite(G);
    
    Time = 1;
    VertexAttributes = (VertexAttribute *)
