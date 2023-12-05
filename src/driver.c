@@ -6,6 +6,7 @@
 #include <string.h>
 
 #include "../matchmaker2/main_lib.cuh"
+#include "../BFSHonestPaths/bipartite.h"
 
 typedef ListCell Cell;
 
@@ -27,6 +28,9 @@ Void main (int argc, char **argv)
    int * matching;
    clock_t start_time_e2e = clock();
    int match_type = main_lib(argc, argv, log, &rows, &cols, &matching, &nr, &nc, &nn);
+   if (match_type > 11){
+      BFSHonestWrapper(rows, cols, matching, nr, nn);
+   }
    N = nr;
    EdgeListSize = nn/2;
    G = CreateGraphFromCSC(rows, cols, matching, nr, nc, nn, match_type);
