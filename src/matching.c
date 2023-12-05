@@ -297,7 +297,7 @@ List *MaximumCardinalityMatching
    List   *P, *T;
    Cell   *C;  
    
-   Initialize(G, CreateList());
+   //Initialize(G, CreateList());
    Roots = CreateList();
    ForAllGraphVertices(V, G, C)
       if (!IsMatched(V))
@@ -330,7 +330,7 @@ List *MaximumCardinalityMatchingTrack
    List   *P, *T;
    Cell   *C;  
    
-   Initialize(G, CreateList());
+   //Initialize(G, CreateList());
    Roots = CreateList();
    ForAllGraphVertices(V, G, C)
       if (!IsMatched(V))
@@ -471,6 +471,25 @@ Void Initialize
    DestroyList(M);
 }
 
+
+/*
+ * Match -- Given an approximate matching, initialize the vertex, edge,
+ *               and disjoint set data structures for the maximum cardinality
+ *               matching computation
+ *
+ */
+Void Match
+   
+#ifdef Ansi
+   (Edge *E)
+#else
+   (E) Edge *E;
+#endif
+
+{
+   Match(EdgeFrom(E)) = E;
+   Match(EdgeTo(E)) = E;
+}
 
 /*
  * Terminate -- Free the vertex, edge, and disjoint set data structures used

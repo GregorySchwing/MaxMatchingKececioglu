@@ -783,8 +783,12 @@ Graph *CreateGraphFromCSC
       int end = cxadj[r+1];
       //printf("col %d start %d end %d\n",r,start,end);
       for (;start<end;start++)
-         if (r<cadj[start])
+         if (r<cadj[start]){
             E = CreateEdge(G, G->VertexArray[r], G->VertexArray[cadj[start]], Nil);
+            if(matching[r]==cadj[start]){
+               Match(E);
+            }
+         }
    }
 
       //CreateEdge(G, V[a], V[b], Nil);
