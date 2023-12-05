@@ -5,3 +5,7 @@
 	path = matchmaker2
 	url = https://github.com/GregorySchwing/matchmaker2.git
 	branch = initialization
+[submodule "BFSHonestPaths"]
+	path = BFSHonestPaths
+	url = https://github.com/GregorySchwing/BFSHonestPaths.git
+	branch = master
