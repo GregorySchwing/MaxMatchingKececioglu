@@ -32,12 +32,14 @@ bfs.o matcher.o
 #	${CC} ${CFLAGS} -o matching ${OBJECTS}
 
 matching : ${OBJECTS}
+	$(MAKE) -C ../matchmaker2 mmaker_lib.a
 #	${CC} ${CFLAGS} -o matching ${OBJECTS}
-	${NVCC} -o matching ${OBJECTS}
+	${NVCC} -o matching ${OBJECTS} ../matchmaker2/mmaker_lib.a
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 clean :
 	${RM} *.o Makefile.bak core
+	$(MAKE) -C ../matchmaker2 clean
 
 shar :
 	${SHAR} Makefile Notes Version Example *.c *.h > matching.sh
