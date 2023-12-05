@@ -29,7 +29,7 @@ Void main (int argc, char **argv)
    clock_t start_time_e2e = clock();
    int match_type = main_lib(argc, argv, log, &rows, &cols, &matching, &nr, &nc, &nn);
    if (match_type > 11){
-      BFSHonestWrapper(rows, cols, matching, nr, nn);
+      BFSHonestWrapper(rows, cols, matching, nr, nn, 1);
    }
    N = nr;
    EdgeListSize = nn/2;
