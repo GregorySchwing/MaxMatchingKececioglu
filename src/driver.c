@@ -19,8 +19,14 @@ Void main (int argc, char **argv)
    Graph  *G;
    Vertex *V;
    Edge   *E;
+   FILE *log;
+   log = fopen("log.txt", "w");
+   int nr, nc, nn;
+   int * rows;
+   int * cols;
+   main_lib(argc, argv, log, rows, cols, &nr, &nc, &nn);
+   return;
    FILE *f;
-   main_lib(argc, argv, f, &N, &N, &N, &N, &N);
 
    if (argc>1){
       printf("%s\n",argv[1]);  
