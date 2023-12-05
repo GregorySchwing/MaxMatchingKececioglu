@@ -14,7 +14,7 @@ LINT = lint -x
 SOURCES = driver.c matching.c graph.c list.c set.c hash_table.c bipartite.cu matchgpu.cu CSRGraph.cu GreedyMatcher.cu\
 bfs.cu matchmaker/matcher.cu
 OBJECTS = driver.o matching.o graph.o list.o set.o hash_table.o bipartite.o matchgpu.o CSRGraph.o GreedyMatcher.o\
-bfs.o matcher.o
+bfs.o matcher.o 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # -dc is the flag for separate compilation. 
@@ -30,11 +30,14 @@ bfs.o matcher.o
 
 #matching : ${OBJECTS}
 #	${CC} ${CFLAGS} -o matching ${OBJECTS}
+all: matching mmaker_lib.a
 
-matching : ${OBJECTS}
+mmaker_lib.a: 
 	$(MAKE) -C ../matchmaker2 mmaker_lib.a
+
+matching : ${OBJECTS} mmaker_lib.a
 #	${CC} ${CFLAGS} -o matching ${OBJECTS}
-	${NVCC} -o matching ${OBJECTS} ../matchmaker2/mmaker_lib.a
+	${NVCC} -o matching ${OBJECTS} -L../matchmaker2 -l:mmaker_lib.a
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 clean :

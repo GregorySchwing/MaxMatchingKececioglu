@@ -4,6 +4,9 @@
 #include <time.h>
 #include <unistd.h>
 #include <string.h>
+
+#include "../matchmaker2/main_lib.cuh"
+
 typedef ListCell Cell;
 
 Void main (int argc, char **argv)
@@ -12,10 +15,13 @@ Void main (int argc, char **argv)
    List *M;
    Cell *P;
    
+
    Graph  *G;
    Vertex *V;
    Edge   *E;
    FILE *f;
+   main_lib(argc, argv, f, &N, &N, &N, &N, &N);
+
    if (argc>1){
       printf("%s\n",argv[1]);  
       f = fopen(argv[1], "r"); // "r" for read 
