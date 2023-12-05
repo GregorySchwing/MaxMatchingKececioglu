@@ -26,25 +26,12 @@ Void main (int argc, char **argv)
    int * cols;
    int * matching;
    main_lib(argc, argv, log, &rows, &cols, &matching, &nr, &nc, &nn);
-
-   for (int r = 0; r < nc; ++r){
-      int start = rows[r];
-      int end = rows[r+1];
-      printf("row %d start %d end %d\n",r,start,end);
-      for (;start<end;start++){
-         printf("%d %d\n",r,cols[start]);
-      }
-   }
-   return;
+   N = nr;
+   EdgeListSize = nn/2;
+   G = CreateGraphFromCSC(rows, cols, matching, nr, nc, nn);
 
    FILE *f;
 
-   if (argc>1){
-      printf("%s\n",argv[1]);  
-      f = fopen(argv[1], "r"); // "r" for read 
-      G = ReadGraph(f,&N,&EdgeListSize);
-   } else 
-      G = ReadGraph(stdin,&N,&EdgeListSize);
    clock_t start_time, end_time;
    double elapsed_time_ms;
    #ifndef NDEBUG
