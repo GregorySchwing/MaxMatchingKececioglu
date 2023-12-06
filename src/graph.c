@@ -778,17 +778,17 @@ Graph *CreateGraphFromCSC
     * Read the list of edges and insert them
     */
    register Edge *E;
-   for (int r = 0; r < nc; ++r){
+   for (int r = nc; r < nc+nc; ++r){
       int start = cxadj[r];
       int end = cxadj[r+1];
-      //printf("col %d start %d end %d\n",r,start,end);
-      for (;start<end;start++)
-         if (r<cadj[start]){
-            E = CreateEdge(G, G->VertexArray[r], G->VertexArray[cadj[start]], Nil);
-            if(match_type <= 11 && matching[r]==cadj[start]){
+      //printf("col %d start %d end %d\n",r-nc,cadj[start],cadj[end]);
+      for (;start<end;start++){
+            printf("u %d v %d\n",r-nc,cadj[start]);
+            E = CreateEdge(G, G->VertexArray[r-nc], G->VertexArray[cadj[start]], Nil);
+            if(match_type <= 11 && matching[r-nc]==cadj[start]){
                Match(E);
             }
-         }
+      }
    }
 
       //CreateEdge(G, V[a], V[b], Nil);
