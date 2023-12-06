@@ -1,5 +1,10 @@
 #!/bin/bash
-for i in $(seq 16 1 21)
+for i in $(seq 21 1 21)
 do
-  ./cpu ../dimacs/kron/kron_g500-logn$i/kron_g500-logn$i.mtx
+  ./matching 0 0 IF=../graphs/dimacs/kron/kron_g500-logn$i/kron_g500-logn$i.mtx 16 1
+done
+
+for i in $(seq 21 1 21)
+do
+  ./matching 0 1 IF=../graphs/dimacs/kron/kron_g500-logn$i/kron_g500-logn$i.mtx 16 1
 done
