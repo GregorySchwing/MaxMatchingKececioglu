@@ -1,11 +1,11 @@
 #!/usr/bin/bash
 
-./mvm ../dimacs/2DDynSims/hugebubbles-00000/hugebubbles-00000.mtx
-./mvm ../dimacs/2DDynSims/hugebubbles-00010/hugebubbles-00010.mtx
-./mvm ../dimacs/2DDynSims/hugebubbles-00020/hugebubbles-00020.mtx
-./mvm ../dimacs/2DDynSims/hugetrace-00000/hugetrace-00000.mtx
-./mvm ../dimacs/2DDynSims/hugetrace-00010/hugetrace-00010.mtx
-./mvm ../dimacs/2DDynSims/hugetrace-00020/hugetrace-00020.mtx
-./mvm ../dimacs/2DDynSims/hugetric-00000/hugetric-00000.mtx
-./mvm ../dimacs/2DDynSims/hugetric-00010/hugetric-00010.mtx
-./mvm ../dimacs/2DDynSims/hugetric-00020/hugetric-00020.mtx
+#!/usr/bin/bash
+# Use INIT
+#./matching 1 0 IF=../graphs/dimacs/2DDynSims/hugebubbles-00000/hugebubbles-00000.mtx MT=9 IMT=2
+#./matching 1 0 IF=../graphs/dimacs/2DDynSims/hugebubbles-00010/hugebubbles-00010.mtx MT=9 IMT=2
+./matching 1 0 IF=../graphs/dimacs/2DDynSims/hugebubbles-00020/hugebubbles-00020.mtx MT=9 IMT=2
+# Control
+#./matching 1 1 IF=../graphs/dimacs/2DDynSims/hugebubbles-00000/hugebubbles-00000.mtx MT=9 IMT=2
+#./matching 1 1 IF=../graphs/dimacs/2DDynSims/hugebubbles-00010/hugebubbles-00010.mtx MT=9 IMT=2
+./matching 1 1 IF=../graphs/dimacs/2DDynSims/hugebubbles-00020/hugebubbles-00020.mtx MT=9 IMT=2

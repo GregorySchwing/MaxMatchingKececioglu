@@ -188,7 +188,7 @@ Void main (int argc, char **argv)
       fprintf(output_file, "%s,%s,%s,%s,%s,%s,%s,%s\n", "INITALGO", "PREPROCESSING", "Filename", "V","E","M", "SS_DFS_TIME(s)","TOTAL_WALL_CLOCK(s)");
    }
    if (argc>1){
-      strcpy(inputFilename, argv[1]);
+      strcpy(inputFilename, argv[2]);
       fprintf(output_file, "%s,%s,%s,%d,%d,%d,%f,%f\n", algorithmNames[config_arg], booleanStrings[config_arg2], inputFilename, N,EdgeListSize,ListSize(M),elapsed_time_ms/1000.0,end_time_wall - start_time_wall);
    } else {
       fprintf(output_file, "%s,%d,%d,%d,%f,%f\n", "UNKNOWN", N,EdgeListSize,ListSize(M),elapsed_time_ms/1000.0,end_time_wall - start_time_wall);
