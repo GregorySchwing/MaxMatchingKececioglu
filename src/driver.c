@@ -34,7 +34,7 @@ Void main (int argc, char **argv)
    }
    */
    int match_type = main_lib_msbfsgraft(argc, argv, &rows, &cols, &matching, &nr, &nc, &nn);
-   match_type = 12;
+   match_type = 11;
    N = nr;
    EdgeListSize = nn/2;
    G = CreateGraphFromCSC_MS_BFS_GRAFT(rows, cols, matching, nr, nc, nn, match_type);

@@ -777,6 +777,7 @@ Graph *CreateGraphFromCSC_MS_BFS_GRAFT
    /*
     * Read the list of edges and insert them
     */
+   int *match_count = (int *)calloc(nr, sizeof(int));
    register Edge *E;
    for (int r = 0; r < nr; ++r){
       int start = cxadj[r];
@@ -786,14 +787,20 @@ Graph *CreateGraphFromCSC_MS_BFS_GRAFT
             //printf("u %d v %d\n",r-nc,cadj[start]);
             if (r<cadj[start]-nr){
                E = CreateEdge(G, G->VertexArray[r], G->VertexArray[cadj[start]-nr], Nil);
-               printf("u %d (%d) v %d\n",r,matching[r]-nr,cadj[start]-nr);
-               if(match_type <= 11 && matching[r]-nr==cadj[start]-nr){
+               //printf("u %d (%d) v %d\n",r,matching[r]-nr,cadj[start]-nr);
+               if(match_type <= 11 && ((matching[r]-nr)==(cadj[start]-nr) && match_count[r]<1 && match_count[(cadj[start]-nr)]<1)){
+                  //printf("MATCHED!!! u %d (%d) v %d\n",r,matching[r]-nr,cadj[start]-nr);
+                  match_count[r]++;
+                  match_count[cadj[start]-nr]++;
                   Match(E);
                }
             }
       }
    }
-
+   for (int r = 0; r < nr; ++r){
+      if (match_count[r]>1)
+         printf("ERROR IN MATCHING %d match count %d\n",r,match_count[r]);
+   }
       //CreateEdge(G, V[a], V[b], Nil);
       /*
       G->EL.Rows[2*i] = a - 1;
