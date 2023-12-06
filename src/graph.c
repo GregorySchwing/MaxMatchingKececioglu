@@ -786,7 +786,8 @@ Graph *CreateGraphFromCSC_MS_BFS_GRAFT
             //printf("u %d v %d\n",r-nc,cadj[start]);
             if (r<cadj[start]-nr){
                E = CreateEdge(G, G->VertexArray[r], G->VertexArray[cadj[start]-nr], Nil);
-               if(match_type <= 11 && matching[r]==cadj[start]){
+               printf("u %d (%d) v %d\n",r,matching[r]-nr,cadj[start]-nr);
+               if(match_type <= 11 && matching[r]-nr==cadj[start]-nr){
                   Match(E);
                }
             }
