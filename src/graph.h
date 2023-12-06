@@ -136,6 +136,9 @@ extern Graph *ReadGraph
 extern Graph *CreateGraphFromCSC_MS_BFS_GRAFT
    Proto(( int *cxadj, int *cadj, int *matching, int nr_ptr, int nc_ptr, int nn_ptr, int match_type));
 
+extern Graph *CreateGraphFromCSC
+   Proto(( int *cxadj, int *cadj, int *matching, int nr_ptr, int nc_ptr, int nn_ptr, int match_type));
+
 extern Void Initialize
    Proto(( Graph *, List * ));
 

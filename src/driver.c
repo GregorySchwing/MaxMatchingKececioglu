@@ -29,13 +29,14 @@ void executeCode(int config_arg, int argc, char *argv[], int **rows, int **cols,
         case 1:
             printf("Wrapper Configuration: Matchmaker2\n");
             // Call Matchmaker2 with the rest of the arguments and pointers
-            // ...
-
+            FILE *log;
+            int match_type2 = main_lib(argc, argv, log, rows, cols, matching, nr_ptr, nc_ptr, nn_ptr);
             break;
         case 2:
-            printf("Wrapper Configuration: BFSHonestPath\n");
+            printf("Wrapper Configuration: BFSHonestPath -UNSUPPORTED\n");
+            exit(0);
             // Call BFSHonestPath with the rest of the arguments and pointers
-            // ...
+            BFSHonestWrapper(*rows, *cols, *matching, *nr_ptr, *nn_ptr, 1);
 
             break;
         default:
@@ -54,7 +55,7 @@ Void main (int argc, char **argv)
       printf("   - config_arg: 0 for MS-BFS_GRAFT\n");
       printf("                 1 for Matchmaker2\n");
       printf("                 2 for BFSHonestPath\n");
-      return 1;
+      return;
    }
 
    // Extract the configuration argument
@@ -68,8 +69,6 @@ Void main (int argc, char **argv)
    Graph  *G;
    Vertex *V;
    Edge   *E;
-   FILE *log;
-   log = fopen("log.txt", "w");
    int nr, nc, nn;
    int * rows;
    int * cols;
@@ -78,9 +77,8 @@ Void main (int argc, char **argv)
    clock_t start_time_e2e = clock();
    start_time_wall = getTimeOfDay();
    /*
-   int match_type = main_lib(argc, argv, log, &rows, &cols, &matching, &nr, &nc, &nn);
+   
    if (match_type > 11){
-      BFSHonestWrapper(rows, cols, matching, nr, nn, 1);
    }
    */
    // Call the helper method to execute the appropriate code
@@ -91,6 +89,7 @@ Void main (int argc, char **argv)
    if (config_arg < 1){
       G = CreateGraphFromCSC_MS_BFS_GRAFT(rows, cols, matching, nr, nc, nn, match_type);
    } else {
+      G = CreateGraphFromCSC(rows, cols, matching, nr, nc, nn, match_type);
    }
    FILE *f;
 
