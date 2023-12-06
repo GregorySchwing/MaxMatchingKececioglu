@@ -24,13 +24,13 @@ void executeCode(int config_arg, int config_arg2, int argc, char *argv[], int **
             // Call MS-BFS_GRAFT with the rest of the arguments and pointers
             // ...
             int parallelKS = 1;
-            int match_type = main_lib_msbfsgraft(argc, argv, rows, cols, matching, nr_ptr, nc_ptr, nn_ptr, parallelKS);
+            int match_type = main_lib_msbfsgraft(argc, argv, rows, cols, matching, nr_ptr, nc_ptr, nn_ptr, config_arg2);
             break;
         case 1:
             printf("Wrapper Configuration: Matchmaker2\n");
             // Call Matchmaker2 with the rest of the arguments and pointers
             FILE *log;
-            int match_type2 = main_lib(argc, argv, log, rows, cols, matching, nr_ptr, nc_ptr, nn_ptr);
+            int match_type2 = main_lib(argc, argv, log, rows, cols, matching, nr_ptr, nc_ptr, nn_ptr, config_arg2);
             break;
         case 2:
             printf("Wrapper Configuration: BFSHonestPath -UNSUPPORTED\n");
@@ -68,8 +68,8 @@ enum Boolean {
 
 // Array of corresponding boolean strings
 const char *booleanStrings[] = {
-    "JUST_READ_FILE",
     "INITIALIZE"
+    "JUST_READ_FILE",
 };
 
 typedef ListCell Cell;
@@ -83,8 +83,8 @@ Void main (int argc, char **argv)
       printf("   - config_arg1: 0 for MS-BFS_GRAFT\n");
       printf("                  1 for Matchmaker2\n");
       printf("                  2 for BFSHonestPath\n");
-      printf("   - config_arg2: 0 : JUST_READ_FILE\n");
-      printf("                  1 : INITIALIZE\n");
+      printf("   - config_arg2: 0 : INITIALIZE\n");
+      printf("                  1 : JUST_READ_FILE\n");
       return;
    }
 
