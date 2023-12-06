@@ -9,3 +9,7 @@
 	path = BFSHonestPaths
 	url = https://github.com/GregorySchwing/BFSHonestPaths.git
 	branch = master
+[submodule "ms-bfs-graft"]
+	path = ms-bfs-graft
+	url = https://github.com/GregorySchwing/ms-bfs-graft.git
+	branch = master
