@@ -41,9 +41,12 @@ mmaker_lib.a:
 bfshonest_lib.a: 
 	$(MAKE) -C ../BFSHonestPaths bfshonest_lib.a
 
-matching : ${OBJECTS} mmaker_lib.a bfshonest_lib.a
+msBFSGraft_lib.a: 
+	$(MAKE) -C ../ms-bfs-graft msBFSGraft_lib.a
+
+matching : ${OBJECTS} mmaker_lib.a bfshonest_lib.a msBFSGraft_lib.a
 #	${CC} ${CFLAGS} -o matching ${OBJECTS}
-	${NVCC} -o matching ${OBJECTS} -L../matchmaker2 -l:mmaker_lib.a -L../BFSHonestPaths -l:bfshonest_lib.a
+	${NVCC} -o matching ${OBJECTS} -L../matchmaker2 -l:mmaker_lib.a -L../BFSHonestPaths -l:bfshonest_lib.a -L../ms-bfs-graft -l:msBFSGraft_lib.a
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 clean :
