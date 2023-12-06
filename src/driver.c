@@ -114,13 +114,12 @@ Void main (int argc, char **argv)
    */
    // Call the helper method to execute the appropriate code
    executeCode(config_arg, config_arg2, argc - 2, argv + 2, &rows, &cols, &matching, &nr, &nc, &nn);
-   int match_type = 11;
    N = nr;
    EdgeListSize = nn/2;
    if (config_arg < 1){
-      G = CreateGraphFromCSC_MS_BFS_GRAFT(rows, cols, matching, nr, nc, nn, match_type);
+      G = CreateGraphFromCSC_MS_BFS_GRAFT(rows, cols, matching, nr, nc, nn, config_arg2);
    } else {
-      G = CreateGraphFromCSC(rows, cols, matching, nr, nc, nn, match_type);
+      G = CreateGraphFromCSC(rows, cols, matching, nr, nc, nn, config_arg2);
    }
    FILE *f;
 

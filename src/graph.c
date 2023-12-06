@@ -728,7 +728,7 @@ Void WriteGraph
 Graph *CreateGraphFromCSC_MS_BFS_GRAFT
 
 #ifdef Ansi
-   (int *cxadj, int *cadj, int *matching, int nr, int nc, int nn, int match_type)
+   (int *cxadj, int *cadj, int *matching, int nr, int nc, int nn, int just_read_file)
 #else
    (stream) FILE *stream;
 #endif
@@ -788,7 +788,7 @@ Graph *CreateGraphFromCSC_MS_BFS_GRAFT
             if (r<cadj[start]-nr){
                E = CreateEdge(G, G->VertexArray[r], G->VertexArray[cadj[start]-nr], Nil);
                //printf("u %d (%d) v %d\n",r,matching[r]-nr,cadj[start]-nr);
-               if(match_type <= 11 && ((matching[r]-nr)==(cadj[start]-nr) && match_count[r]<1 && match_count[(cadj[start]-nr)]<1)){
+               if(!just_read_file && ((matching[r]-nr)==(cadj[start]-nr) && match_count[r]<1 && match_count[(cadj[start]-nr)]<1)){
                   //printf("MATCHED!!! u %d (%d) v %d\n",r,matching[r]-nr,cadj[start]-nr);
                   match_count[r]++;
                   match_count[cadj[start]-nr]++;
@@ -797,10 +797,12 @@ Graph *CreateGraphFromCSC_MS_BFS_GRAFT
             }
       }
    }
+   /*
    for (int r = 0; r < nr; ++r){
       if (match_count[r]>1)
          printf("ERROR IN MATCHING %d match count %d\n",r,match_count[r]);
    }
+   */
       //CreateEdge(G, V[a], V[b], Nil);
       /*
       G->EL.Rows[2*i] = a - 1;
@@ -849,7 +851,7 @@ Graph *CreateGraphFromCSC_MS_BFS_GRAFT
 Graph *CreateGraphFromCSC
 
 #ifdef Ansi
-   (int *cxadj, int *cadj, int *matching, int nr, int nc, int nn, int match_type)
+   (int *cxadj, int *cadj, int *matching, int nr, int nc, int nn, int just_read_file)
 #else
    (stream) FILE *stream;
 #endif
@@ -906,7 +908,7 @@ Graph *CreateGraphFromCSC
       for (;start<end;start++)
          if (r<cadj[start]){
             E = CreateEdge(G, G->VertexArray[r], G->VertexArray[cadj[start]], Nil);
-            if(match_type <= 11 && matching[r]==cadj[start]){
+            if(!just_read_file && matching[r]==cadj[start]){
                Match(E);
             }
          }
