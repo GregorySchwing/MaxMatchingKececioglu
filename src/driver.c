@@ -7,7 +7,7 @@
 
 #include "../matchmaker2/main_lib.cuh"
 #include "../BFSHonestPaths/bipartite.h"
-
+#include "../ms-bfs-graft/msBFSGraft_lib.h"
 typedef ListCell Cell;
 
 Void main (int argc, char **argv)
@@ -28,6 +28,7 @@ Void main (int argc, char **argv)
    int * matching;
    clock_t start_time_e2e = clock();
    int match_type = main_lib(argc, argv, log, &rows, &cols, &matching, &nr, &nc, &nn);
+   int match_type2 = main_lib_msbfsgraft(argc, argv, &rows, &cols, &matching, &nr, &nc, &nn);
    if (match_type > 11){
       BFSHonestWrapper(rows, cols, matching, nr, nn, 1);
    }

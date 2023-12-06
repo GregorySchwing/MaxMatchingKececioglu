@@ -2,6 +2,8 @@ CC	= gcc
 NVCC = nvcc
 
 #CFLAGS	= -O3 -DDebug=1
+CFLAGS = -fopenmp -Drestrict=__restrict__ -O2 -DNDEBUG -ffast-math # -g -pg
+
 CFLAGS	= -O3 -DNDEBUG
 CUDAFLAGS = -O3 -Xptxas -O3 -Xcompiler -O3 -w 
 
@@ -46,13 +48,14 @@ msBFSGraft_lib.a:
 
 matching : ${OBJECTS} mmaker_lib.a bfshonest_lib.a msBFSGraft_lib.a
 #	${CC} ${CFLAGS} -o matching ${OBJECTS}
-	${NVCC} -o matching ${OBJECTS} -L../matchmaker2 -l:mmaker_lib.a -L../BFSHonestPaths -l:bfshonest_lib.a -L../ms-bfs-graft -l:msBFSGraft_lib.a
+	${NVCC} -Xcompiler -fopenmp -lgomp -o matching ${OBJECTS} -L../matchmaker2 -l:mmaker_lib.a -L../BFSHonestPaths -l:bfshonest_lib.a -L../ms-bfs-graft -l:msBFSGraft_lib.a
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 clean :
 	${RM} *.o Makefile.bak core
 	$(MAKE) -C ../matchmaker2 clean
 	$(MAKE) -C ../BFSHonestPaths clean
+	$(MAKE) -C ../ms-bfs-graft clean
 
 shar :
 	${SHAR} Makefile Notes Version Example *.c *.h > matching.sh
