@@ -44,6 +44,21 @@ void executeCode(int config_arg, int argc, char *argv[], int **rows, int **cols,
     }
 }
 
+// Enumeration of algorithm names
+enum Algorithm {
+    MS_BFS_GRAFT = 0,
+    MATCHMAKER_2 = 1,
+    BFS_HONEST_PATH = 2,
+    NUM_ALGORITHMS // Number of algorithms, automatically set to 3
+};
+
+// Array of corresponding algorithm names
+const char *algorithmNames[] = {
+    "MS-BFS_GRAFT",
+    "Matchmaker2",
+    "BFSHonestPath"
+};
+
 typedef ListCell Cell;
 
 Void main (int argc, char **argv)
@@ -144,7 +159,7 @@ Void main (int argc, char **argv)
 
    char inputFilename[500];
    char outputFilename[500];
-   strcpy(outputFilename, "Results.csv");
+   strcpy(outputFilename, "WrapperResults.csv");
    FILE *output_file;
    if (access(outputFilename, F_OK) == 0)
    {
@@ -155,13 +170,13 @@ Void main (int argc, char **argv)
    {
       // file doesn't exist
       output_file = fopen(outputFilename, "w");
-      fprintf(output_file, "%s,%s,%s,%s,%s,%s\n", "Filename", "V","E","M", "milliseconds","seconds");
+      fprintf(output_file, "%s,%s,%s,%s,%s,%s,%s\n", "INITALGO", "Filename", "V","E","M", "SS_DFS_TIME(s)","TOTAL_WALL_CLOCK(s)");
    }
    if (argc>1){
       strcpy(inputFilename, argv[1]);
-      fprintf(output_file, "%s,%d,%d,%d,%f,%f\n", inputFilename, N,EdgeListSize,ListSize(M),elapsed_time_ms,elapsed_time_ms/1000.0);
+      fprintf(output_file, "%s,%s,%d,%d,%d,%f,%f\n", algorithmNames[config_arg], inputFilename, N,EdgeListSize,ListSize(M),elapsed_time_ms/1000.0,end_time_wall - start_time_wall);
    } else {
-      fprintf(output_file, "%s,%d,%d,%d,%f,%f\n", "UNKNOWN", N,EdgeListSize,ListSize(M),elapsed_time_ms,elapsed_time_ms/1000.0);
+      fprintf(output_file, "%s,%d,%d,%d,%f,%f\n", "UNKNOWN", N,EdgeListSize,ListSize(M),elapsed_time_ms/1000.0,end_time_wall - start_time_wall);
    }
    fclose(output_file);
 
