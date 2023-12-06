@@ -17,7 +17,7 @@ double getTimeOfDay() {
 }
 
 // Helper method to print usage instructions and call the appropriate code
-void executeCode(int config_arg, int argc, char *argv[], int **rows, int **cols, int **matching, int *nr_ptr, int *nc_ptr, int *nn_ptr) {
+void executeCode(int config_arg, int config_arg2, int argc, char *argv[], int **rows, int **cols, int **matching, int *nr_ptr, int *nc_ptr, int *nn_ptr) {
     switch (config_arg) {
         case 0:
             printf("Wrapper Configuration: MS-BFS_GRAFT\n");
@@ -59,22 +59,38 @@ const char *algorithmNames[] = {
     "BFSHonestPath"
 };
 
+
+// Enumeration for boolean values
+enum Boolean {
+    TRUE = 0,
+    FALSE = 1
+};
+
+// Array of corresponding boolean strings
+const char *booleanStrings[] = {
+    "JUST_READ_FILE",
+    "INITIALIZE"
+};
+
 typedef ListCell Cell;
 
 Void main (int argc, char **argv)
 {
 
    // Check if there are enough arguments
-   if (argc < 2) {
-      printf("Usage: %s <config_arg> [code_args...]\n", argv[0]);
-      printf("   - config_arg: 0 for MS-BFS_GRAFT\n");
-      printf("                 1 for Matchmaker2\n");
-      printf("                 2 for BFSHonestPath\n");
+   if (argc < 3) {
+      printf("Usage: %s <config_arg1> <config_arg2> [code_args...]\n", argv[0]);
+      printf("   - config_arg1: 0 for MS-BFS_GRAFT\n");
+      printf("                  1 for Matchmaker2\n");
+      printf("                  2 for BFSHonestPath\n");
+      printf("   - config_arg2: 0 : JUST_READ_FILE\n");
+      printf("                  1 : INITIALIZE\n");
       return;
    }
 
    // Extract the configuration argument
    int config_arg = atoi(argv[1]);
+   int config_arg2 = atoi(argv[2]);
 
    int   N,EdgeListSize;
    List *M;
@@ -97,7 +113,7 @@ Void main (int argc, char **argv)
    }
    */
    // Call the helper method to execute the appropriate code
-   executeCode(config_arg, argc - 1, argv + 1, &rows, &cols, &matching, &nr, &nc, &nn);
+   executeCode(config_arg, config_arg2, argc - 2, argv + 2, &rows, &cols, &matching, &nr, &nc, &nn);
    int match_type = 11;
    N = nr;
    EdgeListSize = nn/2;
@@ -170,11 +186,11 @@ Void main (int argc, char **argv)
    {
       // file doesn't exist
       output_file = fopen(outputFilename, "w");
-      fprintf(output_file, "%s,%s,%s,%s,%s,%s,%s\n", "INITALGO", "Filename", "V","E","M", "SS_DFS_TIME(s)","TOTAL_WALL_CLOCK(s)");
+      fprintf(output_file, "%s,%s,%s,%s,%s,%s,%s,%s\n", "INITALGO", "PREPROCESSING", "Filename", "V","E","M", "SS_DFS_TIME(s)","TOTAL_WALL_CLOCK(s)");
    }
    if (argc>1){
       strcpy(inputFilename, argv[1]);
-      fprintf(output_file, "%s,%s,%d,%d,%d,%f,%f\n", algorithmNames[config_arg], inputFilename, N,EdgeListSize,ListSize(M),elapsed_time_ms/1000.0,end_time_wall - start_time_wall);
+      fprintf(output_file, "%s,%s,%s,%d,%d,%d,%f,%f\n", algorithmNames[config_arg], booleanStrings[config_arg2], inputFilename, N,EdgeListSize,ListSize(M),elapsed_time_ms/1000.0,end_time_wall - start_time_wall);
    } else {
       fprintf(output_file, "%s,%d,%d,%d,%f,%f\n", "UNKNOWN", N,EdgeListSize,ListSize(M),elapsed_time_ms/1000.0,end_time_wall - start_time_wall);
    }
