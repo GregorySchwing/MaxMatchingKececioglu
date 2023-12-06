@@ -1,5 +1,11 @@
 #!/bin/bash
-for i in $(seq 15 1 24)
+
+for i in $(seq 24 1 24)
 do
-  ./cpu ../dimacs/rgg/rgg_n_2_$i_s0/rgg_n_2_$i_s0.mtx
+  ./matching 0 0 ../graphs/dimacs/rgg/rgg_n_2_${i}_s0/rgg_n_2_${i}_s0.mtx 16 1
+done
+
+for i in $(seq 24 1 24)
+do
+  ./matching 0 1 ../graphs/dimacs/rgg/rgg_n_2_${i}_s0/rgg_n_2_${i}_s0.mtx 16 1
 done
