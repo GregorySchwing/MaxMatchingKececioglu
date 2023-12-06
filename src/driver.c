@@ -27,11 +27,14 @@ Void main (int argc, char **argv)
    int * cols;
    int * matching;
    clock_t start_time_e2e = clock();
+   /*
    int match_type = main_lib(argc, argv, log, &rows, &cols, &matching, &nr, &nc, &nn);
-   int match_type2 = main_lib_msbfsgraft(argc, argv, &rows, &cols, &matching, &nr, &nc, &nn);
    if (match_type > 11){
       BFSHonestWrapper(rows, cols, matching, nr, nn, 1);
    }
+   */
+   int match_type = main_lib_msbfsgraft(argc, argv, &rows, &cols, &matching, &nr, &nc, &nn);
+   match_type = 12;
    N = nr;
    EdgeListSize = nn/2;
    G = CreateGraphFromCSC(rows, cols, matching, nr, nc, nn, match_type);
