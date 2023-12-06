@@ -37,7 +37,7 @@ Void main (int argc, char **argv)
    match_type = 12;
    N = nr;
    EdgeListSize = nn/2;
-   G = CreateGraphFromCSC(rows, cols, matching, nr, nc, nn, match_type);
+   G = CreateGraphFromCSC_MS_BFS_GRAFT(rows, cols, matching, nr, nc, nn, match_type);
 
    FILE *f;
 

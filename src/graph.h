@@ -133,7 +133,7 @@ extern Void WriteGraph
 extern Graph *ReadGraph
    Proto(( FILE *stream , int * N, int * M));
 
-extern Graph *CreateGraphFromCSC
+extern Graph *CreateGraphFromCSC_MS_BFS_GRAFT
    Proto(( int *cxadj, int *cadj, int *matching, int nr_ptr, int nc_ptr, int nn_ptr, int match_type));
 
 extern Void Initialize

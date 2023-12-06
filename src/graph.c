@@ -725,7 +725,7 @@ Void WriteGraph
  * Assumes the graph is provided as a symmetric CSC.
  *
  */
-Graph *CreateGraphFromCSC
+Graph *CreateGraphFromCSC_MS_BFS_GRAFT
 
 #ifdef Ansi
    (int *cxadj, int *cadj, int *matching, int nr, int nc, int nn, int match_type)
