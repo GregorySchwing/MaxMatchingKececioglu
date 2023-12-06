@@ -16,10 +16,50 @@ double getTimeOfDay() {
     return (double)tv.tv_sec + (double)tv.tv_usec / 1000000.0;
 }
 
+// Helper method to print usage instructions and call the appropriate code
+void executeCode(int config_arg, int argc, char *argv[], int **rows, int **cols, int **matching, int *nr_ptr, int *nc_ptr, int *nn_ptr) {
+    switch (config_arg) {
+        case 0:
+            printf("Wrapper Configuration: MS-BFS_GRAFT\n");
+            // Call MS-BFS_GRAFT with the rest of the arguments and pointers
+            // ...
+            int parallelKS = 1;
+            int match_type = main_lib_msbfsgraft(argc, argv, rows, cols, matching, nr_ptr, nc_ptr, nn_ptr, parallelKS);
+            break;
+        case 1:
+            printf("Wrapper Configuration: Matchmaker2\n");
+            // Call Matchmaker2 with the rest of the arguments and pointers
+            // ...
+
+            break;
+        case 2:
+            printf("Wrapper Configuration: BFSHonestPath\n");
+            // Call BFSHonestPath with the rest of the arguments and pointers
+            // ...
+
+            break;
+        default:
+            printf("Invalid configuration argument. Use 0, 1, or 2.\n");
+    }
+}
+
 typedef ListCell Cell;
 
 Void main (int argc, char **argv)
 {
+
+   // Check if there are enough arguments
+   if (argc < 2) {
+      printf("Usage: %s <config_arg> [code_args...]\n", argv[0]);
+      printf("   - config_arg: 0 for MS-BFS_GRAFT\n");
+      printf("                 1 for Matchmaker2\n");
+      printf("                 2 for BFSHonestPath\n");
+      return 1;
+   }
+
+   // Extract the configuration argument
+   int config_arg = atoi(argv[1]);
+
    int   N,EdgeListSize;
    List *M;
    Cell *P;
@@ -43,12 +83,15 @@ Void main (int argc, char **argv)
       BFSHonestWrapper(rows, cols, matching, nr, nn, 1);
    }
    */
-   int match_type = main_lib_msbfsgraft(argc, argv, &rows, &cols, &matching, &nr, &nc, &nn);
-   match_type = 11;
+   // Call the helper method to execute the appropriate code
+   executeCode(config_arg, argc - 1, argv + 1, &rows, &cols, &matching, &nr, &nc, &nn);
+   int match_type = 11;
    N = nr;
    EdgeListSize = nn/2;
-   G = CreateGraphFromCSC_MS_BFS_GRAFT(rows, cols, matching, nr, nc, nn, match_type);
-
+   if (config_arg < 1){
+      G = CreateGraphFromCSC_MS_BFS_GRAFT(rows, cols, matching, nr, nc, nn, match_type);
+   } else {
+   }
    FILE *f;
 
    clock_t start_time, end_time;
