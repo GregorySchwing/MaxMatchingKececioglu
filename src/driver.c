@@ -68,7 +68,7 @@ enum Boolean {
 
 // Array of corresponding boolean strings
 const char *booleanStrings[] = {
-    "INITIALIZE"
+    "INITIALIZE",
     "JUST_READ_FILE",
 };
 
