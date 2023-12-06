@@ -784,9 +784,11 @@ Graph *CreateGraphFromCSC
       //printf("col %d start %d end %d\n",r-nc,cadj[start],cadj[end]);
       for (;start<end;start++){
             printf("u %d v %d\n",r-nc,cadj[start]);
-            E = CreateEdge(G, G->VertexArray[r-nc], G->VertexArray[cadj[start]], Nil);
-            if(match_type <= 11 && matching[r-nc]==cadj[start]){
-               Match(E);
+            if (r-nc<cadj[start]){
+               E = CreateEdge(G, G->VertexArray[r-nc], G->VertexArray[cadj[start]], Nil);
+               if(match_type <= 11 && matching[r-nc]==cadj[start]){
+                  Match(E);
+               }
             }
       }
    }
