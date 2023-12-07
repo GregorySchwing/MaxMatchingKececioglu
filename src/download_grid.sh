@@ -21,4 +21,5 @@
 #SBATCH -t 14-0:0:0
 
 # List assigned GPU: 
-bash ../graphs/dimacs/download_all.txt
+cd ../graphs/dimacs
+bash download_all.txt
