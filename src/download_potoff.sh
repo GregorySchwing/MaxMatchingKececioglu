@@ -9,6 +9,7 @@
 #SBATCH --mem=10G
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=go2432@wayne.edu
+#SBATCH --nodelist=reslab32ai8111
 
 #SBATCH -o output_%j.out
 
