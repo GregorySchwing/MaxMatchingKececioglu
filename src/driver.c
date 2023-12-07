@@ -105,6 +105,7 @@ Void main (int argc, char **argv)
    int * cols;
    int * matching;
    double start_time_wall, end_time_wall;
+   double start_time_init, end_time_init;
    clock_t start_time_e2e = clock();
    start_time_wall = getTimeOfDay();
    /*
@@ -113,7 +114,9 @@ Void main (int argc, char **argv)
    }
    */
    // Call the helper method to execute the appropriate code
+   start_time_init = getTimeOfDay();
    executeCode(config_arg, config_arg2, argc - 2, argv + 2, &rows, &cols, &matching, &nr, &nc, &nn);
+   end_time_init = getTimeOfDay();
    N = nr;
    EdgeListSize = nn/2;
    if (config_arg < 1){
@@ -185,11 +188,11 @@ Void main (int argc, char **argv)
    {
       // file doesn't exist
       output_file = fopen(outputFilename, "w");
-      fprintf(output_file, "%s,%s,%s,%s,%s,%s,%s,%s\n", "INITALGO", "PREPROCESSING", "Filename", "V","E","M", "SS_DFS_TIME(s)","TOTAL_WALL_CLOCK(s)");
+      fprintf(output_file, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", "INITALGO", "PREPROCESSING", "Filename", "V","E","M", "INIT_TIME(S)","SS_DFS_TIME(s)","TOTAL_WALL_CLOCK(s)");
    }
    if (argc>1){
       strcpy(inputFilename,  basename(argv[3]));
-      fprintf(output_file, "%s,%s,%s,%d,%d,%d,%f,%f\n", algorithmNames[config_arg], booleanStrings[config_arg2], inputFilename, N,EdgeListSize,ListSize(M),elapsed_time_ms/1000.0,end_time_wall - start_time_wall);
+      fprintf(output_file, "%s,%s,%s,%d,%d,%d,%f,%f,%f\n", algorithmNames[config_arg], booleanStrings[config_arg2], inputFilename, N,EdgeListSize,ListSize(M),elapsed_time_ms/1000.0,end_time_init-start_time_init,end_time_wall - start_time_wall);
    } else {
       fprintf(output_file, "%s,%d,%d,%d,%f,%f\n", "UNKNOWN", N,EdgeListSize,ListSize(M),elapsed_time_ms/1000.0,end_time_wall - start_time_wall);
    }
