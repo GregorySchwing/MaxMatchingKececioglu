@@ -106,6 +106,7 @@ Void main (int argc, char **argv)
    int * matching;
    double start_time_wall, end_time_wall;
    double start_time_init, end_time_init;
+   double start_time_csc_2_g, end_time_csc_2_g;
    clock_t start_time_e2e = clock();
    start_time_wall = getTimeOfDay();
    /*
@@ -119,11 +120,13 @@ Void main (int argc, char **argv)
    end_time_init = getTimeOfDay();
    N = nr;
    EdgeListSize = nn/2;
+   start_time_csc_2_g = getTimeOfDay();
    if (config_arg < 1){
       G = CreateGraphFromCSC_MS_BFS_GRAFT(rows, cols, matching, nr, nc, nn, config_arg2);
    } else {
       G = CreateGraphFromCSC(rows, cols, matching, nr, nc, nn, config_arg2);
    }
+   end_time_csc_2_g = getTimeOfDay();
    FILE *f;
 
    clock_t start_time, end_time;
@@ -188,11 +191,11 @@ Void main (int argc, char **argv)
    {
       // file doesn't exist
       output_file = fopen(outputFilename, "w");
-      fprintf(output_file, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", "INITALGO", "PREPROCESSING", "Filename", "V","E","M", "INIT_TIME(S)","SS_DFS_TIME(s)","TOTAL_WALL_CLOCK(s)");
+      fprintf(output_file, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n", "INITALGO", "PREPROCESSING", "Filename", "V","E","M", "INIT_TIME(S)","CSC_2_G_TIME(s)","SS_DFS_TIME(s)","TOTAL_WALL_CLOCK(s)");
    }
    if (argc>1){
       strcpy(inputFilename,  basename(argv[3]));
-      fprintf(output_file, "%s,%s,%s,%d,%d,%d,%f,%f,%f\n", algorithmNames[config_arg], booleanStrings[config_arg2], inputFilename, N,EdgeListSize,ListSize(M),elapsed_time_ms/1000.0,end_time_init-start_time_init,end_time_wall - start_time_wall);
+      fprintf(output_file, "%s,%s,%s,%d,%d,%d,%f,%f,%f,%f\n", algorithmNames[config_arg], booleanStrings[config_arg2], inputFilename, N,EdgeListSize,ListSize(M),elapsed_time_ms/1000.0,end_time_init-start_time_init,end_time_csc_2_g-start_time_csc_2_g,end_time_wall - start_time_wall);
    } else {
       fprintf(output_file, "%s,%d,%d,%d,%f,%f\n", "UNKNOWN", N,EdgeListSize,ListSize(M),elapsed_time_ms/1000.0,end_time_wall - start_time_wall);
    }
