@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#SBATCH --job-name cpu 
+#SBATCH --job-name gpu 
 
 #SBATCH -N 1
 
 #SBATCH -n 1 
 
 #SBATCH --mem=10G
-#SBATCH --nodelist=ressrv4ai8111,ressrv6ai8111
+#SBATCH --nodelist=ressrv6ai8111
 #SBATCH --gres=gpu:1
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=go2432@wayne.edu

@@ -7,7 +7,7 @@
 #SBATCH -n 16 
 
 #SBATCH --mem=10G
-#SBATCH --nodelist=ressrv4ai8111,ressrv6ai8111
+#SBATCH --nodelist=ressrv4ai8111
 #SBATCH --gres=gpu:0
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=go2432@wayne.edu
