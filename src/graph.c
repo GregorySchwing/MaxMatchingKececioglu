@@ -908,7 +908,7 @@ Graph *CreateGraphFromCSC
       for (;start<end;start++)
          if (r<cadj[start]){
             E = CreateEdge(G, G->VertexArray[r], G->VertexArray[cadj[start]], Nil);
-            if(!just_read_file && matching[r]==cadj[start]){
+            if(!just_read_file && (r==matching[matching[r]]) && matching[r]==cadj[start]){
                Match(E);
             }
          }
