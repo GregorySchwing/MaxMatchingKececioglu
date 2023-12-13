@@ -45,7 +45,9 @@ void edgeList2MatchingArray(PyObject *matched_edges, int * matching){
         }
 
         // Now, you can use value1 and value2 as needed
+        #ifndef NDEBUG
         printf("Tuple %zd: (%ld, %ld)\n", i, value1, value2);
+        #endif
         matching[value1]=value2;
         matching[value2]=value1;
     }
@@ -173,7 +175,9 @@ void match (PyObject *rows, PyObject *cols, PyObject *matching)
             printf("Error appending py tuple object\n");
         }
         //fprintf(stdout, "Appended (%d, %d)\n",(int) VertexLabel(EdgeFrom(E)), (int) VertexLabel(EdgeTo(E)));
+        #ifndef NDEBUG
         fprintf(stdout, "Appended (%ld, %ld)\n",(long) VertexLabel(EdgeFrom(E)), (long) VertexLabel(EdgeTo(E)));
+        #endif
    }
       
       //fprintf(stdout, "(%d, %d)\n",(int) VertexLabel(EdgeFrom(E)), (int) VertexLabel(EdgeTo(E)));
