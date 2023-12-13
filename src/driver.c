@@ -13,6 +13,49 @@ double getTimeOfDay() {
     return (double)tv.tv_sec + (double)tv.tv_usec / 1000000.0;
 }
 
+void edgeList2MatchingArray(PyObject *matched_edges, int * matching){
+    // Assuming matched_edges is a Python list object
+    for (Py_ssize_t i = 0; i < PyList_Size(matched_edges); ++i) {
+        // Get the i-th tuple from the list
+        PyObject* tuple = PyList_GetItem(matched_edges, i);
+        if (tuple == NULL || !PyTuple_Check(tuple)) {
+            printf("Error: Failed to get tuple from list or not a tuple\n");
+            continue;
+        }
+
+        // Extract elements from the tuple
+        PyObject* element1 = PyTuple_GetItem(tuple, 0);
+        PyObject* element2 = PyTuple_GetItem(tuple, 1);
+
+        // Check if extraction was successful
+        if (element1 == NULL || element2 == NULL) {
+            printf("Error: Failed to get elements from tuple\n");
+            continue;
+        }
+
+        // Convert elements to integers (or desired type)
+        long value1 = PyLong_AsLong(element1);
+        long value2 = PyLong_AsLong(element2);
+
+        // Check for conversion errors
+        if (value1 == -1 || value2 == -1) {
+            PyErr_Print();  // Print Python error message
+            printf("Error: Failed to convert elements to integers\n");
+            continue;
+        }
+
+        // Now, you can use value1 and value2 as needed
+        printf("Tuple %zd: (%ld, %ld)\n", i, value1, value2);
+        matching[value1]=value2;
+        matching[value2]=value1;
+    }
+}
+
+// Function to clear a Python list
+void clearList(PyObject* list) {
+    PyList_SetSlice(list, 0, PyList_Size(list), NULL);
+}
+
 typedef ListCell Cell;
 int main(int argc, char **argv){}
 void match (PyObject *rows, PyObject *cols, PyObject *matching)
@@ -26,10 +69,12 @@ void match (PyObject *rows, PyObject *cols, PyObject *matching)
    Graph  *G;
    Vertex *V;
    Edge   *E;
-   int *matching_ph;
+   int *matching_array;
    // Function logic for the first list
    Py_ssize_t rows_length = PyList_Size(rows);
    Py_ssize_t cols_length = PyList_Size(cols);
+   Py_ssize_t matching_length = PyList_Size(matching);
+
    int nr = rows_length-1;
    int nc = rows_length-1;
    int nn = cols_length;
@@ -41,7 +86,22 @@ void match (PyObject *rows, PyObject *cols, PyObject *matching)
    double start_time_match, end_time_match;
    start_time_wall = getTimeOfDay();
    start_time_csc_2_g = getTimeOfDay();
-   G = CreateGraphFromCSC(rows, cols, matching_ph, nr, nc, nn, 1);
+   if (matching_length){
+        // Number of elements in the array
+        size_t num_elements = nr;
+
+        // Size of each element in bytes
+        size_t element_size = sizeof(int);
+
+        // Allocate memory for the array and initialize to zero
+        matching_array = (int *)calloc(num_elements, element_size);
+        edgeList2MatchingArray(matching,matching_array);
+        // Clear the list
+        clearList(matching);
+   }
+   G = CreateGraphFromCSC(rows, cols, matching_array, nr, nc, nn, !matching_length);
+   if (matching_length)
+    free(matching_array);
    end_time_csc_2_g = getTimeOfDay();
    printf("CSC to Graph conversion time: %f seconds\n", end_time_csc_2_g - start_time_csc_2_g);
    #ifndef NDEBUG
