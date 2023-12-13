@@ -15,7 +15,7 @@ double getTimeOfDay() {
 
 typedef ListCell Cell;
 int main(int argc, char **argv){}
-Void match (int * rows, int * cols,  int * matching, int nr, int nc, int nn)
+void match (int * rows, int * cols,  int * matching, int nr, int nc, int nn)
 {
 
    int   N,EdgeListSize;
