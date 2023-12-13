@@ -15,7 +15,7 @@ double getTimeOfDay() {
 
 typedef ListCell Cell;
 int main(int argc, char **argv){}
-PyObject* match (PyObject *rows, PyObject *cols)
+void match (PyObject *rows, PyObject *cols, PyObject *matching)
 {
 
    int   N,EdgeListSize;
@@ -87,8 +87,7 @@ PyObject* match (PyObject *rows, PyObject *cols)
            ListSize(M));
    const Py_ssize_t tuple_length = 2;
    const unsigned some_limit = ListSize(M);
-   PyObject *my_list = PyList_New(0);
-   if(my_list == NULL) {
+   if(matching == NULL) {
     printf("Error building pylist\n");
    }
    N = 1;
@@ -110,7 +109,7 @@ PyObject* match (PyObject *rows, PyObject *cols)
         }
         PyTuple_SET_ITEM(the_tuple, 0, the_object1);
         PyTuple_SET_ITEM(the_tuple, 1, the_object2);
-        if(PyList_Append(my_list, the_tuple) == -1) {
+        if(PyList_Append(matching, the_tuple) == -1) {
             printf("Error appending py tuple object\n");
         }
         fprintf(stdout, "Appended (%d, %d)\n",(int) VertexLabel(EdgeFrom(E)), (int) VertexLabel(EdgeTo(E)));
@@ -122,5 +121,5 @@ PyObject* match (PyObject *rows, PyObject *cols)
    DestroyList(M);
    
    DestroyGraph(G);
-   return my_list;
+   return;
 }
