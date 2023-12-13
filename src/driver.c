@@ -15,7 +15,7 @@ double getTimeOfDay() {
 
 typedef ListCell Cell;
 int main(int argc, char **argv){}
-void match (int * rows, int * cols,  int * matching, int nr, int nc, int nn)
+void match (PyObject *rows, PyObject *cols)
 {
 
    int   N,EdgeListSize;
@@ -26,7 +26,13 @@ void match (int * rows, int * cols,  int * matching, int nr, int nc, int nn)
    Graph  *G;
    Vertex *V;
    Edge   *E;
-   //int nr, nc, nn;
+   int *matching;
+   // Function logic for the first list
+   Py_ssize_t rows_length = PyList_Size(rows);
+   Py_ssize_t cols_length = PyList_Size(cols);
+   int nr = rows_length-1;
+   int nc = rows_length-1;
+   int nn = cols_length;
    //int * rows;
    //int * cols;
    //int * matching;

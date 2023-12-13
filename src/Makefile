@@ -3,7 +3,7 @@ CC	= gcc
 #CFLAGS	= -O3 -DDebug=1
 CFLAGS = -fopenmp -Drestrict=__restrict__ -O2 -DNDEBUG -ffast-math # -g -pg
 
-CFLAGS	= -O3 -DNDEBUG
+CFLAGS	= -O3 -DNDEBUG -I/usr/include/python3.8 -lpython3.8
 
 RM   = rm -f
 SHAR = shar
@@ -26,7 +26,7 @@ OBJECTS = driver.o matching.o graph.o list.o set.o
 all: matching
 
 matching : ${OBJECTS}
-	${CC} ${CFLAGS} -o matching ${OBJECTS}
+	${CC} ${CFLAGS} -o matching ${OBJECTS} -lpython3.8
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 clean :

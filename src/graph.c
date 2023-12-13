@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <stdio.h>
 #include "graph.h"
 #include <assert.h>
@@ -727,7 +726,7 @@ Void WriteGraph
 Graph *CreateGraphFromCSC
 
 #ifdef Ansi
-   (int *cxadj, int *cadj, int *matching, int nr, int nc, int nn, int just_read_file)
+   (PyObject *cxadj, PyObject *cadj, int *matching, int nr, int nc, int nn, int just_read_file)
 #else
    (stream) FILE *stream;
 #endif
@@ -777,16 +776,37 @@ Graph *CreateGraphFromCSC
     */
    register Edge *E;
    for (int r = 0; r < nc; ++r){
-      int start = cxadj[r];
-      int end = cxadj[r+1];
+      PyObject *item1 = PyList_GetItem(cxadj, r);
+      if (!PyLong_Check(item1)) {
+         PyErr_SetString(PyExc_TypeError, "List elements must be integers");
+         return NULL;
+      }
+      PyObject *item2 = PyList_GetItem(cxadj, r+1);
+      if (!PyLong_Check(item2)) {
+         PyErr_SetString(PyExc_TypeError, "List elements must be integers");
+         return NULL;
+      }
+      long value1 = PyLong_AsLong(item1);
+      long value2 = PyLong_AsLong(item2);
+      int start = value1;
+      int end = value2;
       //printf("col %d start %d end %d\n",r,start,end);
-      for (;start<end;start++)
-         if (r<cadj[start]){
-            E = CreateEdge(G, G->VertexArray[r], G->VertexArray[cadj[start]], Nil);
-            if(!just_read_file && (r==matching[matching[r]]) && matching[r]==cadj[start]){
+      for (;start<end;start++){
+         PyObject *item3 = PyList_GetItem(cadj, start);
+         if (!PyLong_Check(item3)) {
+               PyErr_SetString(PyExc_TypeError, "List elements must be integers");
+               return NULL;
+         }
+         long value3 = PyLong_AsLong(item3);
+         int col = value3;
+
+         if (r<col){
+            E = CreateEdge(G, G->VertexArray[r], G->VertexArray[col], Nil);
+            if(!just_read_file && (r==matching[matching[r]]) && matching[r]==col){
                Match(E);
             }
          }
+      }
    }
 
       //CreateEdge(G, V[a], V[b], Nil);

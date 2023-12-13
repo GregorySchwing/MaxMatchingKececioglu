@@ -10,7 +10,7 @@
 #ifndef GraphInclude
 #define GraphInclude
 
-
+#include <Python.h>
 #include <stdio.h>
 #include "portable.h"
 #include "list.h"
@@ -132,7 +132,7 @@ extern Graph *ReadGraph
    Proto(( FILE *stream , int * N, int * M));
 
 extern Graph *CreateGraphFromCSC
-   Proto(( int *cxadj, int *cadj, int *matching, int nr_ptr, int nc_ptr, int nn_ptr, int just_read_file));
+   Proto(( PyObject *cxadj, PyObject *cadj, int *matching, int nr_ptr, int nc_ptr, int nn_ptr, int just_read_file));
 
 extern Void Initialize
    Proto(( Graph *, List * ));
