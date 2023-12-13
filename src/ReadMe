@@ -1,7 +1,0 @@
-Executing "make" will produce the executable file "matching".
-Running "matching < Example" should output a maximum cardinality matching 
-of 18 edges.
-
-John Kececioglu
-kece@cs.uga.edu
-26 November 1997
