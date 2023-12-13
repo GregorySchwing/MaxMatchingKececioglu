@@ -11,11 +11,6 @@ LINT = lint -x
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#SOURCES = driver.c matching.c graph.c list.c set.c hash_table.c bipartite.cu matchgpu.cu CSRGraph.cu GreedyMatcher.cu\
-#bfs.cu matchmaker/matcher.cu
-#OBJECTS = driver.o matching.o graph.o list.o set.o hash_table.o bipartite.o matchgpu.o CSRGraph.o GreedyMatcher.o\
-#bfs.o matcher.o
-
 SOURCES = driver.c matching.c graph.c list.c set.c
 OBJECTS = driver.o matching.o graph.o list.o set.o
 
@@ -36,9 +31,6 @@ matching : ${OBJECTS}
 
 clean :
 	${RM} *.o Makefile.bak core
-
-shar :
-	${SHAR} Makefile Notes Version Example *.c *.h > matching.sh
 
 lint :
 	${LINT} ${SOURCES}
