@@ -40,7 +40,6 @@ void match (PyObject *rows, PyObject *cols)
    double start_time_csc_2_g, end_time_csc_2_g;
    double start_time_match, end_time_match;
    start_time_wall = getTimeOfDay();
-   N = nr;
    EdgeListSize = nn/2;
    start_time_csc_2_g = getTimeOfDay();
    G = CreateGraphFromCSC(rows, cols, matching, nr, nc, nn, 1);
@@ -87,14 +86,13 @@ void match (PyObject *rows, PyObject *cols)
    fprintf(stdout, "There are %d edges in the maximum-cardinality matching.\n",
            ListSize(M));
 
-   /*
    N = 1;
    ForAllGraphVertices(V, G, P)
       VertexRelabel(V, (VertexData) N++);
    ForAllEdges(E, M, P)
       fprintf(stdout, "(%d, %d)\n",
          (int) VertexLabel(EdgeFrom(E)), (int) VertexLabel(EdgeTo(E)));
-   */
+   
    DestroyList(M);
    
    DestroyGraph(G);
