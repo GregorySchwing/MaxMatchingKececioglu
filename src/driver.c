@@ -96,11 +96,14 @@ void match (PyObject *rows, PyObject *cols, PyObject *matching)
         if(the_tuple == NULL) {
             printf("Error building py object tuple\n");
         }
-        PyObject *the_object1 = PyLong_FromSsize_t((int)VertexLabel(EdgeFrom(E)));
+        //PyObject *the_object1 = PyLong_FromSsize_t((int)VertexLabel(EdgeFrom(E)));
+        PyObject *the_object1 = PyLong_FromSsize_t((long)VertexLabel(EdgeFrom(E)));
+        
         if(the_object1 == NULL) {
             printf("Error building py object\n");
         }
-        PyObject *the_object2 = PyLong_FromSsize_t((int)VertexLabel(EdgeTo(E)));
+        //PyObject *the_object2 = PyLong_FromSsize_t((int)VertexLabel(EdgeTo(E)));
+        PyObject *the_object2 = PyLong_FromSsize_t((long)VertexLabel(EdgeTo(E)));
         if(the_object2 == NULL) {
             printf("Error building py object\n");
         }
@@ -109,7 +112,8 @@ void match (PyObject *rows, PyObject *cols, PyObject *matching)
         if(PyList_Append(matching, the_tuple) == -1) {
             printf("Error appending py tuple object\n");
         }
-        fprintf(stdout, "Appended (%d, %d)\n",(int) VertexLabel(EdgeFrom(E)), (int) VertexLabel(EdgeTo(E)));
+        //fprintf(stdout, "Appended (%d, %d)\n",(int) VertexLabel(EdgeFrom(E)), (int) VertexLabel(EdgeTo(E)));
+        fprintf(stdout, "Appended (%ld, %ld)\n",(long) VertexLabel(EdgeFrom(E)), (long) VertexLabel(EdgeTo(E)));
    }
       
       //fprintf(stdout, "(%d, %d)\n",(int) VertexLabel(EdgeFrom(E)), (int) VertexLabel(EdgeTo(E)));
