@@ -1,5 +1,0 @@
-#!/bin/bash
-
-./cpu ../SNAP/stateRoads/roadNet-CA/roadNet-CA.mtx
-./cpu ../SNAP/stateRoads/roadNet-PA/roadNet-PA.mtx
-./cpu ../SNAP/stateRoads/roadNet-TX/roadNet-TX.mtx

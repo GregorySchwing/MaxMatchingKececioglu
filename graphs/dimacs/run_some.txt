@@ -1,6 +1,0 @@
-#!/usr/bin/bash
-export CUDA_VISIBLE_DEVICES=1
-cd ../build
-#bash ../dimacs/streets/run.txt
-bash ../dimacs/kron/run.txt
-#bash ../dimacs/delauney/run.txt
