@@ -1,11 +1,9 @@
 CC	= gcc
-NVCC = nvcc
 
 #CFLAGS	= -O3 -DDebug=1
 CFLAGS = -fopenmp -Drestrict=__restrict__ -O2 -DNDEBUG -ffast-math # -g -pg
 
 CFLAGS	= -O3 -DNDEBUG
-CUDAFLAGS = -O3 -Xptxas -O3 -Xcompiler -O3 -w 
 
 RM   = rm -f
 SHAR = shar
@@ -25,37 +23,19 @@ OBJECTS = driver.o matching.o graph.o list.o set.o
 # -dc is the flag for separate compilation. 
 # The architecture must be specified before -dc see (with a generic Makefile).
 
-%.o: %.cu
-	${NVCC} -dc $(CUDAFLAGS) $< -o $@
-
-%.o: matchmaker/%.cu
-	${NVCC} -dc $(CUDAFLAGS) $< -o $@
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #matching : ${OBJECTS}
 #	${CC} ${CFLAGS} -o matching ${OBJECTS}
-all: matching mmaker_lib.a
+all: matching
 
-mmaker_lib.a: 
-	$(MAKE) -C ../matchmaker2 mmaker_lib.a
-
-bfshonest_lib.a: 
-	$(MAKE) -C ../BFSHonestPaths bfshonest_lib.a
-
-msBFSGraft_lib.a: 
-	$(MAKE) -C ../ms-bfs-graft msBFSGraft_lib.a
-
-matching : ${OBJECTS} mmaker_lib.a bfshonest_lib.a msBFSGraft_lib.a
-#	${CC} ${CFLAGS} -o matching ${OBJECTS}
-	${NVCC} -Xcompiler -fopenmp -lgomp -o matching ${OBJECTS} -L../matchmaker2 -l:mmaker_lib.a -L../BFSHonestPaths -l:bfshonest_lib.a -L../ms-bfs-graft -l:msBFSGraft_lib.a
+matching : ${OBJECTS}
+	${CC} ${CFLAGS} -o matching ${OBJECTS}
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 clean :
 	${RM} *.o Makefile.bak core
-	$(MAKE) -C ../matchmaker2 clean
-	$(MAKE) -C ../BFSHonestPaths clean
-	$(MAKE) -C ../ms-bfs-graft clean
 
 shar :
 	${SHAR} Makefile Notes Version Example *.c *.h > matching.sh
