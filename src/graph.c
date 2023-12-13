@@ -45,7 +45,6 @@
 #include <stdio.h>
 #include "graph.h"
 #include <assert.h>
-#include "matchmaker/matcher.h"
 
 #define VertexBlockSize 16 /* Number of vertices allocated per request */
 #define EdgeBlockSize   32 /* Number of edges allocated per request */
