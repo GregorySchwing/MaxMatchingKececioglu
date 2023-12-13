@@ -385,7 +385,7 @@ Void Initialize
 {
    Cell   *P;
    Vertex *V;
-   Edge   *E;
+   //Edge   *E;
    VertexAttribute *A;
    SetAttribute    *B;
 
