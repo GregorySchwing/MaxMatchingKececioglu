@@ -13,14 +13,9 @@ double getTimeOfDay() {
     return (double)tv.tv_sec + (double)tv.tv_usec / 1000000.0;
 }
 
-// Function to clear a Python list
-void clearList(PyObject* list) {
-    PyList_SetSlice(list, 0, PyList_Size(list), NULL);
-}
-
 typedef ListCell Cell;
 int main(int argc, char **argv){}
-void match (PyObject *rows, PyObject *cols, PyObject *matched_edges)
+void match (PyObject *rows, PyObject *cols, PyObject *matching)
 {
 
    int   N;
@@ -31,72 +26,22 @@ void match (PyObject *rows, PyObject *cols, PyObject *matched_edges)
    Graph  *G;
    Vertex *V;
    Edge   *E;
+   int *matching_ph;
    // Function logic for the first list
    Py_ssize_t rows_length = PyList_Size(rows);
    Py_ssize_t cols_length = PyList_Size(cols);
-   Py_ssize_t matched_edges_length = PyList_Size(matched_edges);
    int nr = rows_length-1;
    int nc = rows_length-1;
    int nn = cols_length;
    //int * rows;
    //int * cols;
-   int * matching;
-   
+   //int * matching;
    double start_time_wall, end_time_wall;
    double start_time_csc_2_g, end_time_csc_2_g;
    double start_time_match, end_time_match;
    start_time_wall = getTimeOfDay();
    start_time_csc_2_g = getTimeOfDay();
-   if(matched_edges_length){
-        matching = malloc(sizeof(int) * nr);
-        // Number of elements in the array
-        size_t num_elements = nr;
-
-        // Size of each element in bytes
-        size_t element_size = sizeof(int);
-
-        // Allocate memory for the array and initialize to zero
-        matching = (int *)calloc(num_elements, element_size);
-        for (Py_ssize_t e_tuple_index = 0; e_tuple_index < matched_edges_length; ++e_tuple_index){
-            PyObject* tuple = PyList_GetItem(matched_edges, e_tuple_index);
-
-            if (tuple == NULL || !PyTuple_Check(tuple)) {
-                printf("Error: Failed to get tuple from list or not a tuple\n");
-                continue;
-            }
-
-            // Extract elements from the tuple
-            PyObject* element1 = PyTuple_GetItem(tuple, 0);
-            PyObject* element2 = PyTuple_GetItem(tuple, 1);
-
-            // Check if extraction was successful
-            if (element1 == NULL || element2 == NULL) {
-                printf("Error: Failed to get elements from tuple\n");
-                continue;
-            }
-
-            // Convert elements to integers (or desired type)
-            long value1 = PyLong_AsLong(element1);
-            long value2 = PyLong_AsLong(element2);
-
-            // Check for conversion errors
-            if (value1 == -1 || value2 == -1) {
-                PyErr_Print();  // Print Python error message
-                printf("Error: Failed to convert elements to integers\n");
-                continue;
-            }
-
-            // Now, you can use value1 and value2 as needed
-            printf("Tuple %zd: (%ld, %ld)\n", e_tuple_index, value1, value2);
-
-            matching[value1]=value2;
-            matching[value2]=value1;
-
-        }
-        // Clear the list
-        clearList(matched_edges);
-   }
-   G = CreateGraphFromCSC(rows, cols, matching, nr, nc, nn, matched_edges_length);
+   G = CreateGraphFromCSC(rows, cols, matching_ph, nr, nc, nn, 1);
    end_time_csc_2_g = getTimeOfDay();
    printf("CSC to Graph conversion time: %f seconds\n", end_time_csc_2_g - start_time_csc_2_g);
    #ifndef NDEBUG
@@ -140,7 +85,7 @@ void match (PyObject *rows, PyObject *cols, PyObject *matched_edges)
    fprintf(stdout, "There are %d edges in the maximum-cardinality matching.\n",
            ListSize(M));
    const Py_ssize_t tuple_length = 2;
-   if(matched_edges == NULL) {
+   if(matching == NULL) {
     printf("Error building pylist\n");
    }
    N = 1;
@@ -164,7 +109,7 @@ void match (PyObject *rows, PyObject *cols, PyObject *matched_edges)
         }
         PyTuple_SET_ITEM(the_tuple, 0, the_object1);
         PyTuple_SET_ITEM(the_tuple, 1, the_object2);
-        if(PyList_Append(matched_edges, the_tuple) == -1) {
+        if(PyList_Append(matching, the_tuple) == -1) {
             printf("Error appending py tuple object\n");
         }
         //fprintf(stdout, "Appended (%d, %d)\n",(int) VertexLabel(EdgeFrom(E)), (int) VertexLabel(EdgeTo(E)));
@@ -172,8 +117,7 @@ void match (PyObject *rows, PyObject *cols, PyObject *matched_edges)
    }
       
       //fprintf(stdout, "(%d, %d)\n",(int) VertexLabel(EdgeFrom(E)), (int) VertexLabel(EdgeTo(E)));
-   if(matched_edges_length)
-        free(matching);
+      
    
    DestroyList(M);
    
