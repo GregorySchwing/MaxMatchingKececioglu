@@ -26,7 +26,7 @@ void match (PyObject *rows, PyObject *cols, PyObject *matching)
    Graph  *G;
    Vertex *V;
    Edge   *E;
-   int *matching;
+   int *matching_ph;
    // Function logic for the first list
    Py_ssize_t rows_length = PyList_Size(rows);
    Py_ssize_t cols_length = PyList_Size(cols);
@@ -42,7 +42,7 @@ void match (PyObject *rows, PyObject *cols, PyObject *matching)
    start_time_wall = getTimeOfDay();
    EdgeListSize = nn/2;
    start_time_csc_2_g = getTimeOfDay();
-   G = CreateGraphFromCSC(rows, cols, matching, nr, nc, nn, 1);
+   G = CreateGraphFromCSC(rows, cols, matching_ph, nr, nc, nn, 1);
    end_time_csc_2_g = getTimeOfDay();
    printf("CSC to Graph conversion time: %f seconds\n", end_time_csc_2_g - start_time_csc_2_g);
    #ifndef NDEBUG
