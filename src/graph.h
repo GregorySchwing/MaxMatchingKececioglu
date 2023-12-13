@@ -15,7 +15,6 @@
 #include "portable.h"
 #include "list.h"
 #include "edge_vertex.h"
-#include "hash_table.h"
 
 /*
  * Graph attribute types
@@ -78,7 +77,6 @@ typedef struct GraphStruct {
    //EdgeList EL;
    //Matcher mm;
    Vertex ** VertexArray;
-   //HashTable * hash;
 } Graph;
 
 
