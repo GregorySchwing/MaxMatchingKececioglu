@@ -13,10 +13,6 @@ double getTimeOfDay() {
     return (double)tv.tv_sec + (double)tv.tv_usec / 1000000.0;
 }
 
-static PyObject* create_tuple(int x, int y) {
-    return Py_BuildValue("(ii)", x, y);
-}
-
 typedef ListCell Cell;
 int main(int argc, char **argv){}
 PyObject* match (PyObject *rows, PyObject *cols)
@@ -100,9 +96,23 @@ PyObject* match (PyObject *rows, PyObject *cols)
    ForAllGraphVertices(V, G, P)
       VertexRelabel(V, (VertexData) N++);
    ForAllEdges(E, M, P){
-        PyObject* tuple = create_tuple((int) VertexLabel(EdgeFrom(E)), (int) VertexLabel(EdgeTo(E)));
-        PyList_Append(my_list, tuple);
-        Py_DECREF(tuple);  // Decrement the reference count as Append increases it
+        PyObject *the_tuple = PyTuple_New(tuple_length);
+        if(the_tuple == NULL) {
+            printf("Error building py object tuple\n");
+        }
+        PyObject *the_object1 = PyLong_FromSsize_t(VertexLabel(EdgeFrom(E)));
+        if(the_object1 == NULL) {
+            printf("Error building py object\n");
+        }
+        PyObject *the_object2 = PyLong_FromSsize_t(VertexLabel(EdgeTo(E)));
+        if(the_object2 == NULL) {
+            printf("Error building py object\n");
+        }
+        PyTuple_SET_ITEM(the_tuple, 0, the_object1);
+        PyTuple_SET_ITEM(the_tuple, 1, the_object2);
+        if(PyList_Append(my_list, the_tuple) == -1) {
+            printf("Error appending py tuple object\n");
+        }
         fprintf(stdout, "Appended (%d, %d)\n",(int) VertexLabel(EdgeFrom(E)), (int) VertexLabel(EdgeTo(E)));
    }
       
