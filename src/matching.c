@@ -665,7 +665,7 @@ static Void Path
 {
    register Vertex *W;
   
-   if (V != B)
+   if (V != B){
       if (IsOdd(V))
       {
          Path(Shore(V), Other(Match(V), V), P);
@@ -680,6 +680,7 @@ static Void Path
       }
       else
          Error("(Path) Internal error.");
+   }
 }
 
 
