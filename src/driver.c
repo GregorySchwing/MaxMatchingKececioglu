@@ -15,7 +15,7 @@ double getTimeOfDay() {
 
 typedef ListCell Cell;
 int main(int argc, char **argv){}
-void match (PyObject *rows, PyObject *cols)
+PyObject* match (PyObject *rows, PyObject *cols)
 {
 
    int   N,EdgeListSize;
@@ -85,16 +85,23 @@ void match (PyObject *rows, PyObject *cols)
    printf("Total Wall time: %f seconds\n", end_time_wall - start_time_wall);
    fprintf(stdout, "There are %d edges in the maximum-cardinality matching.\n",
            ListSize(M));
-
+   PyObject * pyobj_matchingPy = PyList_New(0);
    N = 1;
    ForAllGraphVertices(V, G, P)
       VertexRelabel(V, (VertexData) N++);
    ForAllEdges(E, M, P)
       fprintf(stdout, "(%d, %d)\n",
          (int) VertexLabel(EdgeFrom(E)), (int) VertexLabel(EdgeTo(E)));
+        PyObject *the_tuple = PyTuple_New(2);
+        PyTuple_SET_ITEM(the_tuple, 0, PyLong_FromSsize_t(VertexLabel(EdgeFrom(E))));
+        PyTuple_SET_ITEM(the_tuple, 1, PyLong_FromSsize_t(VertexLabel(EdgeTo(E))));
+        if(PyList_Append(pyobj_matchingPy, the_tuple) == -1) {
+            fprintf(stdout, "Error appending (%d, %d)\n",
+                (int) VertexLabel(EdgeFrom(E)), (int) VertexLabel(EdgeTo(E)));
+        }
    
    DestroyList(M);
    
    DestroyGraph(G);
-
+   return pyobj_matchingPy;
 }
