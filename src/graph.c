@@ -736,7 +736,6 @@ Graph *CreateGraphFromCSC
    //auto int M, N;
    register Graph *G;
    //register Vertex **V;
-   auto int a, b;
    register int i;
 
    /*

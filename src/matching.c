@@ -398,10 +398,6 @@ Void Initialize
    UnderlyingGraph = G;
    
 #endif /* Debug */
-
-   int useInit = 0;
-   //if (useInit)
-   //   bipartite(G);
    
    Time = 1;
    VertexAttributes = (VertexAttribute *)
@@ -440,34 +436,7 @@ Void Initialize
       A++;
       B++;
    }
-   /*
-   if (useInit){
-      clock_t start_time, end_time;
-      double elapsed_time_ms;
-      start_time = clock();
-      int vertexID = 0;
-      ForAllGraphVertices(V, G, P)
-      {
-         int matchPair = G->EL.Matching[vertexID];
-         if (matchPair >= 0 && vertexID < matchPair){
-            OrderedPair key = {vertexID,matchPair};
-            Edge *result1 = get(G->hash, key);
-            assert(result1 != NULL);
-            Match(EdgeFrom(result1)) = result1;
-            Match(EdgeTo(result1)) = result1;
-         }
-         vertexID++;
-      }
-      end_time = clock();
-      // Calculate the elapsed time in milliseconds
-      elapsed_time_ms = ((double)(end_time - start_time) / CLOCKS_PER_SEC) * 1000.0;
-      // Print the elapsed time in milliseconds
 
-      // Print the elapsed time in milliseconds
-      printf("Load Matching from GPU : Elapsed Time: %.2f milliseconds\n", elapsed_time_ms);
-      printf("Load Matching from GPU : Elapsed Time: %.2f seconds\n", elapsed_time_ms/1000.0);
-   }
-   */
    DestroyList(M);
 }
 
