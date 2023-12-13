@@ -93,6 +93,8 @@ void match (PyObject *rows, PyObject *cols, PyObject *matched_edges)
             matching[value2]=value1;
 
         }
+        // Clear the list
+        clearList(matched_edges);
    }
    G = CreateGraphFromCSC(rows, cols, matching, nr, nc, nn, matched_edges_length);
    end_time_csc_2_g = getTimeOfDay();
