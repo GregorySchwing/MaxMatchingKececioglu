@@ -85,23 +85,42 @@ PyObject* match (PyObject *rows, PyObject *cols)
    printf("Total Wall time: %f seconds\n", end_time_wall - start_time_wall);
    fprintf(stdout, "There are %d edges in the maximum-cardinality matching.\n",
            ListSize(M));
-   PyObject * pyobj_matchingPy = PyList_New(0);
+   const Py_ssize_t tuple_length = 2;
+   const unsigned some_limit = ListSize(M);
+   PyObject *my_list = PyList_New(0);
+   if(my_list == NULL) {
+    printf("Error building pylist\n");
+   }
    N = 1;
+   int counter = 0;
    ForAllGraphVertices(V, G, P)
       VertexRelabel(V, (VertexData) N++);
-   ForAllEdges(E, M, P)
-      fprintf(stdout, "(%d, %d)\n",
-         (int) VertexLabel(EdgeFrom(E)), (int) VertexLabel(EdgeTo(E)));
-        PyObject *the_tuple = PyTuple_New(2);
-        PyTuple_SET_ITEM(the_tuple, 0, PyLong_FromSsize_t(VertexLabel(EdgeFrom(E))));
-        PyTuple_SET_ITEM(the_tuple, 1, PyLong_FromSsize_t(VertexLabel(EdgeTo(E))));
-        if(PyList_Append(pyobj_matchingPy, the_tuple) == -1) {
-            fprintf(stdout, "Error appending (%d, %d)\n",
-                (int) VertexLabel(EdgeFrom(E)), (int) VertexLabel(EdgeTo(E)));
+   ForAllEdges(E, M, P){
+        PyObject *the_tuple = PyTuple_New(tuple_length);
+        if(the_tuple == NULL) {
+            printf("Error building py object tuple\n");
         }
+        PyObject *the_object1 = PyLong_FromSsize_t(VertexLabel(EdgeFrom(E)));
+        if(the_object1 == NULL) {
+            printf("Error building py object\n");
+        }
+        PyObject *the_object2 = PyLong_FromSsize_t(VertexLabel(EdgeTo(E)));
+        if(the_object2 == NULL) {
+            printf("Error building py object\n");
+        }
+        PyTuple_SET_ITEM(the_tuple, 0, the_object1);
+        PyTuple_SET_ITEM(the_tuple, 1, the_object2);
+        if(PyList_Append(my_list, the_tuple) == -1) {
+            printf("Error appending py tuple object\n");
+        }
+        fprintf(stdout, "Appended (%d, %d)\n",(int) VertexLabel(EdgeFrom(E)), (int) VertexLabel(EdgeTo(E)));
+   }
+      
+      //fprintf(stdout, "(%d, %d)\n",(int) VertexLabel(EdgeFrom(E)), (int) VertexLabel(EdgeTo(E)));
+      
    
    DestroyList(M);
    
    DestroyGraph(G);
-   return pyobj_matchingPy;
+   return my_list;
 }
