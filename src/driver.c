@@ -14,8 +14,8 @@ double getTimeOfDay() {
 }
 
 typedef ListCell Cell;
-
-Void main (int argc, char **argv)
+int main(int argc, char **argv){}
+Void match (int * rows, int * cols,  int * matching, int nr, int nc, int nn)
 {
 
    int   N,EdgeListSize;
@@ -26,13 +26,13 @@ Void main (int argc, char **argv)
    Graph  *G;
    Vertex *V;
    Edge   *E;
-   int nr, nc, nn;
-   int * rows;
-   int * cols;
-   int * matching;
+   //int nr, nc, nn;
+   //int * rows;
+   //int * cols;
+   //int * matching;
    double start_time_wall, end_time_wall;
-   double start_time_init, end_time_init;
    double start_time_csc_2_g, end_time_csc_2_g;
+   double start_time_match, end_time_match;
    clock_t start_time_e2e = clock();
    start_time_wall = getTimeOfDay();
    N = nr;
@@ -40,9 +40,7 @@ Void main (int argc, char **argv)
    start_time_csc_2_g = getTimeOfDay();
    G = CreateGraphFromCSC(rows, cols, matching, nr, nc, nn, 1);
    end_time_csc_2_g = getTimeOfDay();
-   clock_t start_time, end_time;
-   double elapsed_time_ms;
-   double total_time_ms;
+   printf("CSC to Graph conversion time: %f seconds\n", end_time_csc_2_g - start_time_csc_2_g);
    #ifndef NDEBUG
    const char* extensionX = ".augP";
    char outputFilenameX[500];
@@ -71,21 +69,14 @@ Void main (int argc, char **argv)
    fclose(output_fileZ);
    #endif
    // Record the starting time
-   start_time = clock();
+   start_time_match = getTimeOfDay();
    M = MaximumCardinalityMatching(G);
-   end_time = clock();
-   end_time_wall = getTimeOfDay();
+   end_time_match = getTimeOfDay();
+   printf("Match time: %f seconds\n", end_time_match - start_time_match);
 
-   // Calculate the elapsed time in milliseconds
-   elapsed_time_ms = ((double)(end_time - start_time) / CLOCKS_PER_SEC) * 1000.0;
-   total_time_ms = ((double)(end_time - start_time_e2e) / CLOCKS_PER_SEC) * 1000.0;
-   // Print the elapsed time in milliseconds
-   printf("Total CPU Time: %.2f milliseconds\n", total_time_ms);
-   printf("Total CPU Time: %.2f seconds\n", total_time_ms/1000.0);
+
    // Calculate and print the elapsed time
    printf("Total Wall time: %f seconds\n", end_time_wall - start_time_wall);
-   printf("Elapsed Time: %.2f milliseconds\n", elapsed_time_ms);
-   printf("Elapsed Time: %.2f seconds\n", elapsed_time_ms/1000.0);
    fprintf(stdout, "There are %d edges in the maximum-cardinality matching.\n",
            ListSize(M));
 
