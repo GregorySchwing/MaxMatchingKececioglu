@@ -18,7 +18,7 @@ int main(int argc, char **argv){}
 void match (PyObject *rows, PyObject *cols, PyObject *matching)
 {
 
-   int   N,EdgeListSize;
+   int   N;
    List *M;
    Cell *P;
    
@@ -40,7 +40,6 @@ void match (PyObject *rows, PyObject *cols, PyObject *matching)
    double start_time_csc_2_g, end_time_csc_2_g;
    double start_time_match, end_time_match;
    start_time_wall = getTimeOfDay();
-   EdgeListSize = nn/2;
    start_time_csc_2_g = getTimeOfDay();
    G = CreateGraphFromCSC(rows, cols, matching_ph, nr, nc, nn, 1);
    end_time_csc_2_g = getTimeOfDay();
@@ -86,12 +85,10 @@ void match (PyObject *rows, PyObject *cols, PyObject *matching)
    fprintf(stdout, "There are %d edges in the maximum-cardinality matching.\n",
            ListSize(M));
    const Py_ssize_t tuple_length = 2;
-   const unsigned some_limit = ListSize(M);
    if(matching == NULL) {
     printf("Error building pylist\n");
    }
    N = 1;
-   int counter = 0;
    ForAllGraphVertices(V, G, P)
       VertexRelabel(V, (VertexData) N++);
    ForAllEdges(E, M, P){
@@ -99,11 +96,11 @@ void match (PyObject *rows, PyObject *cols, PyObject *matching)
         if(the_tuple == NULL) {
             printf("Error building py object tuple\n");
         }
-        PyObject *the_object1 = PyLong_FromSsize_t(VertexLabel(EdgeFrom(E)));
+        PyObject *the_object1 = PyLong_FromSsize_t((int)VertexLabel(EdgeFrom(E)));
         if(the_object1 == NULL) {
             printf("Error building py object\n");
         }
-        PyObject *the_object2 = PyLong_FromSsize_t(VertexLabel(EdgeTo(E)));
+        PyObject *the_object2 = PyLong_FromSsize_t((int)VertexLabel(EdgeTo(E)));
         if(the_object2 == NULL) {
             printf("Error building py object\n");
         }
