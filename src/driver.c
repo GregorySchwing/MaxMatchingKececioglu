@@ -33,7 +33,6 @@ Void match (int * rows, int * cols,  int * matching, int nr, int nc, int nn)
    double start_time_wall, end_time_wall;
    double start_time_csc_2_g, end_time_csc_2_g;
    double start_time_match, end_time_match;
-   clock_t start_time_e2e = clock();
    start_time_wall = getTimeOfDay();
    N = nr;
    EdgeListSize = nn/2;
@@ -72,6 +71,8 @@ Void match (int * rows, int * cols,  int * matching, int nr, int nc, int nn)
    start_time_match = getTimeOfDay();
    M = MaximumCardinalityMatching(G);
    end_time_match = getTimeOfDay();
+   end_time_wall = getTimeOfDay();
+
    printf("Match time: %f seconds\n", end_time_match - start_time_match);
 
 
