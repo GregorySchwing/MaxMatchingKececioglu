@@ -100,6 +100,8 @@ void match (PyObject *rows, PyObject *cols, PyObject *matching)
         edgeList2MatchingArray(matching,matching_array);
         // Clear the list
         clearList(matching);
+   } else {
+    matching_array = 0x0;
    }
    G = CreateGraphFromCSC(rows, cols, matching_array, nr, nc, nn, !matching_length);
    if (matching_length)
