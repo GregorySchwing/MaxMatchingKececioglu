@@ -135,15 +135,15 @@ Void main (int argc, char **argv)
    #ifndef NDEBUG
    const char* extensionX = ".augP";
    char outputFilenameX[500];
-   strcpy(outputFilenameX, argv[1]);
+   strcpy(outputFilenameX, argv[3]);
    strcat(outputFilenameX, extensionX);
    const char* extensionY = ".augT";
    char outputFilenameY[500];
-   strcpy(outputFilenameY, argv[1]);
+   strcpy(outputFilenameY, argv[3]);
    strcat(outputFilenameY, extensionY);
    const char* extensionZ = ".dead";
    char outputFilenameZ[500];
-   strcpy(outputFilenameZ, argv[1]);
+   strcpy(outputFilenameZ, argv[3]);
    strcat(outputFilenameZ, extensionZ);
    FILE *output_fileX;
    FILE *output_fileY;
@@ -158,12 +158,13 @@ Void main (int argc, char **argv)
    fclose(output_fileX);
    fclose(output_fileY);
    fclose(output_fileZ);
-   #endif
+   #else
    // Record the starting time
    start_time = clock();
    M = MaximumCardinalityMatching(G);
    end_time = clock();
    end_time_wall = getTimeOfDay();
+   #endif
 
    // Calculate the elapsed time in milliseconds
    elapsed_time_ms = ((double)(end_time - start_time) / CLOCKS_PER_SEC) * 1000.0;
@@ -201,14 +202,14 @@ Void main (int argc, char **argv)
    }
    fclose(output_file);
 
-   /*
-   N = 1;
+   
+   N = 0;
    ForAllGraphVertices(V, G, P)
       VertexRelabel(V, (VertexData) N++);
    ForAllEdges(E, M, P)
       fprintf(stdout, "(%d, %d)\n",
          (int) VertexLabel(EdgeFrom(E)), (int) VertexLabel(EdgeTo(E)));
-   */
+   
    DestroyList(M);
    
    DestroyGraph(G);
