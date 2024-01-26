@@ -7,14 +7,13 @@ USE:
 Wrapper args: a,b
 a: ALGO [0: MS-BFS-GRAFT; 1: matchmaker2]
 b: JUST READ FILE - CONTROL [0: False, 1: True]
-MS-BFS args: c,d,e
 c: Filename (NOTE, this cannot be too long or buffer overflows)
+MS-BFS args: d,e
 d: Num Threads
 e: KarpSipser Initialization [0: Serial, 1: Parallel]
 matchmaker2 args:
-c: Match type (variety of options)
-d: Initial Match Type
-e: Input file
+d: Match type (variety of options)
+e: Initial Match Type
 
         MT: Maximum Matching Type
                 0: Sequential DFS
@@ -40,6 +39,6 @@ e: Input file
 binary     a b c                                       d  e
 ./matching 0 0 ../graphs/test_cases/luxembourg_osm.mtx 16 1
 ./matching 0 1 ../graphs/test_cases/luxembourg_osm.mtx 16 1
-binary     a b c    d      e
-./matching 1 0 MT=9 IMT=0  IF=..graphs/test_cases/luxembourg_osm.mtx
-./matching 1 1 MT=9 IMT=0  IF=..graphs/test_cases/luxembourg_osm.mtx
+binary     a b c                                           d      e
+./matching 1 0 IF=../graphs/test_cases/luxembourg_osm.mtx  MT=9   IMT=0
+./matching 1 1 IF=../graphs/test_cases/luxembourg_osm.mtx  MT=9   IMT=0  
