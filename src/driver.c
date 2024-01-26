@@ -68,8 +68,9 @@ enum Boolean {
 
 // Array of corresponding boolean strings
 const char *booleanStrings[] = {
-    "INITIALIZE",
-    "JUST_READ_FILE",
+    "JUST_DFS",
+    "JUST_INIT",
+    "FULL",
 };
 
 typedef ListCell Cell;
@@ -121,15 +122,15 @@ Void main (int argc, char **argv)
    double init_time;
    // Call the helper method to execute the appropriate code
    start_time_init = getTimeOfDay();
-   executeCode(config_arg, config_arg2, argc - 2, argv + 2, &rows, &cols, &matching, &nr, &nc, &nn, &parse_graph_time, &create_csr_time,&init_time,&match_count_scalar);
+   executeCode(config_arg, config_arg2==0, argc - 2, argv + 2, &rows, &cols, &matching, &nr, &nc, &nn, &parse_graph_time, &create_csr_time,&init_time,&match_count_scalar);
    end_time_init = getTimeOfDay();
    N = nr;
    EdgeListSize = nn/2;
    start_time_csc_2_g = getTimeOfDay();
    if (config_arg < 1){
-      G = CreateGraphFromCSC_MS_BFS_GRAFT(rows, cols, matching, &match_count_scalar, nr, nc, nn, config_arg2);
+      G = CreateGraphFromCSC_MS_BFS_GRAFT(rows, cols, matching, &match_count_scalar, nr, nc, nn, config_arg2==0);
    } else {
-      G = CreateGraphFromCSC(rows, cols, matching, &match_count_scalar, nr, nc, nn, config_arg2);
+      G = CreateGraphFromCSC(rows, cols, matching, &match_count_scalar, nr, nc, nn, config_arg2==0);
    }
    end_time_csc_2_g = getTimeOfDay();
    FILE *f;
@@ -166,11 +167,12 @@ Void main (int argc, char **argv)
    #else
    // Record the starting time
    start_time = clock();
+    if (config_arg2!=1){
    M = MaximumCardinalityMatching(G);
+    }
    end_time = clock();
    end_time_wall = getTimeOfDay();
    #endif
-
    // Calculate the elapsed time in milliseconds
    elapsed_time_ms = ((double)(end_time - start_time) / CLOCKS_PER_SEC) * 1000.0;
    total_time_ms = ((double)(end_time - start_time_e2e) / CLOCKS_PER_SEC) * 1000.0;
@@ -181,6 +183,7 @@ Void main (int argc, char **argv)
    printf("Total Wall time: %f seconds\n", end_time_wall - start_time_wall);
    printf("Elapsed Time: %.2f milliseconds\n", elapsed_time_ms);
    printf("Elapsed Time: %.2f seconds\n", elapsed_time_ms/1000.0);
+    if (config_arg2!=1)
    fprintf(stdout, "There are %d edges in the maximum-cardinality matching.\n",
            ListSize(M));
 
@@ -201,7 +204,7 @@ Void main (int argc, char **argv)
    }
    if (argc>1){
       strcpy(inputFilename,  basename(argv[3]));
-      fprintf(output_file, "%s,%s,%s,%d,%d,%d,%f,%f,%f,%d,%f,%f,%f\n", algorithmNames[config_arg], booleanStrings[config_arg2], inputFilename, N,EdgeListSize,ListSize(M),parse_graph_time,create_csr_time,init_time,match_count_scalar,end_time_csc_2_g-start_time_csc_2_g,elapsed_time_ms/1000.0,end_time_wall - start_time_wall);
+      fprintf(output_file, "%s,%s,%s,%d,%d,%d,%f,%f,%f,%d,%f,%f,%f\n", algorithmNames[config_arg], booleanStrings[config_arg2], inputFilename, N,EdgeListSize,config_arg2==1?0:ListSize(M),parse_graph_time,create_csr_time,init_time,match_count_scalar,end_time_csc_2_g-start_time_csc_2_g,elapsed_time_ms/1000.0,end_time_wall - start_time_wall);
    } else {
       fprintf(output_file, "%s,%d,%d,%d,%f,%d,%f\n", "UNKNOWN", N,EdgeListSize,ListSize(M),elapsed_time_ms/1000.0,match_count_scalar,end_time_wall - start_time_wall);
    }
@@ -216,6 +219,7 @@ Void main (int argc, char **argv)
       fprintf(stdout, "(%d, %d)\n",
          (int) VertexLabel(EdgeFrom(E)), (int) VertexLabel(EdgeTo(E)));
    */
+  if (config_arg2!=1)
    DestroyList(M);
    
    DestroyGraph(G);

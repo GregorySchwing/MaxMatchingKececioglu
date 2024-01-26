@@ -6,7 +6,7 @@ make
 USE:
 Wrapper args: a,b
 a: ALGO [0: MS-BFS-GRAFT; 1: matchmaker2]
-b: JUST READ FILE - CONTROL [0: False, 1: True]
+b: EXEC [0: JUST_DFS, 1: JUST_INIT, 2: FULL]
 c: Filename (NOTE, this cannot be too long or buffer overflows)
 MS-BFS args: d,e
 d: Num Threads
