@@ -10,3 +10,7 @@ do
   ./matching 0 1 ../graphs/dimacs/delauney/delaunay_n$i/delaunay_n$i.mtx 16 1
 done
 
+for i in $(seq 24 1 24)
+do
+  ./matching 0 2 ../graphs/dimacs/delauney/delaunay_n$i/delaunay_n$i.mtx 16 1
+done

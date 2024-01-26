@@ -8,3 +8,8 @@ for i in $(seq 21 1 21)
 do
   ./matching 1 1 IF=../graphs/dimacs/kron/kron_g500-logn${i}/kron_g500-logn${i}.mtx MT=9 IMT=0
 done
+
+for i in $(seq 21 1 21)
+do
+  ./matching 1 2 IF=../graphs/dimacs/kron/kron_g500-logn${i}/kron_g500-logn${i}.mtx MT=9 IMT=0
+done
