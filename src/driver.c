@@ -204,12 +204,13 @@ Void main (int argc, char **argv)
 
    
    N = 0;
+   /*
    ForAllGraphVertices(V, G, P)
       VertexRelabel(V, (VertexData) N++);
    ForAllEdges(E, M, P)
       fprintf(stdout, "(%d, %d)\n",
          (int) VertexLabel(EdgeFrom(E)), (int) VertexLabel(EdgeTo(E)));
-   
+   */
    DestroyList(M);
    
    DestroyGraph(G);
