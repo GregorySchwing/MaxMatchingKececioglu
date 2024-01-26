@@ -17,14 +17,14 @@ double getTimeOfDay() {
 }
 
 // Helper method to print usage instructions and call the appropriate code
-void executeCode(int config_arg, int config_arg2, int argc, char *argv[], int **rows, int **cols, int **matching, int *nr_ptr, int *nc_ptr, int *nn_ptr) {
+void executeCode(int config_arg, int config_arg2, int argc, char *argv[], int **rows, int **cols, int **matching, int *nr_ptr, int *nc_ptr, int *nn_ptr, double * parse_graph_time, double * init_time) {
     switch (config_arg) {
         case 0:
             printf("Wrapper Configuration: MS-BFS_GRAFT\n");
             // Call MS-BFS_GRAFT with the rest of the arguments and pointers
             // ...
             int parallelKS = 1;
-            int match_type = main_lib_msbfsgraft(argc, argv, rows, cols, matching, nr_ptr, nc_ptr, nn_ptr, config_arg2);
+            int match_type = main_lib_msbfsgraft(argc, argv, rows, cols, matching, nr_ptr, nc_ptr, nn_ptr, config_arg2, parse_graph_time, init_time);
             break;
         case 1:
             printf("Wrapper Configuration: Matchmaker2\n");
@@ -104,6 +104,7 @@ Void main (int argc, char **argv)
    int * rows;
    int * cols;
    int * matching;
+   int match_count_scalar = 0;
    double start_time_wall, end_time_wall;
    double start_time_init, end_time_init;
    double start_time_csc_2_g, end_time_csc_2_g;
@@ -114,17 +115,19 @@ Void main (int argc, char **argv)
    if (match_type > 11){
    }
    */
+   double parse_graph_time;
+   double init_time;
    // Call the helper method to execute the appropriate code
    start_time_init = getTimeOfDay();
-   executeCode(config_arg, config_arg2, argc - 2, argv + 2, &rows, &cols, &matching, &nr, &nc, &nn);
+   executeCode(config_arg, config_arg2, argc - 2, argv + 2, &rows, &cols, &matching, &nr, &nc, &nn, &parse_graph_time, &init_time);
    end_time_init = getTimeOfDay();
    N = nr;
    EdgeListSize = nn/2;
    start_time_csc_2_g = getTimeOfDay();
    if (config_arg < 1){
-      G = CreateGraphFromCSC_MS_BFS_GRAFT(rows, cols, matching, nr, nc, nn, config_arg2);
+      G = CreateGraphFromCSC_MS_BFS_GRAFT(rows, cols, matching, &match_count_scalar, nr, nc, nn, config_arg2);
    } else {
-      G = CreateGraphFromCSC(rows, cols, matching, nr, nc, nn, config_arg2);
+      G = CreateGraphFromCSC(rows, cols, matching, &match_count_scalar, nr, nc, nn, config_arg2);
    }
    end_time_csc_2_g = getTimeOfDay();
    FILE *f;
@@ -192,13 +195,13 @@ Void main (int argc, char **argv)
    {
       // file doesn't exist
       output_file = fopen(outputFilename, "w");
-      fprintf(output_file, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n", "INITALGO", "PREPROCESSING", "Filename", "V","E","M", "INIT_TIME(S)","CSC_2_G_TIME(s)","SS_DFS_TIME(s)","TOTAL_WALL_CLOCK(s)");
+      fprintf(output_file, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n", "INITALGO", "PREPROCESSING", "Filename", "V","E","M", "PARSE_GRAPH(S)", "INIT_TIME(S)", "INIT_M", "CSC_2_G_TIME(s)","SS_DFS_TIME(s)","TOTAL_WALL_CLOCK(s)");
    }
    if (argc>1){
       strcpy(inputFilename,  basename(argv[3]));
-      fprintf(output_file, "%s,%s,%s,%d,%d,%d,%f,%f,%f,%f\n", algorithmNames[config_arg], booleanStrings[config_arg2], inputFilename, N,EdgeListSize,ListSize(M),end_time_init-start_time_init,end_time_csc_2_g-start_time_csc_2_g,elapsed_time_ms/1000.0,end_time_wall - start_time_wall);
+      fprintf(output_file, "%s,%s,%s,%d,%d,%d,%f,%f,%d,%f,%f,%f\n", algorithmNames[config_arg], booleanStrings[config_arg2], inputFilename, N,EdgeListSize,ListSize(M),parse_graph_time,init_time,match_count_scalar,end_time_csc_2_g-start_time_csc_2_g,elapsed_time_ms/1000.0,end_time_wall - start_time_wall);
    } else {
-      fprintf(output_file, "%s,%d,%d,%d,%f,%f\n", "UNKNOWN", N,EdgeListSize,ListSize(M),elapsed_time_ms/1000.0,end_time_wall - start_time_wall);
+      fprintf(output_file, "%s,%d,%d,%d,%f,%d,%f\n", "UNKNOWN", N,EdgeListSize,ListSize(M),elapsed_time_ms/1000.0,match_count_scalar,end_time_wall - start_time_wall);
    }
    fclose(output_file);
 
