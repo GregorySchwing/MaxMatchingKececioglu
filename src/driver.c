@@ -17,20 +17,20 @@ double getTimeOfDay() {
 }
 
 // Helper method to print usage instructions and call the appropriate code
-void executeCode(int config_arg, int config_arg2, int argc, char *argv[], int **rows, int **cols, int **matching, int *nr_ptr, int *nc_ptr, int *nn_ptr, double * parse_graph_time, double * init_time) {
+void executeCode(int config_arg, int config_arg2, int argc, char *argv[], int **rows, int **cols, int **matching, int *nr_ptr, int *nc_ptr, int *nn_ptr, double * parse_graph_time, double * create_csr_time, double * init_time, int * init_match_count) {
     switch (config_arg) {
         case 0:
             printf("Wrapper Configuration: MS-BFS_GRAFT\n");
             // Call MS-BFS_GRAFT with the rest of the arguments and pointers
             // ...
             int parallelKS = 1;
-            int match_type = main_lib_msbfsgraft(argc, argv, rows, cols, matching, nr_ptr, nc_ptr, nn_ptr, config_arg2, parse_graph_time, init_time);
+            int match_type = main_lib_msbfsgraft(argc, argv, rows, cols, matching, nr_ptr, nc_ptr, nn_ptr, config_arg2, parse_graph_time, create_csr_time,init_time,init_match_count);
             break;
         case 1:
             printf("Wrapper Configuration: Matchmaker2\n");
             // Call Matchmaker2 with the rest of the arguments and pointers
             FILE *log;
-            int match_type2 = main_lib(argc, argv, log, rows, cols, matching, nr_ptr, nc_ptr, nn_ptr, config_arg2);
+            int match_type2 = main_lib(argc, argv, log, rows, cols, matching, nr_ptr, nc_ptr, nn_ptr, config_arg2, parse_graph_time, create_csr_time,init_time,init_match_count);
             break;
         case 2:
             printf("Wrapper Configuration: BFSHonestPath -UNSUPPORTED\n");
@@ -116,10 +116,12 @@ Void main (int argc, char **argv)
    }
    */
    double parse_graph_time;
+   double create_csr_time;
+
    double init_time;
    // Call the helper method to execute the appropriate code
    start_time_init = getTimeOfDay();
-   executeCode(config_arg, config_arg2, argc - 2, argv + 2, &rows, &cols, &matching, &nr, &nc, &nn, &parse_graph_time, &init_time);
+   executeCode(config_arg, config_arg2, argc - 2, argv + 2, &rows, &cols, &matching, &nr, &nc, &nn, &parse_graph_time, &create_csr_time,&init_time,&match_count_scalar);
    end_time_init = getTimeOfDay();
    N = nr;
    EdgeListSize = nn/2;
@@ -195,11 +197,11 @@ Void main (int argc, char **argv)
    {
       // file doesn't exist
       output_file = fopen(outputFilename, "w");
-      fprintf(output_file, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n", "INITALGO", "PREPROCESSING", "Filename", "V","E","M", "PARSE_GRAPH(S)", "INIT_TIME(S)", "INIT_M", "CSC_2_G_TIME(s)","SS_DFS_TIME(s)","TOTAL_WALL_CLOCK(s)");
+      fprintf(output_file, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n", "INITALGO", "PREPROCESSING", "Filename", "V","E","M", "PARSE_GRAPH(S)", "CREATE_CSR(S)", "INIT_TIME(S)", "INIT_M", "CSC_2_G_TIME(s)","SS_DFS_TIME(s)","TOTAL_WALL_CLOCK(s)");
    }
    if (argc>1){
       strcpy(inputFilename,  basename(argv[3]));
-      fprintf(output_file, "%s,%s,%s,%d,%d,%d,%f,%f,%d,%f,%f,%f\n", algorithmNames[config_arg], booleanStrings[config_arg2], inputFilename, N,EdgeListSize,ListSize(M),parse_graph_time,init_time,match_count_scalar,end_time_csc_2_g-start_time_csc_2_g,elapsed_time_ms/1000.0,end_time_wall - start_time_wall);
+      fprintf(output_file, "%s,%s,%s,%d,%d,%d,%f,%f,%f,%d,%f,%f,%f\n", algorithmNames[config_arg], booleanStrings[config_arg2], inputFilename, N,EdgeListSize,ListSize(M),parse_graph_time,create_csr_time,init_time,match_count_scalar,end_time_csc_2_g-start_time_csc_2_g,elapsed_time_ms/1000.0,end_time_wall - start_time_wall);
    } else {
       fprintf(output_file, "%s,%d,%d,%d,%f,%d,%f\n", "UNKNOWN", N,EdgeListSize,ListSize(M),elapsed_time_ms/1000.0,match_count_scalar,end_time_wall - start_time_wall);
    }
