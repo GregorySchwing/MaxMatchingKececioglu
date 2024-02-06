@@ -792,7 +792,7 @@ Graph *CreateGraphFromCSC_MS_BFS_GRAFT
                   //printf("MATCHED!!! u %d (%d) v %d\n",r,matching[r]-nr,cadj[start]-nr);
                   match_count[r]++;
                   match_count[cadj[start]-nr]++;
-                  (*match_count_scalar)+=1;
+                  //(*match_count_scalar)+=1;
                   Match(E);
                }
             }
@@ -910,7 +910,7 @@ Graph *CreateGraphFromCSC
          if (r<cadj[start]){
             E = CreateEdge(G, G->VertexArray[r], G->VertexArray[cadj[start]], Nil);
             if(!just_read_file && (r==matching[matching[r]]) && matching[r]==cadj[start]){
-               (*match_count_scalar)+=1;
+               //(*match_count_scalar)+=1;
                Match(E);
             }
          }
